@@ -1,16 +1,47 @@
 body {
   color: #fff;
-  overflow-x: hidden;
-  height: 100%;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#81d4fa), to(#2196f3));
-  background-image: linear-gradient(#81d4fa, #2196f3);
+  overflow: hidden;
+  background: #c9d6ff;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#e2e2e2), to(#c9d6ff));
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-repeat: no-repeat;
+  background-size: cover;
   font-family: sans-serif;
-  height: 90vh !important;
+  height: 100vh;
+  padding-top: 0px;
 }
 
 .main-block {
-  height: 90vh !important;
+  position: relative;
+}
+
+.main-block .main-info {
+  position: absolute;
+  bottom: 0px;
+  left: 30px;
+}
+
+.logo {
+  width: 300px;
+  margin-left: -20px;
+}
+
+.suggestion {
+  border-bottom: 1px dotted #b6b6b6;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.suggestion:hover {
+  border-bottom: 1px dotted #ededed;
+}
+
+#last-enter-city {
+  margin-top: -30px;
 }
 
 .card0 {
@@ -18,8 +49,11 @@ body {
 }
 
 .card1 {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#2196f3), to(#81d4fa));
-  background-image: linear-gradient(#2196f3, #81d4fa);
+  background-image: url(../img/city/kiev.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 85vh;
   padding: 30px 20px 30px 50px;
 }
 
@@ -38,12 +72,12 @@ body {
 }
 
 .card2 {
-  background-color: #607d8b;
+  background-color: #397897;
   padding: 0px 0px 40px 40px;
 }
 
 input {
-  background-color: #607d8b;
+  background-color: transparent;
   padding: 24px 0px 12px 0px !important;
   width: 80%;
   -webkit-box-sizing: border-box;
@@ -97,6 +131,13 @@ input:focus {
   padding: 20px;
   width: 20%;
   cursor: pointer;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline: 0.2px solid #e1f5fe;
+}
+
+.fa-search:hover {
+  background-color: white;
 }
 
 .light-text {
@@ -124,9 +165,42 @@ input:focus {
   font-size: 1.2rem;
 }
 
+@media screen and (max-width: 767px) {
+  body {
+    overflow: visible;
+    background-size: cover;
+    height: auto;
+    padding: 20px 0px;
+  }
+  .card1 {
+    height: 100vh;
+  }
+  .main-block {
+    height: 100%;
+  }
+  .main-info {
+    position: absolute;
+    left: 30px;
+  }
+}
+
 @media screen and (max-width: 500px) {
+  body {
+    overflow: visible;
+    background-size: cover;
+    height: auto;
+    padding: 5px 0px;
+  }
   .card1 {
     padding-left: 26px;
+    height: 100vh;
+  }
+  .main-block {
+    height: 100%;
+  }
+  .main-info {
+    position: absolute;
+    left: 30px;
   }
 }
 /*# sourceMappingURL=style.css.map */
