@@ -145,6 +145,18 @@ input:focus {
   background-color: white;
 }
 
+#last-query {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#last-query .suggestion {
+  margin-right: 10px;
+}
+
 .light-text {
   color: #b0bec5;
 }

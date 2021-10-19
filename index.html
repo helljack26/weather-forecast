@@ -44,13 +44,12 @@
                 <!-- Search -->
                 <div class="card2 col-lg-4 col-md-5">
                     <form id="search-form" class="row px-3">
-                        <input type="text" name="location" placeholder="Поиск" class="mb-5" id="search-forecast"/>
+                        <input type="text" name="location" placeholder="Поиск" class="mb-5" id="search-forecast" />
                         <button type="submit" class="fa fa-search mb-5 mr-0 text-center" id="search-btn"></button>
                     </form>
                     <!-- Last search city -->
                     <div class="mr-5" id="last-enter-city">
-                        <p class="light-text suggestion">Киев</p>
-                        <!-- <div class="line my-5"></div> -->
+                        <div id="last-query"></div>
                         <!-- Detail forecast -->
                         <p class="mt-4">Подробный прогноз</p>
                         <div class="row px-3">
@@ -62,7 +61,7 @@
                             <p class="ml-auto" id="detail-feel">12%</p>
                         </div>
                         <div class="row px-3">
-                            <p class="light-text" >Облачность</p>
+                            <p class="light-text">Облачность</p>
                             <p class="ml-auto" id="detail-cloud">12%</p>
                         </div>
                         <div class="row px-3">
@@ -89,7 +88,8 @@
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    </script>
     <script src="script/script.js"></script>
 </body>
 

@@ -7,6 +7,7 @@ function getMyLocation() {
     } else {
         alert( "Определение местоположения не поддерживается" );
     }
+    localStorageFunction()
 }
 let latitude
 let longitude
@@ -28,28 +29,68 @@ const userLocation = document.getElementById( 'user-location ' )
 const mainDate = document.getElementById( 'main-date ' )
 const mainIcon = document.getElementById( 'main-icon ' )
 const mainCondition = document.getElementById( 'main-condition ' )
+// Last query
+const lastQueryBlock = document.getElementById( 'last-query' )
 // Detail field
+const detailTemp = document.getElementById( 'detail-temp' )
+const detailFeel = document.getElementById( 'detail-feel' )
+const detailCloud = document.getElementById( 'detail-cloud' )
+const detailHumidity = document.getElementById( 'detail-humidity' )
+const detailWind = document.getElementById( 'detail-wind' )
+const detailRain = document.getElementById( 'detail-rain' )
+const detailPressure = document.getElementById( 'detail-pressure' )
+
+
+// Query 
 let query = ''
+let queryArr = [];
 let extQuery1 = ''
 
 form.addEventListener( 'submit', e => {
     e.preventDefault()
+    queryField.value = '';
 } )
 
 queryField.oninput = ( e ) => {
-    query = e.target.value
+    query = e.target.value;
 }
 
 form.onsubmit = () => sendRequest( '', false )
+let init = 1;
 
+// Local storage render 
+let lastQueryFromLocal = localStorage.getItem( 'lastQuery' );
+let lastArrFromLocal = lastQueryFromLocal.split( ',' )
+const localStorageFunction = () => {
+    let out = ''
+    lastArrFromLocal.forEach( ( item ) => {
+        
+        out += `<p class="light-text suggestion">${item}</p>`
+    } )
+    lastQueryBlock.innerHTML = out
+}
 // Request to openweathermap.org
 function sendRequest( initialLoad ) {
     // storing last query in Local Storage
-    if ( initialLoad == false ) localStorage.setItem( 'lastRequest', query )
+    function localStoragePush() {
+        if ( initialLoad == false && init <= 10 && init != 10 ) {
+            init++;
+            queryArr.push( query );
+            localStorage.setItem( 'lastQuery', queryArr )
+            // lastQueryBlock.innerHTML = '';
+            localStorageFunction()
+        } else if ( init > 10 ) {
+            lastArrFromLocal.pop()
+        } else {
+            // console.log();
+        }
+
+    }
+    localStoragePush()
     fetch( url + `&lat={${latitude}}&lon={${longitude}}` ).then( response1 => {
         return response1.json()
     } ).then( response2 => {
-        console.log( response2 );
+        // console.log( response2 );
         const contentObject = response2.hits
     } )
 }

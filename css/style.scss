@@ -122,7 +122,14 @@ input:focus {
         background-color: white;
     }
 }
+#last-query {
+    display: flex;
+    flex-wrap: wrap;
 
+    .suggestion {
+        margin-right: 10px;
+    }
+}
 .light-text {
     color: #b0bec5;
 }
