@@ -2,39 +2,33 @@
 window.onload = getMyLocation;
 
 function getMyLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(displayLocation);
+    if ( navigator.geolocation ) {
+        navigator.geolocation.getCurrentPosition( displayLocation );
     } else {
-        alert("Определение местоположения не поддерживается");
+        alert( "Определение местоположения не поддерживается" );
     }
 }
-let latitude 
+let latitude
 let longitude
-const displayLocation = (position)=> {
+const displayLocation = ( position ) => {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-
-    // var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en'&'key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4';
-    var GEOCODING = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCwNkYX4h1QQttMEpr45WcG_smx6olIJno`;
-    console.log(GEOCODING);
-            $.getJSON(GEOCODING).done(function(location) {
-                console.log(location)
-            })
-    
-return latitude, longitude
-
-
-
- console.log(latitude, longitude);
-return console.log(latitude, longitude);
+    return latitude, longitude
 }
-// displayLocation()
+
 // Api query
-const url = 'https://pro.openweathermap.org/data/2.5/forecast/climate?appid={fdfa77a9b309bc404762508bba17ecc7}&cnt=1&units=metric&lang=ua,uk'
+const url = 'https://pro.openweathermap.org/data/2.5/forecast/climate?appid=fdfa77a9b309bc404762508bba17ecc7'
 
 // Get field from page
-const queryField = document.getElementById( 'search-forecast' )
-const form = document.forms.namedItem( 'search-form' )
+const queryField = document.getElementById( 'search-forecast' );
+const form = document.forms.namedItem( 'search-form' );
+// Main field
+const mainTemp = document.getElementById( 'main-temp ' )
+const userLocation = document.getElementById( 'user-location ' )
+const mainDate = document.getElementById( 'main-date ' )
+const mainIcon = document.getElementById( 'main-icon ' )
+const mainCondition = document.getElementById( 'main-condition ' )
+// Detail field
 let query = ''
 let extQuery1 = ''
 
@@ -52,9 +46,10 @@ form.onsubmit = () => sendRequest( '', false )
 function sendRequest( initialLoad ) {
     // storing last query in Local Storage
     if ( initialLoad == false ) localStorage.setItem( 'lastRequest', query )
-    fetch( url + `lat={${latitude}}&lon={${longitude}}` ).then( response1 => {
+    fetch( url + `&lat={${latitude}}&lon={${longitude}}` ).then( response1 => {
         return response1.json()
     } ).then( response2 => {
+        console.log( response2 );
         const contentObject = response2.hits
     } )
 }
