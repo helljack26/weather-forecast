@@ -114,7 +114,10 @@ input:focus {
     cursor: pointer;
     box-sizing: border-box;
     outline: 0.2px solid #e1f5fe;
-
+    border: none;
+    &:focus {
+        outline: 1px solid white;
+    }
     &:hover {
         background-color: white;
     }

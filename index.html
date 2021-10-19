@@ -27,8 +27,6 @@
             <div class="row card0">
                 <div class="card1 col-lg-8 col-md-7">
                     <img src="img/w-logo-01.svg" alt="Logo" class="logo">
-                        <!-- <span class="header-text_main"> Прогноз погоды</span><br>
-                        <p class="header-text">от Димона</p> -->
                     <!-- Main info -->
                     <div class="main-info row px-3 mt-3 mb-3">
                         <h1 class="large-font mr-3" id="current-tempreture">26&#176;</h1>
@@ -42,15 +40,18 @@
                         </div>
                     </div>
                 </div>
+                <!-- Search -->
                 <div class="card2 col-lg-4 col-md-5">
-                    <div class="row px-3">
-                        <input type="text" name="location" placeholder="Поиск" class="mb-5" />
-                        <div class="fa fa-search mb-5 mr-0 text-center"></div>
-                    </div>
+                    <form id="search-form" class="row px-3">
+                        <input type="text" name="location" placeholder="Поиск" class="mb-5" id="search-forecast"/>
+                        <button type="submit" class="fa fa-search mb-5 mr-0 text-center" id="search-btn"></button>
+                    </form>
+                    <!-- Last search city -->
                     <div class="mr-5" id="last-enter-city">
                         <p class="light-text suggestion">Киев</p>
-                        <div class="line my-5"></div>
-                        <p>Подробный прогноз</p>
+                        <!-- <div class="line my-5"></div> -->
+                        <!-- Detail forecast -->
+                        <p class="mt-4">Подробный прогноз</p>
                         <div class="row px-3">
                             <p class="light-text">Облачность</p>
                             <p class="ml-auto">12%</p>
@@ -73,9 +74,9 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
-    </script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="script/script.js"></script>
 </body>
 
