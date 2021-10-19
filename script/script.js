@@ -15,7 +15,7 @@ const displayLocation = (position)=> {
     let longitude = position.coords.longitude;
 
     // var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en'&'key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4';
-    var GEOCODING = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4`;
+    var GEOCODING = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCwNkYX4h1QQttMEpr45WcG_smx6olIJno`;
     console.log(GEOCODING);
             $.getJSON(GEOCODING).done(function(location) {
                 console.log(location)
