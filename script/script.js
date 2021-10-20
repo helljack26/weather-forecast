@@ -1,24 +1,5 @@
-// Get user geolocation
-window.onload = getMyLocation;
-
-function getMyLocation() {
-    if ( navigator.geolocation ) {
-        navigator.geolocation.getCurrentPosition( displayLocation );
-    } else {
-        alert( "Определение местоположения не поддерживается" );
-    }
-    localStorageFunction()
-}
-let latitude
-let longitude
-const displayLocation = ( position ) => {
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
-    return latitude, longitude
-}
-
 // Api query
-const url = 'https://pro.openweathermap.org/data/2.5/forecast/climate?appid=fdfa77a9b309bc404762508bba17ecc7'
+const url = 'https://api.openweathermap.org/data/2.5/weather?APPID=fdfa77a9b309bc404762508bba17ecc7'
 
 // Get field from page
 const queryField = document.getElementById( 'search-forecast' );
@@ -40,11 +21,36 @@ const detailWind = document.getElementById( 'detail-wind' )
 const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
 
-
 // Query 
 let query = ''
 let queryArr = [];
 let extQuery1 = ''
+
+// Get user geolocation
+window.onload = getMyLocation;
+
+function getMyLocation() {
+    if ( navigator.geolocation ) {
+        navigator.geolocation.getCurrentPosition( displayLocation );
+    } else {
+        alert( "Определение местоположения не поддерживается" );
+    }
+    localStorageFunction()
+}
+
+const displayLocation = ( position ) => {
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    var GEOCODING = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4`;
+            $.getJSON(GEOCODING).done(function(location) {
+                let compoundCode = location.plus_code.compound_code.split(' ');
+                //  compoundCode
+                
+                console.log(compoundCode)
+            })
+    return sendRequest( true, latitude, longitude )
+}
 
 form.addEventListener( 'submit', e => {
     e.preventDefault()
@@ -70,7 +76,7 @@ const localStorageFunction = () => {
     lastQueryBlock.innerHTML = out
 }
 // Request to openweathermap.org
-function sendRequest( initialLoad ) {
+function sendRequest( initialLoad,lat, lon) {
     // storing last query in Local Storage
     function localStoragePush() {
         if ( initialLoad == false && init <= 10 && init != 10 ) {
@@ -87,13 +93,10 @@ function sendRequest( initialLoad ) {
 
     }
     localStoragePush()
-    fetch( url + `&lat={${latitude}}&lon={${longitude}}` ).then( response1 => {
+    fetch( url + `&lat=${lat}&lon=${lon}` ).then( response1 => {
         return response1.json()
     } ).then( response2 => {
-        // console.log( response2 );
+        console.log( response2 );
         const contentObject = response2.hits
     } )
 }
-
-// initial load of page
-window.addEventListener( 'load', sendRequest( true ) )
