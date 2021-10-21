@@ -139,6 +139,9 @@ input:focus-visible {
         background-color: white;
     }
 }
+#error-field{
+    color: tomato;
+}
 #last-query {
     display: flex;
     flex-wrap: wrap;
@@ -150,9 +153,6 @@ input:focus-visible {
 .card2 {
     height: 85vh;
     overflow: hidden;
-    // display: grid;
-    // grid-template-columns: 1fr;
-    // grid-template-rows: auto 1fr auto;
 }
 
 .light-text {
