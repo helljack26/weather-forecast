@@ -15,14 +15,22 @@ body {
 }
 
 .main-block {
-    // height: 100vh !important;
     position: relative;
+    border-radius: 30px;
+    overflow: hidden;
 
     .main-info {
         position: absolute;
         bottom: 0px;
-        left: 30px;
+        left: 0px;
+        padding-left: 20px;
+        background-color: rgba(111, 111, 111, 0.527);
+        border-bottom-left-radius: 30px;
     }
+}
+.radius {
+    border-radius: 30px;
+    overflow: hidden;
 }
 .logo {
     width: 300px;
@@ -121,6 +129,21 @@ input:focus {
     &:hover {
         background-color: white;
     }
+}
+#last-query {
+    display: flex;
+    flex-wrap: wrap;
+
+    .suggestion {
+        margin-right: 10px;
+    }
+}
+.card2 {
+    height: 85vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr auto;
 }
 
 .light-text {
