@@ -16,17 +16,21 @@ body {
 
 .main-block {
   position: relative;
+  width: 90vw;
   border-radius: 30px;
   overflow: hidden;
+  background-image: url(../img/city/kiev.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .main-block .main-info {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  padding-left: 20px;
+  height: 100%;
   background-color: rgba(111, 111, 111, 0.527);
-  border-bottom-left-radius: 30px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .radius {
@@ -36,7 +40,6 @@ body {
 
 .logo {
   width: 300px;
-  margin-left: -20px;
 }
 
 .suggestion {
@@ -55,16 +58,8 @@ body {
 }
 
 .card0 {
-  width: 94%;
-}
-
-.card1 {
-  background-image: url(../img/city/kiev.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 85vh;
-  padding: 30px 20px 30px 50px;
+  width: 100.5%;
+  padding-left: 10px;
 }
 
 .image {
@@ -81,8 +76,12 @@ body {
   font-size: 22px;
 }
 
+.card1 {
+  padding: 0px !important;
+}
+
 .card2 {
-  background-color: #397897;
+  background-color: rgba(111, 111, 111, 0.527);
   padding: 0px 0px 40px 40px;
 }
 
@@ -104,6 +103,17 @@ input:focus {
   border-bottom: 1px solid #fff !important;
   outline-width: 0;
   font-weight: 400;
+}
+
+input:focus-visible {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #fff !important;
+  outline: none;
+}
+
+.light-text {
+  color: white !important;
 }
 
 ::-webkit-input-placeholder {
@@ -170,12 +180,6 @@ input:focus {
 .card2 {
   height: 85vh;
   overflow: hidden;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr;
-      grid-template-columns: 1fr;
-  -ms-grid-rows: 1fr 1fr auto;
-      grid-template-rows: 1fr 1fr auto;
 }
 
 .light-text {
