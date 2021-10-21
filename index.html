@@ -37,7 +37,6 @@
                             </div>
                             <p id="main-date"></p>
                         </div>
-
                         <div class="d-flex pl-4 flex-column align-items-center">
                             <div class="d-flex flex-column text-center mr-3">
                                 <div id="main-icon"></div>
@@ -58,10 +57,12 @@
                 </div>
                 <!-- Search -->
                 <div class="card2 col-lg-4 col-md-5">
-                    <form id="search-form" class="row px-3">
-                        <input type="text" name="location" placeholder="Поиск" class="mb-5" id="search-forecast" />
-                        <button type="submit" class="fa fa-search mb-5 mr-0 text-center" id="search-btn"></button>
+                    <form id="search-form" class="row px-3" autocomplete="off">
+                        <input type="text" name="location" placeholder="Поиск"  id="search-forecast" />
+                        <button type="submit" class="fa fa-search mr-0 text-center" id="search-btn"></button>
                     </form>
+                    <!-- Field for error -->
+                    <p id="error-field"></p>
                     <!-- Last search city -->
                     <div class="mr-5" id="last-enter-city">
                         <div id="last-query"></div>
@@ -103,6 +104,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
     </script>
+    <script src="script/icon.js"></script>
     <script src="script/script.js"></script>
 
 </body>

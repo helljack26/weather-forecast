@@ -165,6 +165,10 @@ input:focus-visible {
   background-color: white;
 }
 
+#error-field {
+  color: tomato;
+}
+
 #last-query {
   display: -webkit-box;
   display: -ms-flexbox;
