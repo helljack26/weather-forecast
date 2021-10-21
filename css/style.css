@@ -16,12 +16,22 @@ body {
 
 .main-block {
   position: relative;
+  border-radius: 30px;
+  overflow: hidden;
 }
 
 .main-block .main-info {
   position: absolute;
   bottom: 0px;
-  left: 30px;
+  left: 0px;
+  padding-left: 20px;
+  background-color: rgba(111, 111, 111, 0.527);
+  border-bottom-left-radius: 30px;
+}
+
+.radius {
+  border-radius: 30px;
+  overflow: hidden;
 }
 
 .logo {
@@ -155,6 +165,17 @@ input:focus {
 
 #last-query .suggestion {
   margin-right: 10px;
+}
+
+.card2 {
+  height: 85vh;
+  overflow: hidden;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 1fr 1fr auto;
+      grid-template-rows: 1fr 1fr auto;
 }
 
 .light-text {
