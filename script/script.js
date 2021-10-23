@@ -87,9 +87,9 @@ queryField.oninput = (e) => {
 
 form.onsubmit = () => sendRequest('', undefined, undefined);
 let init = 1;
+let lastQueryFromLocal = localStorage.getItem('lastQuery');
 
 const localStorageFunction = () => {
-    let lastQueryFromLocal = localStorage.getItem('lastQuery');
     let lastArrFromLocal = lastQueryFromLocal.split(',');
     let out = ''
     lastArrFromLocal.forEach((item) => {
@@ -125,7 +125,7 @@ function localStoragePush(initialLoad, city) {
         localStorage.setItem('lastQuery', queryArr)
         // lastQueryBlock.innerHTML = '';
     } else if (init > 10) {
-        lastArrFromLocal.pop();
+        // lastArrFromLocal.pop();
     } else {
         return;
     }
