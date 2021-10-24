@@ -1,6 +1,7 @@
 body {
   color: #fff;
   overflow: hidden;
+  overflow-x: hidden;
   background: #c9d6ff;
   /* fallback for old browsers */
   /* Chrome 10-25, Safari 5.1-6 */
@@ -11,35 +12,20 @@ body {
   background-size: cover;
   font-family: sans-serif;
   height: 100vh;
-  padding-top: 0px;
 }
 
 .main-block {
   position: relative;
-  width: 90vw;
-  border-radius: 30px;
-  overflow: hidden;
+  width: 100%;
   background-image: url(../img/city/kiev.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.main-block .main-info {
-  height: 100%;
-  background-color: rgba(111, 111, 111, 0.527);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-}
-
-.radius {
-  border-radius: 30px;
-  overflow: hidden;
-}
-
 .logo {
   width: 300px;
+  margin: 0 auto;
 }
 
 .suggestion {
@@ -57,9 +43,8 @@ body {
   margin-top: -30px;
 }
 
-.card0 {
-  width: 100.5%;
-  padding-left: 10px;
+.h100 {
+  height: 100%;
 }
 
 .image {
@@ -76,19 +61,70 @@ body {
   font-size: 22px;
 }
 
+.card0 {
+  width: 100.5%;
+}
+
 .card1 {
   padding: 0px !important;
 }
 
-.card2 {
+.card2-block {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
   background-color: rgba(111, 111, 111, 0.527);
-  padding: 0px 0px 40px 40px;
+  padding: 0px 0px 0px 20px;
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+}
+
+.card2 {
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+}
+
+.card2-block::-webkit-scrollbar {
+  width: 10px;
+}
+
+.card2-block::-webkit-scrollbar-track {
+  background-color: #f9f9fd;
+  border-radius: 10px;
+}
+
+#main-date {
+  text-align: left;
+}
+
+#main-icon {
+  height: 70px;
+  width: 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card2-block::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), to(#272727));
+  background: linear-gradient(180deg, #929292, #272727);
+}
+
+#search-form {
+  margin-left: -23px;
 }
 
 input {
   background-color: transparent;
-  padding: 24px 0px 12px 0px !important;
-  width: 80%;
+  padding: 24px 0px 12px 10px !important;
+  width: 76.5%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border: none !important;
@@ -117,22 +153,22 @@ input:focus-visible {
 }
 
 ::-webkit-input-placeholder {
-  color: #b0bec5 !important;
+  color: #e6e6e6 !important;
   opacity: 1;
 }
 
 :-ms-input-placeholder {
-  color: #b0bec5 !important;
+  color: #e6e6e6 !important;
   opacity: 1;
 }
 
 ::-ms-input-placeholder {
-  color: #b0bec5 !important;
+  color: #e6e6e6 !important;
   opacity: 1;
 }
 
 ::placeholder {
-  color: #b0bec5 !important;
+  color: #e6e6e6 !important;
   opacity: 1;
 }
 
@@ -148,7 +184,7 @@ input:focus-visible {
   color: #607d8b;
   background-color: #e1f5fe;
   font-size: 20px;
-  padding: 20px;
+  padding: 0px;
   width: 20%;
   cursor: pointer;
   -webkit-box-sizing: border-box;
@@ -166,7 +202,14 @@ input:focus-visible {
 }
 
 #error-field {
-  color: tomato;
+  color: #ff2600;
+  margin-bottom: 0 !important;
+  position: relative;
+}
+
+.error-text {
+  position: absolute;
+  left: 20%;
 }
 
 #last-query {
@@ -179,11 +222,6 @@ input:focus-visible {
 
 #last-query .suggestion {
   margin-right: 10px;
-}
-
-.card2 {
-  height: 85vh;
-  overflow: hidden;
 }
 
 .light-text {
@@ -211,42 +249,60 @@ input:focus-visible {
   font-size: 1.2rem;
 }
 
+#detail-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 @media screen and (max-width: 767px) {
   body {
     overflow: visible;
+    overflow-x: hidden;
     background-size: cover;
-    height: auto;
-    padding: 20px 0px;
-  }
-  .card1 {
-    height: 100vh;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .main-block {
     height: 100%;
-  }
-  .main-info {
-    position: absolute;
-    left: 30px;
   }
 }
 
 @media screen and (max-width: 500px) {
   body {
     overflow: visible;
+    overflow-x: hidden;
     background-size: cover;
     height: auto;
-    padding: 5px 0px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .card1 {
     padding-left: 26px;
-    height: 100vh;
   }
-  .main-block {
-    height: 100%;
+  .card2 {
+    background-color: rgba(111, 111, 111, 0.527);
   }
-  .main-info {
-    position: absolute;
-    left: 30px;
+  #detail-block {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .w-80 {
+    width: 90%;
+    text-align: center;
   }
 }
 /*# sourceMappingURL=style.css.map */

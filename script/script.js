@@ -10,6 +10,8 @@ const userLocation = document.getElementById('user-location')
 const mainDate = document.getElementById('main-date')
 const mainIcon = document.getElementById('main-icon')
 const mainCondition = document.getElementById('main-condition')
+const mainDawn = document.getElementById('main-dawn')
+const mainSunset = document.getElementById('main-sunset')
 // Error field
 const errorField = document.getElementById('error-field')
 // Last query block
@@ -30,8 +32,8 @@ const upperFirstLetter = function (word) {
 }
 
 // Date
+let now = new Date()
 const dateConstructor = function () {
-    let now = new Date()
     // For correct showing day of week 
     let options = {
         weekday: 'long'
@@ -40,7 +42,7 @@ const dateConstructor = function () {
     // Split date to arr
     let dateArr = now.toString().split(' ');
     // Parse to correct string
-    let dateString = `${dateArr[4].slice(0, 5)} - ${upperFirstLetter(dayOfWeek)}, ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
+    let dateString = `${dateArr[4].slice(0, 5)} - ${upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
     return dateString;
 }
 
@@ -49,14 +51,13 @@ window.onload = getMyLocation;
 
 function getMyLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(displayLocation);
+        navigator.geolocation.getCurrentPosition(displayUserLocation);
     } else {
         alert("Определение местоположения не поддерживается");
     }
 }
 // Get latitude, longitude and city name from Google Api 
-const displayLocation = (position) => {
-
+const displayUserLocation = (position) => {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
     // Get user city
@@ -67,7 +68,6 @@ const displayLocation = (position) => {
     })
     return sendRequest(true, latitude, longitude);
 }
-
 // Query 
 let query = ''
 let queryArr = [];
@@ -84,9 +84,9 @@ queryField.oninput = (e) => {
 
 form.onsubmit = () => sendRequest('', undefined, undefined);
 let init = 1;
+let lastQueryFromLocal = localStorage.getItem('lastQuery');
 
 const localStorageFunction = () => {
-    let lastQueryFromLocal = localStorage.getItem('lastQuery');
     let lastArrFromLocal = lastQueryFromLocal.split(',');
     let out = ''
     lastArrFromLocal.forEach((item) => {
@@ -95,6 +95,13 @@ const localStorageFunction = () => {
     lastQueryBlock.innerHTML = out;
     return
 }
+function msToTime(millisecond) {
+    let time = new Date(millisecond*1000).toString('h-mm');
+    let split = time.split(' ');
+    let splitItem = split[4];
+    return splitItem.slice(0,5);
+  }
+
 // storing last query in Local Storage
 function localStoragePush(initialLoad, city) {
     // Local storage render 
@@ -109,7 +116,7 @@ function localStoragePush(initialLoad, city) {
         localStorage.setItem('lastQuery', queryArr)
         // lastQueryBlock.innerHTML = '';
     } else if (init > 10) {
-        lastArrFromLocal.pop();
+        // lastArrFromLocal.pop();
     } else {
         return;
     }
@@ -119,11 +126,10 @@ function sendRequest(initialLoad, lat, lon) {
     let urlQuery = '';
     if(lat == undefined && lon == undefined){
         urlQuery = url + `&q=${query}`;
-        userLocation.innerText = upperFirstLetter(query);
     }  else if (lat != undefined && lon != undefined){
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
     }  else {
-        return errorField.innerText = 'Ничего не найдено'
+        return errorField.innerHTML = '<p class="error-text">Ничего не найдено</p>'
     }
     localStoragePush(initialLoad)
     fetch(urlQuery)
@@ -132,20 +138,30 @@ function sendRequest(initialLoad, lat, lon) {
     }).then(response2 => {
         console.log(response2);
         if (response2.cod == '404'){
-            return errorField.innerText = 'Неправильно введен город.'
+            return errorField.innerHTML = '<p class="error-text">Неправильно введен город.</p>'
+        }else{
+            if(initialLoad == false){
+                userLocation.innerText = response2.name;
+            }
+            // userLocation.innerText = upperFirstLetter(query);
+            errorField.innerText = '';
+            // Main 
+            mainTemp.innerHTML = Math.trunc(response2.main.temp) + '&#176;';
+            mainDate.innerHTML = dateConstructor();
+            mainCondition.innerText = upperFirstLetter(response2.weather[0].description);
+            mainIcon.innerHTML = animationIcon(response2.weather[0].icon);
+            // Detail   
+            detailTemp.innerHTML = Math.trunc(response2.main.temp) + '&#176;';
+            detailFeel.innerHTML = Math.round(response2.main.feels_like) + '&#176;';
+            detailCloud.innerHTML = Math.round(response2.clouds.all) + '%';
+            detailHumidity.innerHTML = Math.round(response2.main.humidity) + '%';
+            detailWind.innerHTML = Math.round(response2.wind.speed) + ' m/s';
+            detailPressure.innerHTML = Math.round(response2.main.pressure) + ' mm';
+            // sunrise, sunset 
+            
+            mainDawn.innerHTML = msToTime(response2.sys.sunrise);
+            mainSunset.innerHTML = msToTime(response2.sys.sunset);
         }
-        errorField.innerText = '';
-        // Main 
-        mainTemp.innerHTML = Math.trunc(response2.main.temp) + '&#176;';
-        mainDate.innerText = dateConstructor();
-        mainCondition.innerText = upperFirstLetter(response2.weather[0].description);
-        mainIcon.innerHTML = animationIcon(response2.weather[0].icon);
-        // Detail   
-        detailTemp.innerHTML = Math.trunc(response2.main.temp) + '&#176;';
-        detailFeel.innerHTML = Math.round(response2.main.feels_like) + '&#176;';
-        detailCloud.innerHTML = Math.round(response2.clouds.all) + '%';
-        detailHumidity.innerHTML = Math.round(response2.main.humidity) + '%';
-        detailWind.innerHTML = Math.round(response2.wind.speed) + ' m/s';
-        detailPressure.innerHTML = Math.round(response2.main.pressure) + ' mm';
+
     })
 }
