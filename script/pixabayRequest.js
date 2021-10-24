@@ -10,7 +10,6 @@ function pixabayRequest( queryCity ) {
 		.then( ( response2 ) => {
 			backgroundsArray = response2.hits;
 			let outUrl = backgroundsArray[count].largeImageURL;
-			console.log(queryCity);
 			mainBlock.style.backgroundImage = `url(${outUrl})`;
 		} );
 }
