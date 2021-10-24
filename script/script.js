@@ -1,6 +1,7 @@
 // Api query
 const url = 'https://api.openweathermap.org/data/2.5/weather?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua'
-
+// Block for query city image 
+const mainBlock = document.getElementById( 'main-block' );
 // Get field from page
 const queryField = document.getElementById('search-forecast');
 const form = document.forms.namedItem('search-form');
@@ -65,6 +66,7 @@ const displayUserLocation = (position) => {
     $.getJSON(geocoding).done(function (location) {
         let compoundCode = location.plus_code.compound_code.split(' ');
         userLocation.innerText = compoundCode[1].slice(0, -1);
+        pixabayRequest(compoundCode[1].slice(0, -1))
     })
     return sendRequest(true, latitude, longitude);
 }
@@ -80,9 +82,12 @@ form.addEventListener('submit', e => {
 
 queryField.oninput = (e) => {
     query = e.target.value;
+
 }
 
-form.onsubmit = () => sendRequest('', undefined, undefined);
+form.onsubmit = () => {
+    sendRequest('', undefined, undefined);
+}
 let init = 1;
 let lastQueryFromLocal = localStorage.getItem('lastQuery');
 
@@ -129,19 +134,22 @@ function sendRequest(initialLoad, lat, lon) {
     }  else if (lat != undefined && lon != undefined){
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
     }  else {
-        return errorField.innerHTML = '<p class="error-text">Ничего не найдено</p>'
+        errorField.innerHTML = '<p class="error-text">Ничего не найдено</p>'
+        mainBlock.style.backgroundColor = 'black';
+        return
     }
     localStoragePush(initialLoad)
     fetch(urlQuery)
     .then(response1 => {
         return response1.json()
     }).then(response2 => {
-        console.log(response2);
         if (response2.cod == '404'){
             return errorField.innerHTML = '<p class="error-text">Неправильно введен город.</p>'
         }else{
+
             if(initialLoad == false){
                 userLocation.innerText = response2.name;
+                pixabayRequest(query);
             }
             // userLocation.innerText = upperFirstLetter(query);
             errorField.innerText = '';
