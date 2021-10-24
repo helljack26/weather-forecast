@@ -13,24 +13,5 @@ function pixabayRequest( queryCity ) {
 			let outUrl = backgroundsArray[count].largeImageURL;
 			console.log(queryCity);
 			mainBlock.style.backgroundImage = `url(${outUrl})`;
-
-
-
-
-
-
-
-			// for ( let i = 0; i <= backgroundsArray.length-1; i++ ) {
-			// 	console.log(i);
-			// 	let interval = setInterval( function () {
-			// 		if ( i == backgroundsArray.length-1 ) {
-			// 			clearInterval( interval )
-			// 		} else {
-			// 			outUrl = `url(${backgroundsArray[i].webformatURL})`
-			// 		}
-			// 		// console.log( backgroundsArray[ i ].webformatURL );
-			// 	}, 3000 )
-			// }
 		} );
 }
-// у меня есть массив с урлами, нужно каждые 4 секунды доставать из массива урл и сетить в бекграунд 
