@@ -1,9 +1,16 @@
 body {
+    user-select: none;
     color: #fff;
     overflow-x: hidden;
     position: relative;
     font-family: sans-serif;
     height: 100vh;
+    background: #c2e59c;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #64b3f4, #c2e59c);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .main-block {
@@ -173,20 +180,39 @@ input:focus-visible {
 
 // Localstorage city
 #last-city {
+    position: relative;
     position: absolute;
     bottom: 0;
     right: 0;
-    background-color: rgba(111, 111, 111, 0.527);
     width: 100%;
-    height: 25vh;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
-    column-gap: 10px;
+    background-color: rgba(111, 111, 111, 0.527);
+
+    #last-city-block {
+        height: 25vh;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr;
+        column-gap: 10px;
+    }
+    .last-city-header {
+        position: absolute;
+        top: -30px;
+        left: 10px;
+    }
 
     .last-city_item {
         width: 100%;
         background-color: rgba(255, 255, 255, 0.733);
+        color: rgb(82, 82, 82);
+        padding: 5px;
+        box-sizing: border-box;
+
+        .local-temp {
+            font-size: 3rem;
+        }
+        .local-city {
+            font-size: 1.8rem !important;
+        }
     }
 }
 
@@ -215,6 +241,8 @@ input:focus-visible {
     flex-direction: column;
     justify-content: center;
 }
+
+//
 
 // Media query
 @media screen and (max-width: 767px) {

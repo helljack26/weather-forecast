@@ -33,8 +33,8 @@ const upperFirstLetter = function (word) {
 }
 
 // Date
-let now = new Date()
 const dateConstructor = function () {
+    let now = new Date()
     // For correct showing day of week 
     let options = {
         weekday: 'long'
@@ -44,9 +44,17 @@ const dateConstructor = function () {
     let dateArr = now.toString().split(' ');
     // Parse to correct string
     let dateString = `${dateArr[4].slice(0, 5)} - ${upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
-    return dateString;
+    return document.getElementById('main-date').innerHTML = dateString;
 }
+dateConstructor()
+setInterval(dateConstructor, 5000);
 
+const msToTime = function(millisecond) {
+    let time = new Date(millisecond*1000).toString('h-mm');
+    let split = time.split(' ');
+    let splitItem = split[4];
+    return splitItem.slice(0,5);
+  }
 // Get user geolocation
 window.onload = getMyLocation;
 
@@ -84,29 +92,14 @@ queryField.oninput = (e) => {
     query = e.target.value;
 
 }
-
+// On submit
 form.onsubmit = () => {
     sendRequest('', undefined, undefined);
 }
+
+//LocalStorage 
 let init = 1;
 let lastQueryFromLocal = localStorage.getItem('lastQuery');
-
-const localStorageFunction = () => {
-    let lastArrFromLocal = lastQueryFromLocal.split(',');
-    let out = ''
-    lastArrFromLocal.forEach((item) => {
-        out += `<p class="light-text suggestion">${item}</p>`
-    })
-    lastQueryBlock.innerHTML = out;
-    return
-}
-function msToTime(millisecond) {
-    let time = new Date(millisecond*1000).toString('h-mm');
-    let split = time.split(' ');
-    let splitItem = split[4];
-    return splitItem.slice(0,5);
-  }
-
 // storing last query in Local Storage
 function localStoragePush(initialLoad, city) {
     // Local storage render 
@@ -126,19 +119,35 @@ function localStoragePush(initialLoad, city) {
         return;
     }
 }
+const localStorageFunction = () => {
+    let lastArrFromLocal = lastQueryFromLocal.split(',');
+    let out = ''
+    lastArrFromLocal.forEach((item) => {
+        out += `<p class="light-text suggestion">${item}</p>`
+    })
+    lastQueryBlock.innerHTML = out;
+    return
+}
 // Request to openweathermap.org
 function sendRequest(initialLoad, lat, lon) {
     let urlQuery = '';
+    // If have query city
     if(lat == undefined && lon == undefined){
         urlQuery = url + `&q=${query}`;
-    }  else if (lat != undefined && lon != undefined){
+    } 
+    // If have latitude and longtitude
+    else if (lat != undefined && lon != undefined){
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
-    }  else {
+    }
+    // If 
+    else {
         errorField.innerHTML = '<p class="error-text">Ничего не найдено</p>'
         mainBlock.style.backgroundColor = 'black';
         return
     }
+    // Push to localStorage
     localStoragePush(initialLoad)
+    // Query to openweathermap api
     fetch(urlQuery)
     .then(response1 => {
         return response1.json()
@@ -146,16 +155,15 @@ function sendRequest(initialLoad, lat, lon) {
         if (response2.cod == '404'){
             return errorField.innerHTML = '<p class="error-text">Неправильно введен город.</p>'
         }else{
-
             if(initialLoad == false){
                 userLocation.innerText = response2.name;
+                // Request to Pixabay for setting background    
                 pixabayRequest(query);
             }
-            // userLocation.innerText = upperFirstLetter(query);
             errorField.innerText = '';
             // Main 
             mainTemp.innerHTML = Math.trunc(response2.main.temp) + '&#176;';
-            mainDate.innerHTML = dateConstructor();
+            // mainDate.innerHTML = dateConstructor();
             mainCondition.innerText = upperFirstLetter(response2.weather[0].description);
             mainIcon.innerHTML = animationIcon(response2.weather[0].icon);
             // Detail   
@@ -173,3 +181,4 @@ function sendRequest(initialLoad, lat, lon) {
 
     })
 }
+

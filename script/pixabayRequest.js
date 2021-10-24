@@ -1,5 +1,4 @@
 const urlPixabay = 'https://pixabay.com/api/?key=23641816-dcf4d4f9c34852472448f65fc&page=1&per_page=1&orientation=horizontal&category=places&image_type=photo';
-
 let count = 0;
 let backgroundsArray
 // Request to Pixabay

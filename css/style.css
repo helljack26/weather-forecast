@@ -1,9 +1,19 @@
 body {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   color: #fff;
   overflow-x: hidden;
   position: relative;
   font-family: sans-serif;
   height: 100vh;
+  background: #c2e59c;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#64b3f4), to(#c2e59c));
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .main-block {
@@ -191,11 +201,15 @@ input:focus-visible {
 }
 
 #last-city {
+  position: relative;
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: rgba(111, 111, 111, 0.527);
   width: 100%;
+  background-color: rgba(111, 111, 111, 0.527);
+}
+
+#last-city #last-city-block {
   height: 25vh;
   display: -ms-grid;
   display: grid;
@@ -207,9 +221,27 @@ input:focus-visible {
           column-gap: 10px;
 }
 
+#last-city .last-city-header {
+  position: absolute;
+  top: -30px;
+  left: 10px;
+}
+
 #last-city .last-city_item {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.733);
+  color: #525252;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#last-city .last-city_item .local-temp {
+  font-size: 3rem;
+}
+
+#last-city .last-city_item .local-city {
+  font-size: 1.8rem !important;
 }
 
 .light-text {

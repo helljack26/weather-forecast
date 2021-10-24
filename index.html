@@ -38,7 +38,8 @@
                         <div id="error-field"></div>
                         <div>
                             <!-- Main info -->
-                            <div class="main-info mt-2 row d-flex flex-column justify-content-center align-items-center">
+                            <div
+                                class="main-info mt-2 row d-flex flex-column justify-content-center align-items-center">
                                 <div class="d-flex flex-column w-100 text-center">
                                     <div class="d-flex w-100 justify-content-center align-items-center">
                                         <!-- Main temp and location -->
@@ -55,7 +56,7 @@
                                 </div>
                                 <!-- Sunrise and Sunset time -->
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <p id="main-date" ></p>
+                                    <p id="main-date"></p>
                                     <div class="d-flex flex-column ml-4">
                                         <div class="row px-3">
                                             <p class="light-text mr-3 mb-0">Рассвет</p>
@@ -102,15 +103,28 @@
                 <div class="card1 col-lg-8 col-md-7">
                     <!-- Last search city -->
                     <div id="last-city">
-                        <div class="last-city_item">
-                            <div class="last-city_row"></div>
+                        <h5 class="last-city-header">Недавние запросы</h5>
+                        <div id="last-city-block">
+                            <div class="last-city_item">
+                                <div class="last-city_row">
+                                    <!-- LocalStorage Item -->
+                                    <div class="d-flex justify-content-center mt-1">
+                                        <h1 class="local-temp mr-1">9&#176;</h1>
+                                        <h2 class="local-city mt-3 mb-0">Богота</h2>
+                                    </div>
+                                    <!-- Animation icon -->
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <div><button type="button" class="fa fa-search mr-0 text-center"></button></div>
+                                        <p>Rvani hmari</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="backgroundBlock"></div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
