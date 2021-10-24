@@ -4,7 +4,7 @@ body {
       -ms-user-select: none;
           user-select: none;
   color: #fff;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   font-family: sans-serif;
   height: 100vh;
@@ -91,7 +91,7 @@ body {
   margin-bottom: 0 !important;
 }
 
-#main-icon {
+.animation-icon {
   height: 70px;
   width: 70px;
   display: -webkit-box;
@@ -201,6 +201,7 @@ input:focus-visible {
 }
 
 #last-city {
+  display: none;
   position: relative;
   position: absolute;
   bottom: 0;
@@ -210,7 +211,7 @@ input:focus-visible {
 }
 
 #last-city #last-city-block {
-  height: 25vh;
+  height: 30vh;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[5];
@@ -229,11 +230,19 @@ input:focus-visible {
 
 #last-city .last-city_item {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.733);
-  color: #525252;
+  background-color: rgba(95, 95, 95, 0.733);
+  color: white;
   padding: 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  cursor: pointer;
+  -webkit-transition: all 0.3ms ease-in-out;
+  transition: all 0.3ms ease-in-out;
+}
+
+#last-city .last-city_item:hover {
+  background-color: rgba(41, 41, 41, 0.946);
+  color: #d8d8d8;
 }
 
 #last-city .last-city_item .local-temp {

@@ -16,6 +16,7 @@ const mainSunset = document.getElementById( 'main-sunset' )
 // Error field
 const errorField = document.getElementById( 'error-field' )
 // Last query block
+const lastCityContainer = document.getElementById( 'last-city' )
 const lastQueryBlock = document.getElementById( 'last-city-block' )
 // Detail field
 const detailTemp = document.getElementById( 'detail-temp' )
@@ -76,7 +77,7 @@ const displayUserLocation = ( position ) => {
         userLocation.innerText = compoundCode[ 1 ].slice( 0, -1 );
         pixabayRequest( compoundCode[ 1 ].slice( 0, -1 ) )
     } )
-    return sendRequest( true, latitude, longitude );
+    return sendRequest( true, latitude, longitude, undefined );
 }
 // Query 
 let query = ''
@@ -93,44 +94,97 @@ queryField.oninput = ( e ) => {
 }
 // On submit
 form.onsubmit = () => {
-    sendRequest( '', undefined, undefined );
+    sendRequest( '', undefined, undefined, undefined );
 }
 
 //LocalStorage 
-const localStorageRender = (cityObj) => {
-    let localStorageItem = JSON.stringify(cityObj);
+const localStorageRender = ( cityObj ) => {
+    lastCityContainer.style.display = 'block'
+    let localStorageItem = JSON.stringify( cityObj );
     // Push to localStorage with unique index
     let length = localStorage.length;
+    let array = Array.from(localStorage);
     // Set 5 object to localStorage
     // If localStorage length biger than 4, first item remove
-    if(length < 5){
-        localStorage.setItem(`${length}`, localStorageItem);
-    } else if(length == 5) {
-        localStorage.removeItem('0')
-        localStorage.setItem('0', `${localStorage.getItem(1)}`)
-        localStorage.setItem('1', `${localStorage.getItem(2)}`)
-        localStorage.setItem('2', `${localStorage.getItem(3)}`)
-        localStorage.setItem('3', `${localStorage.getItem(4)}`)
-        localStorage.setItem(`4`, localStorageItem);
-        
-    } else  {
+    let result = [];
+    function unique(arr) {
+        console.log(arr);
+        let out
+        if (length <5 && length >0) {
+            for (let str of arr) {
+                str = JSON.parse(str)
+              if (!result.includes(str.city)) {
+                result.push(str.city);
+                out = true;
+              }
+            }
+        }
+        return out;
+      }
+       unique(array)
+      console.log(result);
+    if ( length < 5) {
+        localStorage.setItem( `${length}`, localStorageItem );
+        lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorageItem ) )
+    } else if ( length == 5 ) {
+        console.log(localStorage);
+        lastQueryBlock.innerHTML = '';
+        localStorage.removeItem( '0' )
+        const rewriteBlock = ()=>{
+            for(let i = 0; i<=length; i++){
+                if (i<4){
+                    localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
+                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem(`${i}`)));
+                }else if (i==4){
+                    localStorage.setItem( `4`, localStorageItem );
+                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem('4')));
+                }else{
+                    return
+                }
+            }
+        }
+        rewriteBlock()
+    } else {
         return
     }
-    return 
+    return
 }
-
+const localStorageConstructor = ( string ) => {
+    let obj = JSON.parse( string )
+    let htmlItem = `
+    <div class="last-city_item" onclick="sendRequest('', undefined, undefined, '${obj.city}')">
+        <div class="last-city_row">
+            <!-- LocalStorage Item -->
+            <div class="d-flex justify-content-center mt-1">
+                <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
+                <h2 class="local-city mt-3 mb-0">${obj.city}</h2>
+            </div>
+            <!-- Animation icon -->
+            <div class="d-flex flex-column align-items-center text-center">
+                <div class="animation-icon">${obj.icon}</div>
+                <p>${obj.condition}</p>
+            </div>
+         </div>
+    </div>
+    `;
+    return htmlItem;
+}
 // localStorage.clear()
 // Request to openweathermap.org
-function sendRequest( initialLoad, lat, lon ) {
+function sendRequest( initialLoad, lat, lon, clickCity ) {
+
     let urlQuery = '';
     // If have query city
     if ( lat == undefined && lon == undefined ) {
+        if(clickCity != undefined){
+            query = clickCity
+        }
         urlQuery = url + `&q=${query}`;
     }
     // If have latitude and longtitude
     else if ( lat != undefined && lon != undefined ) {
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
-    }
+    } 
     // If nothingz
     else {
         errorField.innerHTML = "<p class='error-text'>Ничего не найдено</p>";
@@ -157,7 +211,12 @@ function sendRequest( initialLoad, lat, lon ) {
                         icon: animationIcon( response2.weather[ 0 ].icon ),
                         condition: upperFirstLetter( response2.weather[ 0 ].description )
                     }
-                    localStorageRender(localStorageCity)
+                    if(clickCity!= undefined){
+                        return
+                    }else{
+                        localStorageRender( localStorageCity )
+                    }
+                    
                 }
                 // Remove errorField
                 errorField.innerText = '';
@@ -178,6 +237,5 @@ function sendRequest( initialLoad, lat, lon ) {
                 mainSunset.innerHTML = msToTime( response2.sys.sunset );
             }
         } )
-        console.log(localStorage);
+    console.log( localStorage );
 }
-
