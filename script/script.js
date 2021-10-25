@@ -63,8 +63,8 @@ function renderLastOnLoad() {
     if (localStorage[ 0 ] == null) {
         return
     }
-    console.log(localStorage[ 0 ] );
-    if ( localStorage[ 0 ] != undefined ) {
+    // console.log(localStorage[ 0 ] );
+    if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
         console.log('aga');
         lastQueryBlock.innerHTML = '';
         lastCityContainer.style.display = 'block'
