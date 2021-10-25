@@ -60,6 +60,7 @@ const msToTime = function ( millisecond ) {
 window.onload = getMyLocation;
 
 function renderLastOnLoad() {
+    console.log(localStorage[ 0 ] );
     if ( localStorage[ 0 ] != undefined ) {
         console.log('aga');
         lastQueryBlock.innerHTML = '';
