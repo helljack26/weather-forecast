@@ -58,7 +58,7 @@ const msToTime = function ( millisecond ) {
 }
 // Get user geolocation
 window.onload = getMyLocation;
-
+localStorage.clear()
 function renderLastOnLoad() {
     if ( localStorage[ 0 ] == null ) {
         return
