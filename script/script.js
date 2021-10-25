@@ -60,6 +60,9 @@ const msToTime = function ( millisecond ) {
 window.onload = getMyLocation;
 
 function renderLastOnLoad() {
+    if (localStorage[ 0 ] == null) {
+        return
+    }
     console.log(localStorage[ 0 ] );
     if ( localStorage[ 0 ] != undefined ) {
         console.log('aga');
@@ -69,9 +72,7 @@ function renderLastOnLoad() {
         array.forEach( element => {
             lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( element ) )
         } );
-    } else {
-        return
-    }
+    } 
 }
 
 function getMyLocation() {
