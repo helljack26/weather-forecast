@@ -57,7 +57,7 @@ body {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 100vh;
-    background-color: rgba(111, 111, 111, 0.527);
+    background-color: rgba(95, 95, 95, 0.733);
     padding: 0px 0px 0px 20px;
     transform: scaleX(-1);
 }
@@ -193,12 +193,18 @@ input:focus-visible {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: 1fr;
-        column-gap: 10px;
     }
+
     .last-city-header {
+        background-color: rgba(95, 95, 95, 0.733);
+        padding: 6px 20px;
         position: absolute;
-        top: -30px;
-        left: 10px;
+        color: rgb(255, 255, 255);
+        font-size: 1.5rem;
+        font-weight: bold;
+        top: -40px;
+        width: 100%;
+        text-align: left;
     }
 
     .last-city_item {
@@ -209,13 +215,16 @@ input:focus-visible {
         box-sizing: border-box;
         cursor: pointer;
         transition: all 0.3ms ease-in-out;
+
         &:hover {
             background-color: rgba(41, 41, 41, 0.946);
             color: rgb(216, 216, 216);
         }
+
         .local-temp {
             font-size: 3rem;
         }
+
         .local-city {
             font-size: 1.8rem !important;
         }
@@ -248,7 +257,21 @@ input:focus-visible {
     justify-content: center;
 }
 
-//
+//// Media query
+@media screen and (max-width: 1100px) {
+    body {
+        overflow: visible;
+        overflow-x: hidden;
+        background-size: cover;
+        height: fit-content;
+    }
+
+    #last-city-block {
+        grid-template-columns: repeat(3, 1fr) !important;
+        height: 100% !important;
+        grid-template-rows: 2fr !important;
+    }
+}
 
 // Media query
 @media screen and (max-width: 767px) {
@@ -266,6 +289,22 @@ input:focus-visible {
     #last-enter-city {
         position: relative;
     }
+
+    .card1 {
+        position: relative;
+    }
+
+    #last-city {
+        position: relative;
+        margin-top: 60px;
+    }
+
+    #last-city-block {
+        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-rows: 2fr !important;
+        column-gap: 10px;
+        row-gap: 10px;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -282,7 +321,6 @@ input:focus-visible {
     }
 
     .card1 {
-        padding-left: 26px;
         position: relative;
     }
 
@@ -302,5 +340,15 @@ input:focus-visible {
 
     .card2-block::-webkit-scrollbar {
         display: none;
+    }
+
+    #last-city {
+        position: relative;
+        margin-top: 60px;
+    }
+
+    #last-city-block {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: 3fr !important;
     }
 }

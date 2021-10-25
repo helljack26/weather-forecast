@@ -60,7 +60,7 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100vh;
-  background-color: rgba(111, 111, 111, 0.527);
+  background-color: rgba(95, 95, 95, 0.733);
   padding: 0px 0px 0px 20px;
   -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
@@ -218,14 +218,18 @@ input:focus-visible {
       grid-template-columns: repeat(5, 1fr);
   -ms-grid-rows: 1fr;
       grid-template-rows: 1fr;
-  -webkit-column-gap: 10px;
-          column-gap: 10px;
 }
 
 #last-city .last-city-header {
+  background-color: rgba(95, 95, 95, 0.733);
+  padding: 6px 20px;
   position: absolute;
-  top: -30px;
-  left: 10px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  top: -40px;
+  width: 100%;
+  text-align: left;
 }
 
 #last-city .last-city_item {
@@ -286,6 +290,24 @@ input:focus-visible {
           justify-content: center;
 }
 
+@media screen and (max-width: 1100px) {
+  body {
+    overflow: visible;
+    overflow-x: hidden;
+    background-size: cover;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[3] !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    height: 100% !important;
+    -ms-grid-rows: 2fr !important;
+        grid-template-rows: 2fr !important;
+  }
+}
+
 @media screen and (max-width: 767px) {
   body {
     overflow: visible;
@@ -300,6 +322,22 @@ input:focus-visible {
   }
   #last-enter-city {
     position: relative;
+  }
+  .card1 {
+    position: relative;
+  }
+  #last-city {
+    position: relative;
+    margin-top: 60px;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[3] !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    -ms-grid-rows: 2fr !important;
+        grid-template-rows: 2fr !important;
+    -webkit-column-gap: 10px;
+            column-gap: 10px;
+    row-gap: 10px;
   }
 }
 
@@ -317,7 +355,6 @@ input:focus-visible {
     overflow: visible;
   }
   .card1 {
-    padding-left: 26px;
     position: relative;
   }
   #detail-block {
@@ -337,6 +374,16 @@ input:focus-visible {
   }
   .card2-block::-webkit-scrollbar {
     display: none;
+  }
+  #last-city {
+    position: relative;
+    margin-top: 60px;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[2] !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+    -ms-grid-rows: 3fr !important;
+        grid-template-rows: 3fr !important;
   }
 }
 /*# sourceMappingURL=style.css.map */

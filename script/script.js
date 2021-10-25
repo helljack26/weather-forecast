@@ -59,7 +59,22 @@ const msToTime = function ( millisecond ) {
 // Get user geolocation
 window.onload = getMyLocation;
 
+function renderLastOnLoad() {
+    if ( localStorage[ 0 ] != undefined ) {
+        lastQueryBlock.innerHTML = '';
+        lastCityContainer.style.display = 'block'
+        let array = Array.from( localStorage )
+        array.forEach( element => {
+            lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( element ) )
+
+        } );
+    } else {
+        return
+    }
+}
+
 function getMyLocation() {
+    renderLastOnLoad()
     if ( navigator.geolocation ) {
         navigator.geolocation.getCurrentPosition( displayUserLocation );
     } else {
@@ -87,7 +102,7 @@ form.addEventListener( 'submit', e => {
     e.preventDefault()
     queryField.value = '';
 } )
-
+// Listen event in input
 queryField.oninput = ( e ) => {
     query = e.target.value;
 
@@ -99,46 +114,26 @@ form.onsubmit = () => {
 
 //LocalStorage 
 const localStorageRender = ( cityObj ) => {
-    lastCityContainer.style.display = 'block'
     let localStorageItem = JSON.stringify( cityObj );
     // Push to localStorage with unique index
     let length = localStorage.length;
-    let array = Array.from(localStorage);
     // Set 5 object to localStorage
     // If localStorage length biger than 4, first item remove
-    let result = [];
-    function unique(arr) {
-        console.log(arr);
-        let out
-        if (length <5 && length >0) {
-            for (let str of arr) {
-                str = JSON.parse(str)
-              if (!result.includes(str.city)) {
-                result.push(str.city);
-                out = true;
-              }
-            }
-        }
-        return out;
-      }
-       unique(array)
-      console.log(result);
-    if ( length < 5) {
+    if ( length < 5 ) {
         localStorage.setItem( `${length}`, localStorageItem );
         lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorageItem ) )
     } else if ( length == 5 ) {
-        console.log(localStorage);
         lastQueryBlock.innerHTML = '';
         localStorage.removeItem( '0' )
-        const rewriteBlock = ()=>{
-            for(let i = 0; i<=length; i++){
-                if (i<4){
+        const rewriteBlock = () => {
+            for ( let i = 0; i <= length; i++ ) {
+                if ( i < 4 ) {
                     localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
-                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem(`${i}`)));
-                }else if (i==4){
+                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem( `${i}` ) ) );
+                } else if ( i == 4 ) {
                     localStorage.setItem( `4`, localStorageItem );
-                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem('4')));
-                }else{
+                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( localStorage.getItem( '4' ) ) );
+                } else {
                     return
                 }
             }
@@ -149,6 +144,7 @@ const localStorageRender = ( cityObj ) => {
     }
     return
 }
+// Constructor for localStorage
 const localStorageConstructor = ( string ) => {
     let obj = JSON.parse( string )
     let htmlItem = `
@@ -169,14 +165,13 @@ const localStorageConstructor = ( string ) => {
     `;
     return htmlItem;
 }
-// localStorage.clear()
+
 // Request to openweathermap.org
 function sendRequest( initialLoad, lat, lon, clickCity ) {
-
     let urlQuery = '';
     // If have query city
     if ( lat == undefined && lon == undefined ) {
-        if(clickCity != undefined){
+        if ( clickCity != undefined ) {
             query = clickCity
         }
         urlQuery = url + `&q=${query}`;
@@ -184,7 +179,7 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
     // If have latitude and longtitude
     else if ( lat != undefined && lon != undefined ) {
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
-    } 
+    }
     // If nothingz
     else {
         errorField.innerHTML = "<p class='error-text'>Ничего не найдено</p>";
@@ -199,11 +194,11 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
             if ( response2.cod == '404' ) {
                 return errorField.innerHTML = '<p class="error-text">Неправильно введен город.</p>'
             } else {
+                renderLastOnLoad()
                 if ( initialLoad == false ) {
                     // Render location   
                     userLocation.innerText = response2.name;
                     // Request to Pixabay for setting background    
-                    pixabayRequest( query );
                     // Create object for localStorage
                     let localStorageCity = {
                         temp: response2.main.temp,
@@ -211,13 +206,16 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
                         icon: animationIcon( response2.weather[ 0 ].icon ),
                         condition: upperFirstLetter( response2.weather[ 0 ].description )
                     }
-                    if(clickCity!= undefined){
-                        return
-                    }else{
+                    // If click on last query city
+                    if ( clickCity != undefined ) {
+                        pixabayRequest( query );
+                    } else {
+                        pixabayRequest( query );
                         localStorageRender( localStorageCity )
                     }
-                    
                 }
+                // Render last query city from localStorage
+                renderLastOnLoad()
                 // Remove errorField
                 errorField.innerText = '';
                 // Main 
@@ -237,5 +235,4 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
                 mainSunset.innerHTML = msToTime( response2.sys.sunset );
             }
         } )
-    console.log( localStorage );
 }
