@@ -61,12 +61,12 @@ window.onload = getMyLocation;
 
 function renderLastOnLoad() {
     if ( localStorage[ 0 ] != undefined ) {
+        console.log('aga');
         lastQueryBlock.innerHTML = '';
         lastCityContainer.style.display = 'block'
         let array = Array.from( localStorage )
         array.forEach( element => {
             lastQueryBlock.insertAdjacentHTML( 'afterbegin', localStorageConstructor( element ) )
-
         } );
     } else {
         return
@@ -146,7 +146,7 @@ const localStorageRender = ( cityObj ) => {
 }
 // Constructor for localStorage
 const localStorageConstructor = ( string ) => {
-    let obj = JSON.parse( string )
+    let obj = JSON.parse( string );
     let htmlItem = `
     <div class="last-city_item" onclick="sendRequest('', undefined, undefined, '${obj.city}')">
         <div class="last-city_row">
