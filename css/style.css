@@ -1,9 +1,19 @@
 body {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   color: #fff;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   font-family: sans-serif;
   height: 100vh;
+  background: #c2e59c;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#64b3f4), to(#c2e59c));
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .main-block {
@@ -50,7 +60,7 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100vh;
-  background-color: rgba(111, 111, 111, 0.527);
+  background-color: rgba(95, 95, 95, 0.733);
   padding: 0px 0px 0px 20px;
   -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
@@ -81,7 +91,7 @@ body {
   margin-bottom: 0 !important;
 }
 
-#main-icon {
+.animation-icon {
   height: 70px;
   width: 70px;
   display: -webkit-box;
@@ -191,25 +201,60 @@ input:focus-visible {
 }
 
 #last-city {
+  display: none;
+  position: relative;
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: rgba(111, 111, 111, 0.527);
   width: 100%;
-  height: 25vh;
+  background-color: rgba(111, 111, 111, 0.527);
+}
+
+#last-city #last-city-block {
+  height: 30vh;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[5];
       grid-template-columns: repeat(5, 1fr);
   -ms-grid-rows: 1fr;
       grid-template-rows: 1fr;
-  -webkit-column-gap: 10px;
-          column-gap: 10px;
+}
+
+#last-city .last-city-header {
+  background-color: rgba(95, 95, 95, 0.733);
+  padding: 6px 20px;
+  position: absolute;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  top: -40px;
+  width: 100%;
+  text-align: left;
 }
 
 #last-city .last-city_item {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.733);
+  background-color: rgba(95, 95, 95, 0.733);
+  color: white;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  -webkit-transition: all 0.3ms ease-in-out;
+  transition: all 0.3ms ease-in-out;
+}
+
+#last-city .last-city_item:hover {
+  background-color: rgba(41, 41, 41, 0.946);
+  color: #d8d8d8;
+}
+
+#last-city .last-city_item .local-temp {
+  font-size: 3rem;
+}
+
+#last-city .last-city_item .local-city {
+  font-size: 1.8rem !important;
 }
 
 .light-text {
@@ -245,6 +290,24 @@ input:focus-visible {
           justify-content: center;
 }
 
+@media screen and (max-width: 1100px) {
+  body {
+    overflow: visible;
+    overflow-x: hidden;
+    background-size: cover;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[3] !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    height: 100% !important;
+    -ms-grid-rows: 2fr !important;
+        grid-template-rows: 2fr !important;
+  }
+}
+
 @media screen and (max-width: 767px) {
   body {
     overflow: visible;
@@ -259,6 +322,22 @@ input:focus-visible {
   }
   #last-enter-city {
     position: relative;
+  }
+  .card1 {
+    position: relative;
+  }
+  #last-city {
+    position: relative;
+    margin-top: 60px;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[3] !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    -ms-grid-rows: 2fr !important;
+        grid-template-rows: 2fr !important;
+    -webkit-column-gap: 10px;
+            column-gap: 10px;
+    row-gap: 10px;
   }
 }
 
@@ -276,7 +355,6 @@ input:focus-visible {
     overflow: visible;
   }
   .card1 {
-    padding-left: 26px;
     position: relative;
   }
   #detail-block {
@@ -296,6 +374,16 @@ input:focus-visible {
   }
   .card2-block::-webkit-scrollbar {
     display: none;
+  }
+  #last-city {
+    position: relative;
+    margin-top: 60px;
+  }
+  #last-city-block {
+    -ms-grid-columns: (1fr)[2] !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+    -ms-grid-rows: 3fr !important;
+        grid-template-rows: 3fr !important;
   }
 }
 /*# sourceMappingURL=style.css.map */
