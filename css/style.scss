@@ -92,13 +92,8 @@ header {
     height: 100%;
 }
 
-// .image {
-//     width: 300px;
-//     height: 300px;
-// }
-
 .large-font {
-    font-size: 70px;
+    font-size: 80px;
     font-family: Arial;
 }
 
@@ -114,14 +109,7 @@ header {
 .card2-block {
     overflow-y: scroll;
     overflow-x: hidden;
-    // height: 90vh;
     background-color: $blockBg;
-    padding: 0px 0px 0px 20px;
-    transform: scaleX(-1);
-}
-
-.card2 {
-    transform: scaleX(-1);
 }
 
 // Scroll
@@ -138,7 +126,9 @@ header {
     border-radius: 10px;
     background: linear-gradient(180deg, #929292, #272727);
 }
-
+.main-info {
+    font-size: 1.3rem;
+}
 // Date and weather icon
 #main-date {
     text-align: left;
@@ -157,34 +147,63 @@ header {
 #search-form {
     margin-right: 0px;
     box-sizing: border-box;
+    width: 32%;
+    display: grid;
+    grid-template-columns: 1fr 60px;
 }
-
 // Input
 input {
+    // width: 10%;
     background-color: transparent;
-    padding: 8px 0px 8px 10px !important;
+    padding: 8px 10px 8px 10px !important;
     box-sizing: border-box;
     border: none !important;
     font-size: 22px !important;
-    color: #fff !important;
+    color: #fff;
+
+    &:focus {
+        box-sizing: border-box;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+        font-weight: 400;
+        // color: white;
+    }
+
+    &:focus-visible {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline: none;
+        color: white;
+    }
+}
+.placeholderred::-webkit-input-placeholder {
+    color: red !important;
+    font-size: 1.2rem;
+}
+::-webkit-input-placeholder {
+    color: red !important;
+    font-size: 1.2rem;
 }
 
-input:focus {
-    box-sizing: border-box;
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    outline-width: 0;
-    font-weight: 400;
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    font-size: 1.2rem;
 }
 
-input:focus-visible {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    outline: none;
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    font-size: 1.2rem;
 }
 
+:-ms-input-placeholder {
+    color: red;
+    font-size: 1.2rem;
+}
 .light-text {
     color: white !important;
 }
@@ -205,7 +224,6 @@ input:focus-visible {
 // Search icon
 .fa-search {
     padding: 0px;
-    width: 60px;
     cursor: pointer;
     box-sizing: border-box;
     border: none;
@@ -233,7 +251,20 @@ input:focus-visible {
     position: absolute;
     left: 20%;
 }
-
+.star {
+    visibility: hidden;
+    font-size: 50px;
+    cursor: pointer;
+}
+.star:before {
+    content: "\2605";
+    position: absolute;
+    visibility: visible;
+}
+.star:checked:before {
+    content: "\2606";
+    position: absolute;
+}
 // Localstorage city
 #last-city {
     display: none;

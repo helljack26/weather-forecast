@@ -154,6 +154,8 @@ class WeatherForecast {
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity ) {
+        queryField.setAttribute('placeholder',"Введите город");
+        queryField.classList.remove('placeholderred');
         let urlQuery = '';
         // If have query city
         if ( lat == undefined && lon == undefined ) {
@@ -168,7 +170,7 @@ class WeatherForecast {
         }
         // If nothing
         else {
-            errorField.innerHTML = "<p class='error-text'>Ничего не найдено</p>";
+            queryField.value = "Ничего не найдено";
             mainBlock.style.backgroundColor = 'black';
             return
         }
@@ -178,7 +180,10 @@ class WeatherForecast {
                 return response1.json()
             } ).then( response2 => {
                 if ( response2.cod == '404' ) {
-                    return errorField.innerHTML = '<p class="error-text">Неправильно введен город.</p>'
+                    queryField.setAttribute('placeholder',"Такого города не существует")
+                    queryField.classList.add('placeholderred');
+                    // queryField.att('placeholder').style.color = 'red'
+                    return  
                 } else {
                     if ( initialLoad == false ) {
                         // Render location   
@@ -201,22 +206,22 @@ class WeatherForecast {
                     }
                     // Render last query city from localStorage
                     this.renderLastOnLoad()
-                    // Remove errorField
-                    // errorField.innerText = '';
+
                     // Main 
                     mainTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
                     mainCondition.innerText = weather.upperFirstLetter( response2.weather[ 0 ].description );
                     mainIcon.innerHTML = animationIcon( response2.weather[ 0 ].icon );
-                    // Detail   
-                    detailTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
-                    detailFeel.innerHTML = Math.round( response2.main.feels_like ) + '&#176;';
-                    detailCloud.innerHTML = Math.round( response2.clouds.all ) + '%';
-                    detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
-                    detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
-                    detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
                     // sunrise, sunset 
                     mainDawn.innerHTML = this.msToTime( response2.sys.sunrise );
                     mainSunset.innerHTML = this.msToTime( response2.sys.sunset );
+                    // Detail   
+                    // detailTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
+                    // detailFeel.innerHTML = Math.round( response2.main.feels_like ) + '&#176;';
+                    // detailCloud.innerHTML = Math.round( response2.clouds.all ) + '%';
+                    // detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
+                    // detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
+                    // detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
+
                 }
             } )
     }
