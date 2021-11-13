@@ -138,19 +138,17 @@ class WeatherForecast {
     pixabayRequest( queryCity ) {
         fetch( urlPixabay + `&q=${queryCity}` )
             .then( ( response1 ) => {
-                console.log( response1 );
                 return response1.json();
             } )
             .then( ( response2 ) => {
                 let backgroundsArray
                 backgroundsArray = response2.hits;
                 if ( backgroundsArray[ 0 ] == undefined ) {
-                    mainBlock.style.backgroundImage = `url()`;
+                    document.body.style.backgroundImage = `url()`;
                     return
                 } else {
                     let outUrl = backgroundsArray[ 0 ].largeImageURL;
-                    mainBlock.style.backgroundImage = `url(${outUrl})`;
-                    console.log( response2 );
+                    document.body.style.backgroundImage = `url(${outUrl})`;
                 }
             } );
     }
@@ -195,7 +193,6 @@ class WeatherForecast {
                         }
                         // If click on last query city
                         if ( clickCity != undefined ) {
-                            console.log( clickCity );
                             this.pixabayRequest( query );
                         } else {
                             this.pixabayRequest( query );
@@ -205,7 +202,7 @@ class WeatherForecast {
                     // Render last query city from localStorage
                     this.renderLastOnLoad()
                     // Remove errorField
-                    errorField.innerText = '';
+                    // errorField.innerText = '';
                     // Main 
                     mainTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
                     mainCondition.innerText = weather.upperFirstLetter( response2.weather[ 0 ].description );
@@ -237,7 +234,6 @@ class WeatherForecast {
     displayUserLocation( position ) {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
-        let city
         // Get user city
         var geocoding = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4`;
         $.getJSON( geocoding ).done( function ( location ) {
