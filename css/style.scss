@@ -1,4 +1,6 @@
-$blockBg: rgba(95, 95, 95, 0.733);
+$blockBg: rgba(131, 131, 131, 0.74);
+$headerBg: rgba(70, 70, 70, 0.699);
+
 body {
     user-select: none;
     color: #fff;
@@ -12,24 +14,73 @@ body {
     background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c);
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #64b3f4, #c2e59c);
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 55px auto;
+}
+
+button {
+    background-color: transparent;
+}
+// Scroll
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #f9f9fd;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #929292, #272727);
 }
 header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 50px;
-    background-color: $blockBg;
+    background-color: $headerBg;
+
     .logo-block {
         height: 40px;
         margin-left: 40px;
         align-self: center;
+        position: relative;
         .logo {
             height: 40px;
             margin: 0 auto;
         }
+        .logo-shine {
+            height: 40px;
+            position: absolute;
+            top: -1px;
+            left: -11.5px;
+            -webkit-animation: linear 15s rotate infinite;
+            animation: linear 15s rotate infinite;
+        }
+    }
+}
+
+@-webkit-keyframes rotate {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+@keyframes rotate {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
     }
 }
 .main-block {
@@ -41,22 +92,18 @@ header {
     height: 100%;
 }
 
-.image {
-    width: 300px;
-    height: 300px;
-}
+// .image {
+//     width: 300px;
+//     height: 300px;
+// }
 
 .large-font {
     font-size: 70px;
     font-family: Arial;
 }
 
-.fa-sun-o {
-    font-size: 22px;
-}
-
 .card0 {
-    width: 100.5%;
+    width: 100%;
 }
 
 .card1 {
@@ -67,7 +114,7 @@ header {
 .card2-block {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 100vh;
+    // height: 90vh;
     background-color: $blockBg;
     padding: 0px 0px 0px 20px;
     transform: scaleX(-1);
@@ -108,25 +155,25 @@ header {
 
 // Form
 #search-form {
-    margin-left: 15px;
+    margin-right: 0px;
+    box-sizing: border-box;
 }
 
 // Input
 input {
     background-color: transparent;
-    padding: 12px 0px 12px 10px !important;
+    padding: 8px 0px 8px 10px !important;
     box-sizing: border-box;
     border: none !important;
-    border-bottom: 1px solid #cfd8dc !important;
-    font-size: 16px !important;
+    font-size: 22px !important;
     color: #fff !important;
 }
 
 input:focus {
+    box-sizing: border-box;
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border-bottom: 1px solid #fff !important;
     outline-width: 0;
     font-weight: 400;
 }
@@ -135,7 +182,6 @@ input:focus-visible {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border-bottom: 1px solid #fff !important;
     outline: none;
 }
 
@@ -158,24 +204,25 @@ input:focus-visible {
 
 // Search icon
 .fa-search {
-    background-color: #e1f5fe;
-    font-size: 20px;
     padding: 0px;
-    width: 80px;
+    width: 60px;
     cursor: pointer;
     box-sizing: border-box;
-    outline: 0.2px solid #e1f5fe;
     border: none;
+    border-left: 1px solid $headerBg;
 
     &:focus {
-        outline: 1px solid white;
+        outline: none;
     }
 
     &:hover {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.616);
+        filter: contrast(10);
     }
 }
-
+.search {
+    width: 25px;
+}
 #error-field {
     color: rgb(255, 38, 0);
     margin-bottom: 0 !important;
@@ -220,8 +267,9 @@ input:focus-visible {
         width: 100%;
         background-color: $blockBg;
         color: rgb(255, 255, 255);
-        padding: 5px;
         box-sizing: border-box;
+        padding: 0px 5px;
+
         cursor: pointer;
         transition: all 0.3ms ease-in-out;
 

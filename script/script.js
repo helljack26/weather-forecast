@@ -110,7 +110,7 @@ class WeatherForecast {
         // If localStorage length biger than 4, first item remove
         if ( length < 5 ) {
             localStorage.setItem( `${length}`, localStorageItem );
-            lastQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( localStorageItem ) )
+            lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
         } else if ( length == 5 ) {
             lastQueryBlock.innerHTML = '';
             localStorage.removeItem( '0' )
@@ -119,10 +119,10 @@ class WeatherForecast {
                 for ( let i = 0; i <= length; i++ ) {
                     if ( i < 4 ) {
                         localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
-                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
+                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
                     } else if ( i == 4 ) {
                         localStorage.setItem( `4`, localStorageItem );
-                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( localStorage.getItem( '4' ) ) );
+                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
                     } else {
                         return
                     }
@@ -236,12 +236,16 @@ class WeatherForecast {
         let longitude = position.coords.longitude;
         // Get user city
         var geocoding = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4`;
-        $.getJSON( geocoding ).done( function ( location ) {
-            let compoundCode = location.plus_code.compound_code.split( ' ' );
-            userLocation.innerText = compoundCode[ 1 ].slice( 0, -1 );
-            weather.pixabayRequest( compoundCode[ 1 ].slice( 0, -1 ) );
-            weather.sendRequest( true, latitude, longitude, false );
-        } )
+        fetch( geocoding )
+            .then( ( response1 ) => {
+                return response1.json();
+            } )
+            .then( ( response2 ) => {
+                let compoundCode = response2.plus_code.compound_code.split( ' ' );
+                userLocation.innerText = compoundCode[ 1 ].slice( 0, -1 );
+                weather.pixabayRequest( compoundCode[ 1 ].slice( 0, -1 ) );
+                weather.sendRequest( true, latitude, longitude, false );
+            } );
         return
     }
     // Init chain
@@ -253,7 +257,7 @@ class WeatherForecast {
         setInterval( this.dateConstructor, 5000 );
     }
 }
-
+// Create new class
 const weather = new WeatherForecast()
 weather.init()
 
