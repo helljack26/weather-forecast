@@ -27,7 +27,7 @@
             <img src="./img/logo_v2_shine.svg" class="logo-shine" alt="logo shine">
         </div>
         <div class="header-center">
-            
+
         </div>
         <form id="search-form" class="row " autocomplete="off">
             <input type="text" name="location" placeholder="Введите город" id="search-forecast" />
@@ -37,28 +37,18 @@
     </header>
     <div class="main-block  px-sm-3 " id="main-block">
         <div class="row d-flex justify-content-center h100">
-            <div class="row card0 text-center">
-                <div class="card1 col-lg-8 col-md-7">
-                    <!-- Last search city -->
-                    <div id="last-city">
-                        <h5 class="last-city-header">Избранное</h5>
-                        <div id="last-city-block">
-                        </div>
-                    </div>
-                </div>
-                <div class="card2-block col-lg-4 col-md-5 ">
-                    <div class="card2 scroll">
-                        <div id="previousCity"></div>
-                        <div>
+            <div class="card-container">
+                <!-- main -->
+                <div class="card2-block">
                             <!-- Main info -->
-                        <div class="main-info mt-2 row d-flex flex-column justify-content-center align-items-center">
-                                <div class="d-flex flex-column w-100 text-center">
-                                    <div class="d-flex w-100 justify-content-center align-items-center">
+                            <div class="main-info row d-flex justify-content-start align-items-end">
+                                <div class="d-flex flex-column text-center align-items-end">
+                                    <div class="d-flex w-100 justify-content-center align-items-end">
                                         <!-- Main temp and location -->
-                                        <div class="d-flex ">
+                                        <div class="d-flex align-items-end">
+                                            <p id="main-temp"></p>
+                                            <p class="mb-0 mr-2" id="user-location"></p>
                                             <input class="star" type="checkbox" title="bookmark page" checked>
-                                            <h2 class="mt-4 mb-0 mr-2" id="user-location"></h2>
-                                            <h1 class="large-font" id="main-temp"></h1>
                                         </div>
                                         <!-- Animation icon -->
                                         <div class="d-flex flex-column align-items-center text-center ml-5">
@@ -68,7 +58,7 @@
                                     </div>
                                 </div>
                                 <!-- Sunrise and Sunset time -->
-                                <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex justify-content-center">
                                     <p id="main-date"></p>
                                     <div class="d-flex flex-column ml-4">
                                         <div class="row px-3">
@@ -84,35 +74,45 @@
                             </div>
                             <!-- Detail forecast -->
                             <!-- <div id="detail-block">
-                                <h5 class="mt-2 font-weight-bold">Подробный прогноз</h5>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Температура</p>
-                                    <p class="ml-auto mr-5" id="detail-temp"></p>
-                                </div>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Чувствуется как</p>
-                                    <p class="ml-auto mr-5" id="detail-feel"></p>
-                                </div>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Облачность</p>
-                                    <p class="ml-auto mr-5" id="detail-cloud"></p>
-                                </div>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Влажность</p>
-                                    <p class="ml-auto mr-5" id="detail-humidity"></p>
-                                </div>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Ветер</p>
-                                    <p class="ml-auto mr-5" id="detail-wind"></p>
-                                </div>
-                                <div class="row w-80">
-                                    <p class="light-text ml-3">Давление</p>
-                                    <p class="ml-auto mr-5" id="detail-pressure"></p>
-                                </div>
-                            </div> -->
+                                                <h5 class="mt-2 font-weight-bold">Подробный прогноз</h5>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Температура</p>
+                                                    <p class="ml-auto mr-5" id="detail-temp"></p>
+                                                </div>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Чувствуется как</p>
+                                                    <p class="ml-auto mr-5" id="detail-feel"></p>
+                                                </div>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Облачность</p>
+                                                    <p class="ml-auto mr-5" id="detail-cloud"></p>
+                                                </div>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Влажность</p>
+                                                    <p class="ml-auto mr-5" id="detail-humidity"></p>
+                                                </div>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Ветер</p>
+                                                    <p class="ml-auto mr-5" id="detail-wind"></p>
+                                                </div>
+                                                <div class="row w-80">
+                                                    <p class="light-text ml-3">Давление</p>
+                                                    <p class="ml-auto mr-5" id="detail-pressure"></p>
+                                                </div>
+                                            </div> -->
+                        <!-- </div> -->
+                    
+                </div>
+                <!-- storage -->
+                <div class="card1">
+                    <!-- Last search city -->
+                    <div id="last-city">
+                        <h5 class="last-city-header">Избранное</h5>
+                        <div id="last-city-block">
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <script src="./script/script.js"></script>
