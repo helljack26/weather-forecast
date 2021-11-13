@@ -1,5 +1,5 @@
 // Animation query icon
-const animationIcon = (iconId)=>{
+function animationIcon(iconId){
     let animatedIcon 
     switch (iconId) {
             //Sun or Clear sky

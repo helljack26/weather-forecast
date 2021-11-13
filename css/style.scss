@@ -1,3 +1,4 @@
+@import "./solid.scss";
 body {
     user-select: none;
     color: #fff;
@@ -148,7 +149,6 @@ input:focus-visible {
 
 // Search icon
 .fa-search {
-    color: #607d8b;
     background-color: #e1f5fe;
     font-size: 20px;
     padding: 0px;

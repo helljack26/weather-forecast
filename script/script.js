@@ -1,3 +1,30 @@
+const urlPixabay = 'https://pixabay.com/api/?key=23641816-dcf4d4f9c34852472448f65fc&page=1&orientation=horizontal&category=places&image_type=photo';
+
+// Request to Pixabay
+function pixabayRequest( queryCity ) {
+	fetch( urlPixabay + `&q=${queryCity}` )
+		.then( ( response1 ) => {
+            console.log(response1);
+			return response1.json();
+		} )
+		.then( ( response2 ) => {
+            let backgroundsArray
+			backgroundsArray = response2.hits;
+			if (backgroundsArray[0] == undefined){
+				mainBlock.style.backgroundImage = `url()`;
+				return
+			}else{
+				let outUrl = backgroundsArray[0].largeImageURL;
+                mainBlock.style.backgroundImage = `url(${outUrl})`;
+                console.log(response2);
+
+			}
+			
+		} );
+}
+
+
+
 // Api query
 const url = 'https://api.openweathermap.org/data/2.5/weather?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua'
 // Block for query city image 
@@ -63,9 +90,7 @@ function renderLastOnLoad() {
     if ( localStorage[ 0 ] == null ) {
         return
     } else {
-        // console.log(localStorage[ 0 ] );
         if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
-            console.log( 'annewga' );
             lastQueryBlock.innerHTML = '';
             lastCityContainer.style.display = 'block'
             let array = Array.from( localStorage )
@@ -112,7 +137,8 @@ queryField.oninput = ( e ) => {
 }
 // On submit
 form.onsubmit = () => {
-    sendRequest( '', undefined, undefined, undefined );
+    if(query != null){sendRequest( '', undefined, undefined, undefined );}
+    
 }
 
 //LocalStorage 
@@ -183,7 +209,7 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
     else if ( lat != undefined && lon != undefined ) {
         urlQuery = url + `&lat=${lat}&lon=${lon}`;
     }
-    // If nothingz
+    // If nothing
     else {
         errorField.innerHTML = "<p class='error-text'>Ничего не найдено</p>";
         mainBlock.style.backgroundColor = 'black';
@@ -211,6 +237,7 @@ function sendRequest( initialLoad, lat, lon, clickCity ) {
                     }
                     // If click on last query city
                     if ( clickCity != undefined ) {
+                        console.log(clickCity);
                         pixabayRequest( query );
                     } else {
                         pixabayRequest( query );
