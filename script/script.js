@@ -155,6 +155,7 @@ class WeatherForecast {
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity ) {
+        console.log(localStorage);
         queryField.setAttribute('placeholder',"Введите город");
         queryField.classList.remove('placeholderred');
         let urlQuery = '';
