@@ -10,7 +10,14 @@ const queryField = document.getElementById( 'search-forecast' );
 const form = document.forms.namedItem( 'search-form' );
 // Main field
 const mainTemp = document.getElementById( 'main-temp' )
-const userLocation = document.getElementById( 'user-location' )
+const userLocation = document.getElementById( 'user-location' );
+// Star
+const star = document.createElement( 'span' );
+star.classList.add( 'star' )
+star.setAttribute( 'id', 'star' )
+star.setAttribute( 'value', 'false' )
+star.innerHTML = '&#9734;'
+
 const mainDate = document.getElementById( 'main-date' )
 const mainIcon = document.getElementById( 'main-icon' )
 const mainCondition = document.getElementById( 'main-condition' )
@@ -31,7 +38,7 @@ const detailWind = document.getElementById( 'detail-wind' )
 const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
 
-
+let clickCityFromSendRequest
 // localStorage.clear()
 // Weather Forecast Class
 class WeatherForecast {
@@ -44,201 +51,9 @@ class WeatherForecast {
             return word;
         }
     }
-
-    // Current date
-    dateConstructor() {
-        let now = new Date()
-        // For correct showing day of week 
-        let options = {
-            weekday: 'long'
-        };
-        let dayOfWeek = new Intl.DateTimeFormat( 'ru-RU', options ).format( now );
-        // Split date to arr
-        let dateArr = now.toString().split( ' ' );
-        // Parse to correct string
-        let dateString = `${dateArr[4].slice(0, 5)} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
-        return document.getElementById( 'main-date' ).innerHTML = dateString;
-    }
-    // For convert UTC millisecond
-    msToTime( millisecond ) {
-        let time = new Date( millisecond * 1000 ).toString( 'h-mm' );
-        let split = time.split( ' ' );
-        let splitItem = split[ 4 ];
-        return splitItem.slice( 0, 5 );
-    }
-    // Render city from localStorage
-    renderLastOnLoad() {
-        if ( localStorage[ 0 ] == null ) {
-            return
-        } else {
-            console.log('work');
-            if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
-                favoriteQueryBlock.innerHTML = '';
-                favoriteCityContainer.style.display = 'block'
-                let array = Array.from( localStorage )
-                array.forEach( element => {
-                    favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
-                } );
-            }
-        }
-    }
-    // Clear favorite
-    clearFavoriteBlock(){
-        clearFavorite.addEventListener('click', ()=>{
-            let length = localStorage.length;
-            favoriteCityContainer.style.display = 'none';
-            for ( let i = 0; i <= length; i++ ) {
-                localStorage.removeItem(`${i}`);
-            }
-        })
-    }
-    // Constructor for localStorage
-    localStorageConstructor( string ) {
-        let obj = JSON.parse( string );
-        let htmlItem = `
-        <div class="favorite-city_item" onclick="weather.sendRequest('', undefined, undefined, '${obj.city}')">
-            <div class="favorite-city_row">
-                <!-- LocalStorage Item -->
-                <div class="d-flex justify-content-center align-items-center ">
-                    <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
-                    <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
-                </div>
-                <!-- Animation icon -->
-                <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
-                    <div class="animation-icon">${obj.icon}</div>
-                    <p>${obj.condition}</p>
-                </div>
-            </div>
-        </div>
-        `;
-        return htmlItem;
-    }
-    //LocalStorage 
-    localStorageRender( cityObj ) {
-        let localStorageItem = JSON.stringify( cityObj );
-        // Push to localStorage with unique index
-        let length = localStorage.length;
-        // Set 5 object to localStorage
-        // If localStorage length biger than 4, first item remove
-        if ( length < 5 ) {
-            localStorage.setItem( `${length}`, localStorageItem );
-            favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
-        } else if ( length == 5 ) {
-            favoriteQueryBlock.innerHTML = '';
-            localStorage.removeItem( '0' )
-            function rewriteBlock() {
-                for ( let i = 0; i <= length; i++ ) {
-                    if ( i < 4 ) {
-                        localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
-                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
-                    } else if ( i == 4 ) {
-                        localStorage.setItem( `4`, localStorageItem );
-                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
-                    } else {
-                        return
-                    }
-                }
-            }
-            rewriteBlock()
-        } else {
-            return
-        }
-        return
-    }
-    // Request to Pixabay
-    pixabayRequest( queryCity ) {
-        fetch( urlPixabay + `&q=${queryCity}` )
-            .then( ( response1 ) => {
-                return response1.json();
-            } )
-            .then( ( response2 ) => {
-                let backgroundsArray
-                backgroundsArray = response2.hits;
-                if ( backgroundsArray[ 0 ] == undefined ) {
-                    document.body.style.backgroundImage = `url()`;
-                    return
-                } else {
-                    let outUrl = backgroundsArray[ 0 ].largeImageURL;
-                    document.body.style.backgroundImage = `url(${outUrl})`;
-                }
-            } );
-    }
-    // Request to openweathermap.org
-    sendRequest( initialLoad, lat, lon, clickCity ) {
-        console.log(localStorage);
-        queryField.setAttribute('placeholder',"Введите город");
-        queryField.classList.remove('placeholderred');
-        let urlQuery = '';
-        // If have query city
-        if ( lat == undefined && lon == undefined ) {
-            if ( clickCity != undefined ) {
-                query = clickCity;
-            }
-            urlQuery = url + `&q=${query}`;
-        }
-        // If have latitude and longtitude
-        else if ( lat != undefined && lon != undefined ) {
-            urlQuery = url + `&lat=${lat}&lon=${lon}`;
-        }
-        // If nothing
-        else {
-            queryField.value = "Ничего не найдено";
-            mainBlock.style.backgroundColor = 'black';
-            return
-        }
-        // Query to openweathermap api
-        fetch( urlQuery )
-            .then( response1 => {
-                return response1.json()
-            } ).then( response2 => {
-                if ( response2.cod == '404' ) {
-                    queryField.setAttribute('placeholder',"Такого города не существует")
-                    queryField.classList.add('placeholderred');
-                    // queryField.att('placeholder').style.color = 'red'
-                    return  
-                } else {
-                    if ( initialLoad == false ) {
-                        // Render location   
-                        userLocation.innerText = response2.name;
-                        // Request to Pixabay for setting background    
-                        // Create object for localStorage
-                        let localStorageCity = {
-                            temp: response2.main.temp,
-                            city: response2.name,
-                            icon: animationIcon( response2.weather[ 0 ].icon ),
-                            condition: weather.upperFirstLetter( response2.weather[ 0 ].description )
-                        }
-                        // If click on favorite city
-                        if ( clickCity != undefined ) {
-                            this.pixabayRequest( query );
-                        } else {
-                            this.pixabayRequest( query );
-                            this.localStorageRender( localStorageCity )
-                        }
-                    }
-                    // Render last query city from localStorage
-                    this.renderLastOnLoad()
-                    // Main 
-                    mainTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
-                    mainCondition.innerText = weather.upperFirstLetter( response2.weather[ 0 ].description );
-                    mainIcon.innerHTML = animationIcon( response2.weather[ 0 ].icon );
-                    // sunrise, sunset 
-                    mainDawn.innerHTML = this.msToTime( response2.sys.sunrise );
-                    mainSunset.innerHTML = this.msToTime( response2.sys.sunset );
-                    // Detail   
-                    // detailTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
-                    // detailFeel.innerHTML = Math.round( response2.main.feels_like ) + '&#176;';
-                    // detailCloud.innerHTML = Math.round( response2.clouds.all ) + '%';
-                    // detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
-                    // detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
-                    // detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
-
-                }
-            } )
-    }
     // Get location
     getMyLocation() {
-        this.renderLastOnLoad()
+        this.renderFavoriteOnLoad()
         if ( navigator.geolocation ) {
             navigator.geolocation.getCurrentPosition( this.displayUserLocation );
         } else {
@@ -263,6 +78,235 @@ class WeatherForecast {
                 weather.sendRequest( true, latitude, longitude, false );
             } );
         return
+    }
+    // Current date
+    dateConstructor() {
+        let now = new Date()
+        // For correct showing day of week 
+        let options = {
+            weekday: 'long'
+        };
+        let dayOfWeek = new Intl.DateTimeFormat( 'ru-RU', options ).format( now );
+        // Split date to arr
+        let dateArr = now.toString().split( ' ' );
+        // Parse to correct string
+        let dateString = `${dateArr[4].slice(0, 5)} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
+        return document.getElementById( 'main-date' ).innerHTML = dateString;
+    }
+    // For convert UTC millisecond
+    msToTime( millisecond ) {
+        let time = new Date( millisecond * 1000 ).toString( 'h-mm' );
+        let split = time.split( ' ' );
+        let splitItem = split[ 4 ];
+        return splitItem.slice( 0, 5 );
+    }
+    // Render city from localStorage
+    renderFavoriteOnLoad() {
+        if ( localStorage[ 0 ] == null ) {
+            return
+        } else {
+            
+        }
+        if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
+            favoriteQueryBlock.innerHTML = '';
+            favoriteCityContainer.style.display = 'block'
+            let array = Array.from( localStorage )
+            
+            function uniq(a) {
+                return a.sort().filter(function(item, pos, ary) {
+                    return !pos || item != ary[pos - 1];
+                });
+            }
+            let cleanArray = uniq(array);
+            console.log(cleanArray);
+            console.log(localStorage);
+            cleanArray.forEach( element => {
+                favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
+            } );
+        }
+    }
+    // Clear favorite
+    clearFavoriteBlock() {
+        clearFavorite.addEventListener( 'click', () => {
+            let length = localStorage.length;
+            favoriteCityContainer.style.display = 'none';
+            for ( let i = 0; i <= length; i++ ) {
+                localStorage.removeItem( `${i}` );
+            }
+        } )
+        // document.getElementById( 'favorite-star' ).addEventListener( 'mouseenter', ( e ) => {
+        //     console.log( e );
+        // } )
+
+    }
+    // Constructor for localStorage
+    localStorageConstructor( string ) {
+        let obj = JSON.parse( string );
+        let htmlItem = `
+        <div class="favorite-city_item" onclick="weather.sendRequest('', undefined, undefined, '${obj.city}')">
+            <div class="favorite-city_row">
+                <!-- LocalStorage Item -->
+                <div class="d-flex justify-content-center align-items-center ">
+                    <span class="star" id="favorite-star">&#9733;</span>
+                    <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
+                    <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
+                </div>
+                <!-- Animation icon -->
+                <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
+                    <div class="animation-icon">${obj.icon}</div>
+                    <p>${obj.condition}</p>
+                </div>
+            </div>
+        </div>
+        `;
+        return htmlItem;
+    }
+    //LocalStorage 
+    localStorageRender( cityObj ) {
+        let localStorageItem = JSON.stringify( cityObj );
+        // Push to localStorage with unique index
+        let length = localStorage.length;
+        // Set 5 object to localStorage
+        // If localStorage length biger than 4, first item remove
+        if ( length < 5 ) {
+            if ( document.getElementById( 'star' ) != undefined ) {
+                const addToFavorite = document.getElementById( 'star' );
+                addToFavorite.addEventListener( 'click', function () {
+                    if (clickCityFromSendRequest != userLocation.textContent){
+                        addToFavorite.innerHTML = '&#9733;'
+                        localStorage.setItem( `${length}`, localStorageItem );
+                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
+                        weather.renderFavoriteOnLoad()
+                    }else{
+                        return
+                    }              
+                } )
+            }
+        } else if ( length == 5 ) {
+            favoriteQueryBlock.innerHTML = '';
+            localStorage.removeItem( '0' )
+
+            function rewriteBlock() {
+                for ( let i = 0; i <= length; i++ ) {
+                    if ( i < 4 ) {
+                        localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
+                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
+                    } else if ( i == 4 ) {
+                        localStorage.setItem( `4`, localStorageItem );
+                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
+                    } else {
+                        return
+                    }
+                }
+            }
+            rewriteBlock()
+        } else {
+            return
+        }
+        return 
+    }
+    // Request to Pixabay
+    pixabayRequest( queryCity ) {
+        fetch( urlPixabay + `&q=${queryCity}` )
+            .then( ( response1 ) => {
+                return response1.json();
+            } )
+            .then( ( response2 ) => {
+                let backgroundsArray
+                backgroundsArray = response2.hits;
+                if ( backgroundsArray[ 0 ] == undefined ) {
+                    document.body.style.backgroundImage = `url()`;
+                    return
+                } else {
+                    let outUrl = backgroundsArray[ 0 ].largeImageURL;
+                    document.body.style.backgroundImage = `url(${outUrl})`;
+                }
+            } );
+    }
+    // Request to openweathermap.org
+    sendRequest( initialLoad, lat, lon, clickCity ) {
+        clickCityFromSendRequest = clickCity
+        // Set placeholder for input
+        queryField.setAttribute( 'placeholder', "Введите город" );
+        queryField.classList.remove( 'placeholderred' );
+        let urlQuery = '';
+        // If have query city
+        if ( lat == undefined && lon == undefined ) {
+            if ( clickCity != undefined ) {
+                if ( clickCity == userLocation.textContent ) {
+                    return
+                } else {
+                    query = clickCity;
+                }
+            }
+            urlQuery = url + `&q=${query}`;
+        }
+        // If have latitude and longtitude
+        else if ( lat != undefined && lon != undefined ) {
+            urlQuery = url + `&lat=${lat}&lon=${lon}`;
+        }
+        // If nothing
+        else {
+            queryField.value = "Ничего не найдено";
+            mainBlock.style.backgroundColor = 'black';
+            return
+        }
+        // Query to openweathermap api
+        fetch( urlQuery )
+            .then( response1 => {
+                return response1.json()
+            } ).then( response2 => {
+                if ( response2.cod == '404' ) {
+                    queryField.setAttribute( 'placeholder', "Такого города не существует" )
+                    queryField.classList.add( 'placeholderred' );
+                    // queryField.att('placeholder').style.color = 'red'
+                    return
+                } else {
+                    if ( initialLoad == false ) {
+                        // Render location   
+                        userLocation.innerText = response2.name;
+                        // Append star near Query location
+                        document.querySelector( '.main-info_temp-location' ).appendChild( star )
+                        // Request to Pixabay for setting background    
+                        // Create object for localStorage
+                        let localStorageCity = {
+                            temp: response2.main.temp,
+                            city: response2.name,
+                            icon: animationIcon( response2.weather[ 0 ].icon ),
+                            condition: weather.upperFirstLetter( response2.weather[ 0 ].description )
+                        }
+                        if ( clickCity != undefined ) {
+                            this.pixabayRequest( query );
+                        } else {
+                            this.pixabayRequest( query );
+                            this.localStorageRender( localStorageCity );
+                        }
+                        // If click on favorite city
+                        // if ( clickCity != userLocation.textContent ) {
+
+                        // } else {
+                        //     return
+                        // }
+                    }
+                    // Render last query city from localStorage
+                    this.renderFavoriteOnLoad()
+                    // Main 
+                    mainTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
+                    mainCondition.innerText = weather.upperFirstLetter( response2.weather[ 0 ].description );
+                    mainIcon.innerHTML = animationIcon( response2.weather[ 0 ].icon );
+                    // sunrise, sunset 
+                    mainDawn.innerHTML = this.msToTime( response2.sys.sunrise );
+                    mainSunset.innerHTML = this.msToTime( response2.sys.sunset );
+                    // Detail   
+                    // detailTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
+                    // detailFeel.innerHTML = Math.round( response2.main.feels_like ) + '&#176;';
+                    // detailCloud.innerHTML = Math.round( response2.clouds.all ) + '%';
+                    // detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
+                    // detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
+                    // detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
+
+                }
+            } )
     }
     // Init chain
     init() {

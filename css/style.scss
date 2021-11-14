@@ -132,26 +132,21 @@ header {
     word-wrap: break-word;
 }
 .star {
+    font-size: 2rem;
     width: fit-content;
-    margin: 0px 20px;
-    margin-top: 60px;
-
-    visibility: hidden;
+    height: fit-content;
     font-size: 50px !important;
     cursor: pointer;
     color: white;
-    align-self: center;
 }
-.star:before {
-    // margin-top: 0px !important;
-    content: "\2605";
-    position: absolute;
-    visibility: visible;
-}
-.star:checked:before {
-    content: "\2606";
-    // margin-top: 0px !important;
-    position: absolute;
+#favorite-star {
+    font-size: 1.8rem !important;
+    margin-right: 5px;
+    z-index: 5;
+
+    &:hover {
+        color: rgb(0, 0, 0);
+    }
 }
 .main-info {
     width: fit-content;
@@ -168,7 +163,11 @@ header {
     &_temp-location {
         margin-left: -10px;
         display: flex;
-        align-items: end;
+        align-items: flex-end;
+
+        .star {
+            justify-self: end;
+        }
     }
 }
 // Date and weather icon
@@ -222,15 +221,25 @@ header {
             margin: 0;
             padding: 0;
             border: none;
-            padding: 5px 10px;
+            padding: 0px 13px;
             font-size: 0.8rem;
-            text-transform: uppercase;
             color: white;
             background-color: transparent;
             &:hover {
                 cursor: pointer;
-                background-color: rgba(255, 255, 255, 0.568);
+                filter: contrast(10);
+                background-color: rgba(255, 255, 255, 0.616);
             }
+            &:focus {
+                border: none;
+                outline: 2px solid white;
+                background-color: rgba(255, 255, 255, 0.616);
+                filter: contrast(10);
+            }
+        }
+        .favorite-city_clear {
+            width: 13px;
+            height: 13px;
             &:focus {
                 border: none;
                 outline: 2px solid white;

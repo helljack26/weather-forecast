@@ -166,29 +166,26 @@ header .logo-block .logo-shine {
 }
 
 .star {
+  font-size: 2rem;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  margin: 0px 20px;
-  margin-top: 60px;
-  visibility: hidden;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   font-size: 50px !important;
   cursor: pointer;
   color: white;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
 }
 
-.star:before {
-  content: "\2605";
-  position: absolute;
-  visibility: visible;
+#favorite-star {
+  font-size: 1.8rem !important;
+  margin-right: 5px;
+  z-index: 5;
 }
 
-.star:checked:before {
-  content: "\2606";
-  position: absolute;
+#favorite-star:hover {
+  color: black;
 }
 
 .main-info {
@@ -223,7 +220,12 @@ header .logo-block .logo-shine {
   display: flex;
   -webkit-box-align: end;
       -ms-flex-align: end;
-          align-items: end;
+          align-items: flex-end;
+}
+
+.main-info_temp-location .star {
+  -ms-grid-column-align: end;
+      justify-self: end;
 }
 
 #main-date {
@@ -292,19 +294,33 @@ header .logo-block .logo-shine {
   margin: 0;
   padding: 0;
   border: none;
-  padding: 5px 10px;
+  padding: 0px 13px;
   font-size: 0.8rem;
-  text-transform: uppercase;
   color: white;
   background-color: transparent;
 }
 
 #favorite-city .favorite-city-header #clear-localstorage:hover {
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.568);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
+  background-color: rgba(255, 255, 255, 0.616);
 }
 
 #favorite-city .favorite-city-header #clear-localstorage:focus {
+  border: none;
+  outline: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.616);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
+}
+
+#favorite-city .favorite-city-header .favorite-city_clear {
+  width: 13px;
+  height: 13px;
+}
+
+#favorite-city .favorite-city-header .favorite-city_clear:focus {
   border: none;
   outline: 2px solid white;
   background-color: rgba(255, 255, 255, 0.616);
@@ -902,73 +918,73 @@ header .logo-block .logo-shine {
 }
 
 .snow-svg .snowflake:nth-child(1) {
-  -webkit-animation: fall-counterclockwise 3381ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3381ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2133ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2133ms ease-in forwards infinite;
   -webkit-animation-delay: 0.1s;
           animation-delay: 0.1s;
 }
 
 .snow-svg .snowflake:nth-child(2) {
-  -webkit-animation: fall-clockwise 3248ms ease-in forwards infinite;
-          animation: fall-clockwise 3248ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s;
+  -webkit-animation: fall-clockwise 2876ms ease-in forwards infinite;
+          animation: fall-clockwise 2876ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
 }
 
 .snow-svg .snowflake:nth-child(3) {
-  -webkit-animation: fall-counterclockwise 3506ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3506ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.9s;
-          animation-delay: 0.9s;
+  -webkit-animation: fall-counterclockwise 3356ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3356ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 
 .snow-svg .snowflake:nth-child(4) {
-  -webkit-animation: fall-clockwise 2176ms ease-in forwards infinite;
-          animation: fall-clockwise 2176ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 3170ms ease-in forwards infinite;
+          animation: fall-clockwise 3170ms ease-in forwards infinite;
   -webkit-animation-delay: 0.8s;
           animation-delay: 0.8s;
 }
 
 .snow-svg .snowflake:nth-child(5) {
-  -webkit-animation: fall-counterclockwise 2530ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2530ms ease-in forwards infinite;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation: fall-counterclockwise 2600ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2600ms ease-in forwards infinite;
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
 }
 
 .snow-svg .snowflake:nth-child(6) {
-  -webkit-animation: fall-clockwise 3376ms ease-in forwards infinite;
-          animation: fall-clockwise 3376ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.6s;
-          animation-delay: 0.6s;
+  -webkit-animation: fall-clockwise 3334ms ease-in forwards infinite;
+          animation: fall-clockwise 3334ms ease-in forwards infinite;
+  -webkit-animation-delay: 1.8s;
+          animation-delay: 1.8s;
 }
 
 .snow-svg .snowflake:nth-child(7) {
-  -webkit-animation: fall-counterclockwise 2123ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2123ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2026ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2026ms ease-in forwards infinite;
   -webkit-animation-delay: 2.1s;
           animation-delay: 2.1s;
 }
 
 .snow-svg .snowflake:nth-child(8) {
-  -webkit-animation: fall-clockwise 2232ms ease-in forwards infinite;
-          animation: fall-clockwise 2232ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.8s;
-          animation-delay: 0.8s;
+  -webkit-animation: fall-clockwise 3511ms ease-in forwards infinite;
+          animation: fall-clockwise 3511ms ease-in forwards infinite;
+  -webkit-animation-delay: 1.6s;
+          animation-delay: 1.6s;
 }
 
 .snow-svg .snowflake:nth-child(9) {
-  -webkit-animation: fall-counterclockwise 3320ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3320ms ease-in forwards infinite;
-  -webkit-animation-delay: 2.7s;
-          animation-delay: 2.7s;
+  -webkit-animation: fall-counterclockwise 3582ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3582ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.9s;
+          animation-delay: 0.9s;
 }
 
 .snow-svg .snowflake:nth-child(10) {
-  -webkit-animation: fall-clockwise 2762ms ease-in forwards infinite;
-          animation: fall-clockwise 2762ms ease-in forwards infinite;
-  -webkit-animation-delay: 3s;
-          animation-delay: 3s;
+  -webkit-animation: fall-clockwise 3631ms ease-in forwards infinite;
+          animation: fall-clockwise 3631ms ease-in forwards infinite;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
 }
 
 .snow-svg .snowflake-path {
