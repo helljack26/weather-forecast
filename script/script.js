@@ -82,6 +82,16 @@ class WeatherForecast {
             }
         }
     }
+    // Clear favorite
+    clearFavoriteBlock(){
+        clearFavorite.addEventListener('click', ()=>{
+            let length = localStorage.length;
+            favoriteCityContainer.style.display = 'none';
+            for ( let i = 0; i <= length; i++ ) {
+                localStorage.removeItem(`${i}`);
+            }
+        })
+    }
     // Constructor for localStorage
     localStorageConstructor( string ) {
         let obj = JSON.parse( string );
@@ -198,7 +208,7 @@ class WeatherForecast {
                             icon: animationIcon( response2.weather[ 0 ].icon ),
                             condition: weather.upperFirstLetter( response2.weather[ 0 ].description )
                         }
-                        // If click on last query city
+                        // If click on favorite city
                         if ( clickCity != undefined ) {
                             this.pixabayRequest( query );
                         } else {
@@ -208,7 +218,6 @@ class WeatherForecast {
                     }
                     // Render last query city from localStorage
                     this.renderLastOnLoad()
-
                     // Main 
                     mainTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
                     mainCondition.innerText = weather.upperFirstLetter( response2.weather[ 0 ].description );
@@ -259,8 +268,11 @@ class WeatherForecast {
     init() {
         // Get user geolocation
         window.onload = this.getMyLocation();
+        // Clear favorite
+        this.clearFavoriteBlock()
+        // Date render
         this.dateConstructor();
-
+        // Interval for time
         setInterval( this.dateConstructor, 5000 );
     }
 }
