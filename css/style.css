@@ -42,7 +42,7 @@ header {
 
 header .logo-block {
   height: 40px;
-  margin-left: 40px;
+  margin-left: 70px;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
@@ -101,8 +101,8 @@ header .logo-block .logo-shine {
   display: grid;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-  -ms-grid-rows: 50vh auto;
-      grid-template-rows: 50vh auto;
+  -ms-grid-rows: 400px 1600px;
+      grid-template-rows: 400px 1600px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -136,9 +136,12 @@ header .logo-block .logo-shine {
   display: flex;
   -webkit-box-align: end;
       -ms-flex-align: end;
-          align-items: end;
-  padding-bottom: 20px;
-  padding-left: 40px;
+          align-items: flex-end;
+  position: relative;
+}
+
+.animation-container {
+  margin-bottom: -50px;
 }
 
 #main-temp {
@@ -151,8 +154,76 @@ header .logo-block .logo-shine {
   font-family: Arial;
 }
 
+#user-location {
+  font-size: 3rem;
+  margin-bottom: 0;
+  max-width: 260px;
+}
+
+#main-condition {
+  font-size: 1.8rem;
+  word-wrap: break-word;
+}
+
+.star {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0px 20px;
+  margin-top: 60px;
+  visibility: hidden;
+  font-size: 50px !important;
+  cursor: pointer;
+  color: white;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.star:before {
+  content: "\2605";
+  position: absolute;
+  visibility: visible;
+}
+
+.star:checked:before {
+  content: "\2606";
+  position: absolute;
+}
+
 .main-info {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   font-size: 1.3rem;
+  background-color: rgba(131, 131, 131, 0.74);
+  padding: 0px 30px;
+  padding-bottom: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.main-info_temp-location {
+  margin-left: -10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
 }
 
 #main-date {
@@ -162,59 +233,9 @@ header .logo-block .logo-shine {
 
 .card1 {
   padding: 0px !important;
+  height: 100%;
   position: relative;
-}
-
-#last-city {
-  position: relative;
-  width: 100%;
-  background-color: rgba(111, 111, 111, 0.527);
-}
-
-#last-city #last-city-block {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[5];
-      grid-template-columns: repeat(5, 1fr);
-  -ms-grid-rows: 1fr;
-      grid-template-rows: 1fr;
-}
-
-#last-city .last-city-header {
-  background-color: rgba(131, 131, 131, 0.74);
-  padding: 6px 20px;
-  position: absolute;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  top: -40px;
-  width: 100%;
-  text-align: left;
-}
-
-#last-city .last-city_item {
-  width: 100%;
-  background-color: rgba(131, 131, 131, 0.74);
-  color: white;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 0px 5px;
-  cursor: pointer;
-  -webkit-transition: all 0.3ms ease-in-out;
-  transition: all 0.3ms ease-in-out;
-}
-
-#last-city .last-city_item:hover {
-  background-color: rgba(41, 41, 41, 0.946);
-  color: #d8d8d8;
-}
-
-#last-city .last-city_item .local-temp {
-  font-size: 3rem;
-}
-
-#last-city .last-city_item .local-city {
-  font-size: 1.8rem !important;
+  background-color: rgba(240, 230, 140, 0.575);
 }
 
 .animation-icon {
@@ -231,19 +252,186 @@ header .logo-block .logo-shine {
           align-items: center;
 }
 
+#favorite-city {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  overflow: hidden;
+  height: 100%;
+}
+
+#favorite-city .favorite-city-header {
+  background-color: rgba(95, 95, 95, 0.733);
+  background-color: rgba(131, 131, 131, 0.74);
+  position: absolute;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  top: 10px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#favorite-city .favorite-city-header p {
+  margin: 0;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+#favorite-city .favorite-city-header #clear-localstorage {
+  margin: 0;
+  padding: 0;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: white;
+  background-color: transparent;
+}
+
+#favorite-city .favorite-city-header #clear-localstorage:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.568);
+}
+
+#favorite-city .favorite-city-header #clear-localstorage:focus {
+  border: none;
+  outline: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.616);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
+}
+
+#favorite-city-block {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: 48px;
+  position: relative;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: (1fr)[5];
+      grid-template-rows: repeat(5, 1fr);
+}
+
+#favorite-city-block::-webkit-scrollbar {
+  width: 0px;
+}
+
+#favorite-city-block::-webkit-scrollbar-track {
+  border-radius: 0px;
+}
+
+#favorite-city-block::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#929292), to(#272727));
+  background: linear-gradient(180deg, #929292, #272727);
+}
+
+#favorite-city .favorite-city_item {
+  justify-self: end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 100%;
+  margin: 5px 0px;
+  background-color: rgba(131, 131, 131, 0.74);
+  color: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0px 5px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+#favorite-city .favorite-city_item:hover {
+  background-color: rgba(41, 41, 41, 0.946);
+  color: #d8d8d8;
+}
+
+#favorite-city .favorite-city_item .local-temp {
+  font-size: 2.5rem;
+  margin-bottom: 0 !important;
+}
+
+#favorite-city .favorite-city_item .local-city {
+  font-size: 1.2rem !important;
+}
+
+#favorite-city .favorite-city_item .favorite-city_row {
+  padding: 0 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#favorite-city .favorite-city_item .favorite-city_row-icon p {
+  margin: 0;
+  margin-left: 5px;
+}
+
+#favorite-city .favorite-city_item .favorite-city_row .local-city {
+  max-width: 150px;
+  word-wrap: normal;
+}
+
+#favorite-city .favorite-city_item .favorite-city_row .animation-icon {
+  height: 30px !important;
+  max-width: 50px !important;
+}
+
 #search-form {
   margin-right: 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: 32%;
+  width: 30%;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 60px;
       grid-template-columns: 1fr 60px;
 }
 
-input {
-  background-color: transparent;
+#search-forecast {
+  background-color: rgba(255, 255, 255, 0.493);
   padding: 8px 10px 8px 10px !important;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -252,7 +440,7 @@ input {
   color: #fff;
 }
 
-input:focus {
+#search-forecast:focus {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-box-shadow: none !important;
@@ -261,7 +449,7 @@ input:focus {
   font-weight: 400;
 }
 
-input:focus-visible {
+#search-forecast:focus-visible {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   outline: none;
@@ -337,7 +525,11 @@ input:focus-visible {
 }
 
 .fa-search:focus {
-  outline: none;
+  border: none;
+  outline: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.616);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
 }
 
 .fa-search:hover {
@@ -359,27 +551,6 @@ input:focus-visible {
 .error-text {
   position: absolute;
   left: 20%;
-}
-
-.star {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-top: -50px !important;
-  visibility: hidden;
-  font-size: 60px !important;
-  cursor: pointer;
-}
-
-.star:before {
-  content: "\2605";
-  position: absolute;
-  visibility: visible;
-}
-
-.star:checked:before {
-  content: "\2606";
-  position: absolute;
 }
 
 .light-text {
@@ -424,7 +595,7 @@ input:focus-visible {
     height: -moz-fit-content;
     height: fit-content;
   }
-  #last-city-block {
+  #favorite-city-block {
     -ms-grid-columns: (1fr)[3] !important;
         grid-template-columns: repeat(3, 1fr) !important;
     height: 100% !important;
@@ -451,11 +622,11 @@ input:focus-visible {
   .card1 {
     position: relative;
   }
-  #last-city {
+  #favorite-city {
     position: relative;
     margin-top: 60px;
   }
-  #last-city-block {
+  #favorite-city-block {
     -ms-grid-columns: (1fr)[3] !important;
         grid-template-columns: repeat(3, 1fr) !important;
     -ms-grid-rows: 2fr !important;
@@ -500,11 +671,11 @@ input:focus-visible {
   .card2-block::-webkit-scrollbar {
     display: none;
   }
-  #last-city {
+  #favorite-city {
     position: relative;
     margin-top: 60px;
   }
-  #last-city-block {
+  #favorite-city-block {
     -ms-grid-columns: (1fr)[2] !important;
         grid-template-columns: repeat(2, 1fr) !important;
     -ms-grid-rows: 3fr !important;
@@ -731,73 +902,73 @@ input:focus-visible {
 }
 
 .snow-svg .snowflake:nth-child(1) {
-  -webkit-animation: fall-counterclockwise 3404ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3404ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 3381ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3381ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+}
+
+.snow-svg .snowflake:nth-child(2) {
+  -webkit-animation: fall-clockwise 3248ms ease-in forwards infinite;
+          animation: fall-clockwise 3248ms ease-in forwards infinite;
   -webkit-animation-delay: 0.2s;
           animation-delay: 0.2s;
 }
 
-.snow-svg .snowflake:nth-child(2) {
-  -webkit-animation: fall-clockwise 3332ms ease-in forwards infinite;
-          animation: fall-clockwise 3332ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.6s;
-          animation-delay: 0.6s;
-}
-
 .snow-svg .snowflake:nth-child(3) {
-  -webkit-animation: fall-counterclockwise 2936ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2936ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 3506ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3506ms ease-in forwards infinite;
   -webkit-animation-delay: 0.9s;
           animation-delay: 0.9s;
 }
 
 .snow-svg .snowflake:nth-child(4) {
-  -webkit-animation: fall-clockwise 2367ms ease-in forwards infinite;
-          animation: fall-clockwise 2367ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.2s;
-          animation-delay: 1.2s;
+  -webkit-animation: fall-clockwise 2176ms ease-in forwards infinite;
+          animation: fall-clockwise 2176ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
 }
 
 .snow-svg .snowflake:nth-child(5) {
-  -webkit-animation: fall-counterclockwise 3850ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3850ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2530ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2530ms ease-in forwards infinite;
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
 
 .snow-svg .snowflake:nth-child(6) {
-  -webkit-animation: fall-clockwise 2582ms ease-in forwards infinite;
-          animation: fall-clockwise 2582ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 3376ms ease-in forwards infinite;
+          animation: fall-clockwise 3376ms ease-in forwards infinite;
   -webkit-animation-delay: 0.6s;
           animation-delay: 0.6s;
 }
 
 .snow-svg .snowflake:nth-child(7) {
-  -webkit-animation: fall-counterclockwise 3465ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3465ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.7s;
-          animation-delay: 0.7s;
+  -webkit-animation: fall-counterclockwise 2123ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2123ms ease-in forwards infinite;
+  -webkit-animation-delay: 2.1s;
+          animation-delay: 2.1s;
 }
 
 .snow-svg .snowflake:nth-child(8) {
-  -webkit-animation: fall-clockwise 2081ms ease-in forwards infinite;
-          animation: fall-clockwise 2081ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 2232ms ease-in forwards infinite;
+          animation: fall-clockwise 2232ms ease-in forwards infinite;
   -webkit-animation-delay: 0.8s;
           animation-delay: 0.8s;
 }
 
 .snow-svg .snowflake:nth-child(9) {
-  -webkit-animation: fall-counterclockwise 2126ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2126ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 3320ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3320ms ease-in forwards infinite;
   -webkit-animation-delay: 2.7s;
           animation-delay: 2.7s;
 }
 
 .snow-svg .snowflake:nth-child(10) {
-  -webkit-animation: fall-clockwise 3015ms ease-in forwards infinite;
-          animation: fall-clockwise 3015ms ease-in forwards infinite;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation: fall-clockwise 2762ms ease-in forwards infinite;
+          animation: fall-clockwise 2762ms ease-in forwards infinite;
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
 }
 
 .snow-svg .snowflake-path {

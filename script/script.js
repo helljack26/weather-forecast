@@ -19,8 +19,9 @@ const mainSunset = document.getElementById( 'main-sunset' )
 // Error field
 const errorField = document.getElementById( 'error-field' )
 // Last query block
-const lastCityContainer = document.getElementById( 'last-city' )
-const lastQueryBlock = document.getElementById( 'last-city-block' )
+const favoriteCityContainer = document.getElementById( 'favorite-city' );
+const favoriteQueryBlock = document.getElementById( 'favorite-city-block' );
+const clearFavorite = document.getElementById( 'clear-localstorage' );
 // Detail field
 const detailTemp = document.getElementById( 'detail-temp' )
 const detailFeel = document.getElementById( 'detail-feel' )
@@ -70,12 +71,13 @@ class WeatherForecast {
         if ( localStorage[ 0 ] == null ) {
             return
         } else {
+            console.log('work');
             if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
-                lastQueryBlock.innerHTML = '';
-                lastCityContainer.style.display = 'block'
+                favoriteQueryBlock.innerHTML = '';
+                favoriteCityContainer.style.display = 'block'
                 let array = Array.from( localStorage )
                 array.forEach( element => {
-                    lastQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
+                    favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
                 } );
             }
         }
@@ -84,15 +86,15 @@ class WeatherForecast {
     localStorageConstructor( string ) {
         let obj = JSON.parse( string );
         let htmlItem = `
-        <div class="last-city_item" onclick="weather.sendRequest('', undefined, undefined, '${obj.city}')">
-            <div class="last-city_row">
+        <div class="favorite-city_item" onclick="weather.sendRequest('', undefined, undefined, '${obj.city}')">
+            <div class="favorite-city_row">
                 <!-- LocalStorage Item -->
-                <div class="d-flex justify-content-center mt-1">
+                <div class="d-flex justify-content-center align-items-center ">
                     <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
-                    <h2 class="local-city mt-3 mb-0">${obj.city}</h2>
+                    <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
                 </div>
                 <!-- Animation icon -->
-                <div class="d-flex flex-column align-items-center text-center">
+                <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
                     <div class="animation-icon">${obj.icon}</div>
                     <p>${obj.condition}</p>
                 </div>
@@ -110,19 +112,18 @@ class WeatherForecast {
         // If localStorage length biger than 4, first item remove
         if ( length < 5 ) {
             localStorage.setItem( `${length}`, localStorageItem );
-            lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
+            favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
         } else if ( length == 5 ) {
-            lastQueryBlock.innerHTML = '';
+            favoriteQueryBlock.innerHTML = '';
             localStorage.removeItem( '0' )
-
             function rewriteBlock() {
                 for ( let i = 0; i <= length; i++ ) {
                     if ( i < 4 ) {
                         localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
-                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
+                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
                     } else if ( i == 4 ) {
                         localStorage.setItem( `4`, localStorageItem );
-                        lastQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
+                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
                     } else {
                         return
                     }

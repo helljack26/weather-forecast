@@ -33,7 +33,7 @@ header {
 
     .logo-block {
         height: 40px;
-        margin-left: 40px;
+        margin-left: 70px;
         align-self: center;
         position: relative;
         .logo {
@@ -83,7 +83,7 @@ header {
     height: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 50vh auto;
+    grid-template-rows: 400px 1600px;
     justify-content: center;
     align-items: center;
     overflow-y: scroll;
@@ -107,9 +107,11 @@ header {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: end;
-    padding-bottom: 20px;
-    padding-left: 40px;
+    align-items: flex-end;
+    position: relative;
+}
+.animation-container {
+    margin-bottom: -50px;
 }
 #main-temp {
     padding: 0;
@@ -120,8 +122,54 @@ header {
     font-size: 10rem;
     font-family: Arial;
 }
+#user-location {
+    font-size: 3rem;
+    margin-bottom: 0;
+    max-width: 260px;
+}
+#main-condition {
+    font-size: 1.8rem;
+    word-wrap: break-word;
+}
+.star {
+    width: fit-content;
+    margin: 0px 20px;
+    margin-top: 60px;
+
+    visibility: hidden;
+    font-size: 50px !important;
+    cursor: pointer;
+    color: white;
+    align-self: center;
+}
+.star:before {
+    // margin-top: 0px !important;
+    content: "\2605";
+    position: absolute;
+    visibility: visible;
+}
+.star:checked:before {
+    content: "\2606";
+    // margin-top: 0px !important;
+    position: absolute;
+}
 .main-info {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     font-size: 1.3rem;
+    background-color: $blockBg;
+    padding: 0px 30px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+
+    &_temp-location {
+        margin-left: -10px;
+        display: flex;
+        align-items: end;
+    }
 }
 // Date and weather icon
 #main-date {
@@ -131,55 +179,9 @@ header {
 
 .card1 {
     padding: 0px !important;
+    height: 100%;
     position: relative;
-}
-// Localstorage city
-#last-city {
-    position: relative;
-    width: 100%;
-    background-color: rgba(111, 111, 111, 0.527);
-
-    #last-city-block {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: 1fr;
-    }
-
-    .last-city-header {
-        background-color: $blockBg;
-        padding: 6px 20px;
-        position: absolute;
-        color: rgb(255, 255, 255);
-        font-size: 1.5rem;
-        font-weight: bold;
-        top: -40px;
-        width: 100%;
-        text-align: left;
-    }
-
-    .last-city_item {
-        width: 100%;
-        background-color: $blockBg;
-        color: rgb(255, 255, 255);
-        box-sizing: border-box;
-        padding: 0px 5px;
-
-        cursor: pointer;
-        transition: all 0.3ms ease-in-out;
-
-        &:hover {
-            background-color: rgba(41, 41, 41, 0.946);
-            color: rgb(216, 216, 216);
-        }
-
-        .local-temp {
-            font-size: 3rem;
-        }
-
-        .local-city {
-            font-size: 1.8rem !important;
-        }
-    }
+    background-color: rgba(240, 230, 140, 0.575);
 }
 .animation-icon {
     height: 70px;
@@ -188,19 +190,145 @@ header {
     justify-content: center;
     align-items: center;
 }
+// Favorite city
+#favorite-city {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: fit-content;
+    overflow: hidden;
+    height: 100%;
+    // background-color: rgba(111, 111, 111, 0.527);
+
+    .favorite-city-header {
+        background-color: rgba(95, 95, 95, 0.733);
+        background-color: $blockBg;
+        position: absolute;
+        color: rgb(255, 255, 255);
+        font-size: 1rem;
+        font-weight: bold;
+        top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        p {
+            margin: 0;
+            padding: 5px;
+            padding-left: 10px;
+        }
+        #clear-localstorage {
+            margin: 0;
+            padding: 0;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: white;
+            background-color: transparent;
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(255, 255, 255, 0.568);
+            }
+            &:focus {
+                border: none;
+                outline: 2px solid white;
+                background-color: rgba(255, 255, 255, 0.616);
+                filter: contrast(10);
+            }
+        }
+    }
+    &-block {
+        box-sizing: border-box;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        margin-top: 48px;
+        position: relative;
+        height: fit-content;
+        width: fit-content;
+        display: grid;
+        justify-content: flex-end;
+        align-items: flex-start;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+    }
+    // Scroll
+    &-block::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    &-block::-webkit-scrollbar-track {
+        // background-color: #f9f9fd;
+        border-radius: 0px;
+    }
+
+    &-block::-webkit-scrollbar-thumb {
+        border-radius: 0px;
+        background: linear-gradient(180deg, #929292, #272727);
+    }
+    .favorite-city_item {
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        height: fit-content;
+        width: 100%;
+        margin: 5px 0px;
+        background-color: $blockBg;
+        color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        padding: 0px 5px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(41, 41, 41, 0.946);
+            color: rgb(216, 216, 216);
+        }
+
+        .local-temp {
+            font-size: 2.5rem;
+            margin-bottom: 0 !important;
+        }
+
+        .local-city {
+            font-size: 1.2rem !important;
+        }
+        .favorite-city_row {
+            padding: 0 10px;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            &-icon {
+                p {
+                    margin: 0;
+                    margin-left: 5px;
+                }
+            }
+            .local-city {
+                max-width: 150px;
+                word-wrap: normal;
+            }
+            .animation-icon {
+                height: 30px !important;
+                max-width: 50px !important;
+            }
+        }
+    }
+}
 
 // Form
 #search-form {
     margin-right: 0px;
     box-sizing: border-box;
-    width: 32%;
+    width: 30%;
     display: grid;
     grid-template-columns: 1fr 60px;
 }
 // Input
-input {
-    // width: 10%;
-    background-color: transparent;
+#search-forecast {
+    background-color: rgba(255, 255, 255, 0.493);
     padding: 8px 10px 8px 10px !important;
     box-sizing: border-box;
     border: none !important;
@@ -276,7 +404,10 @@ input {
     border-left: 1px solid $headerBg;
 
     &:focus {
-        outline: none;
+        border: none;
+        outline: 2px solid white;
+        background-color: rgba(255, 255, 255, 0.616);
+        filter: contrast(10);
     }
 
     &:hover {
@@ -296,22 +427,6 @@ input {
 .error-text {
     position: absolute;
     left: 20%;
-}
-.star {
-    width: fit-content;
-    margin-top: -50px !important;
-    visibility: hidden;
-    font-size: 60px !important;
-    cursor: pointer;
-}
-.star:before {
-    content: "\2605";
-    position: absolute;
-    visibility: visible;
-}
-.star:checked:before {
-    content: "\2606";
-    position: absolute;
 }
 
 .light-text {
@@ -349,7 +464,7 @@ input {
         height: fit-content;
     }
 
-    #last-city-block {
+    #favorite-city-block {
         grid-template-columns: repeat(3, 1fr) !important;
         height: 100% !important;
         grid-template-rows: 2fr !important;
@@ -377,12 +492,12 @@ input {
         position: relative;
     }
 
-    #last-city {
+    #favorite-city {
         position: relative;
         margin-top: 60px;
     }
 
-    #last-city-block {
+    #favorite-city-block {
         grid-template-columns: repeat(3, 1fr) !important;
         grid-template-rows: 2fr !important;
         column-gap: 10px;
@@ -425,12 +540,12 @@ input {
         display: none;
     }
 
-    #last-city {
+    #favorite-city {
         position: relative;
         margin-top: 60px;
     }
 
-    #last-city-block {
+    #favorite-city-block {
         grid-template-columns: repeat(2, 1fr) !important;
         grid-template-rows: 3fr !important;
     }
