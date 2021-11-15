@@ -118,8 +118,6 @@ class WeatherForecast {
                 });
             }
             let cleanArray = uniq(array);
-            console.log(cleanArray);
-            console.log(localStorage);
             cleanArray.forEach( element => {
                 favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
             } );
@@ -137,7 +135,6 @@ class WeatherForecast {
         // document.getElementById( 'favorite-star' ).addEventListener( 'mouseenter', ( e ) => {
         //     console.log( e );
         // } )
-
     }
     // Constructor for localStorage
     localStorageConstructor( string ) {
@@ -163,6 +160,27 @@ class WeatherForecast {
     }
     //LocalStorage 
     localStorageRender( cityObj ) {
+        const addToFavorite = document.getElementById( 'star' );
+        
+        function check(){
+            // document.querySelector( '.main-info_temp-location' ).removeChild( star )
+            for (let i = 0; i < localStorage.length; i++) {
+                let city = JSON.parse(localStorage[i]);
+                if(city.city!= userLocation.textContent){
+                    return false
+                }else if (city.city== userLocation.textContent){
+                    return true
+                }else{
+                    console.log('wrong');
+                }
+            }
+            
+            // document.querySelector( '.main-info_temp-location' ).appendChild( star )
+                        // Append star near Query location
+                        
+        }
+        check()
+        console.log(check());
         let localStorageItem = JSON.stringify( cityObj );
         // Push to localStorage with unique index
         let length = localStorage.length;
@@ -170,10 +188,18 @@ class WeatherForecast {
         // If localStorage length biger than 4, first item remove
         if ( length < 5 ) {
             if ( document.getElementById( 'star' ) != undefined ) {
-                const addToFavorite = document.getElementById( 'star' );
+                if(check()==true){
+                    addToFavorite.innerHTML = '&#9733;'
+                    console.log('33');
+                }else if(check()==false){
+                    addToFavorite.innerHTML = '&#9734;'
+                    console.log('34');
+                }else{
+                    
+                }
                 addToFavorite.addEventListener( 'click', function () {
                     if (clickCityFromSendRequest != userLocation.textContent){
-                        addToFavorite.innerHTML = '&#9733;'
+
                         localStorage.setItem( `${length}`, localStorageItem );
                         favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
                         weather.renderFavoriteOnLoad()
@@ -203,7 +229,12 @@ class WeatherForecast {
         } else {
             return
         }
+
         return 
+    }
+    // Waiting page
+    waitingPage(){
+
     }
     // Request to Pixabay
     pixabayRequest( queryCity ) {
@@ -263,11 +294,12 @@ class WeatherForecast {
                     return
                 } else {
                     if ( initialLoad == false ) {
+                        // const addToFavorite = document.getElementById( 'star' );
+                        // addToFavorite.innerHTML = '&#9734;'
                         // Render location   
                         userLocation.innerText = response2.name;
-                        // Append star near Query location
                         document.querySelector( '.main-info_temp-location' ).appendChild( star )
-                        // Request to Pixabay for setting background    
+
                         // Create object for localStorage
                         let localStorageCity = {
                             temp: response2.main.temp,
@@ -275,18 +307,13 @@ class WeatherForecast {
                             icon: animationIcon( response2.weather[ 0 ].icon ),
                             condition: weather.upperFirstLetter( response2.weather[ 0 ].description )
                         }
+                        // Request to Pixabay for setting background    
                         if ( clickCity != undefined ) {
                             this.pixabayRequest( query );
                         } else {
                             this.pixabayRequest( query );
                             this.localStorageRender( localStorageCity );
                         }
-                        // If click on favorite city
-                        // if ( clickCity != userLocation.textContent ) {
-
-                        // } else {
-                        //     return
-                        // }
                     }
                     // Render last query city from localStorage
                     this.renderFavoriteOnLoad()
