@@ -96,6 +96,75 @@ class WeatherForecast {
         let splitItem = split[ 4 ];
         return splitItem.slice( 0, 5 );
     }
+    // Render city from localStorage
+    renderFavoriteOnLoad() {
+        if ( localStorage[ 0 ] == null ) {
+            return
+        } else
+        if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
+            favoriteQueryBlock.innerHTML = '';
+            favoriteCityContainer.style.display = 'block'
+
+            let array = Array.from( localStorage )
+
+            function uniq( a ) {
+                return a.sort().filter( function ( item, pos, ary ) {
+
+                    return !pos || item != ary[ pos - 1 ];
+                } );
+            }
+            let cleanArray = uniq( array );
+            cleanArray.forEach( element => {
+                favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
+            } );
+        }
+    }
+    // Clear button
+    clearLatestQuery(){
+        clearFavorite.addEventListener( 'click', () => {
+            localStorage.clear()
+            favoriteCityContainer.style.display = 'none';
+            favoriteQueryBlock.innerHTML = '';
+        } )
+    }
+    //LocalStorage 
+    localStorageRender( cityObj ) {
+        let localStorageItem = JSON.stringify( cityObj );
+        // Push to localStorage with unique index
+        let length = localStorage.length;
+
+        if ( clickCityFromSendRequest != userLocation.textContent ) {
+            favoriteCityContainer.style.display = 'block';
+            localStorage.setItem( `${length}`, localStorageItem );
+            favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
+            weather.renderFavoriteOnLoad()
+        } else {
+            return
+        }
+        return
+    }
+
+    // Constructor for localStorage
+    localStorageConstructor( string ) {
+        let obj = JSON.parse( string );
+        let htmlItem = `
+    <div class="favorite-city_item" onclick='weather.sendRequest("", undefined, undefined, "${obj.city}")'>
+        <div class="favorite-city_row">
+            <!-- LocalStorage Item -->
+            <div class="d-flex justify-content-center align-items-center ">
+                <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
+                <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
+            </div>
+            <!-- Animation icon -->
+            <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
+                <div class="animation-icon">${obj.icon}</div>
+                <p>${obj.condition}</p>
+            </div>
+        </div>
+    </div>
+    `;
+        return htmlItem;
+    }
 
     // // Waiting page
     // waitingPage(){
@@ -121,7 +190,6 @@ class WeatherForecast {
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity ) {
-
         clickCityFromSendRequest = clickCity;
         // Set placeholder for input
         queryField.classList.remove( 'placeholderred' );
@@ -173,7 +241,7 @@ class WeatherForecast {
                             this.pixabayRequest( query );
                         } else {
                             this.pixabayRequest( query );
-                            
+
                             this.localStorageRender( localStorageCity );
                         }
                     }
@@ -196,7 +264,7 @@ class WeatherForecast {
 
                 }
             } )
-        
+
     }
     // Init chain
     init() {
@@ -204,6 +272,8 @@ class WeatherForecast {
         window.onload = this.getMyLocation();
         // Date render
         this.dateConstructor();
+        // Clear latest query block
+        this.clearLatestQuery()
         // Interval for time
         setInterval( this.dateConstructor, 5000 );
     }
