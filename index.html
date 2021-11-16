@@ -27,7 +27,17 @@
             <img src="./img/logo_v2_1.svg" alt="Logo" class="logo">
             <img src="./img/logo_v2_shine.svg" class="logo-shine" alt="logo shine">
         </div>
-        <div class="header-center">
+        <div class="radio-btn_block">
+
+<div class="container">
+    <form class="toggle">
+        <input type="radio" class="radio active" id="choice1" name="choice" value="Сегодня">
+        <label for="choice1">Сегодня</label>
+        <input type="radio" class='radio' id="choice2" name="choice" value="На неделю">
+        <label for="choice2">На неделю</label>
+        <div id="flap"><span class="content">На неделю</span></div>
+    </form>
+</div>
         </div>
         <form id="search-form" class="row " autocomplete="off">
             <input type="text" name="location" id="search-forecast" />
@@ -110,8 +120,10 @@
                                             </div> -->
                 </div>
                 <!-- Detail forecast -->
-                <div class="card1">
+                <div id="card-block">
+                    <div class="card1" id="card1">
 
+                    </div>
                 </div>
 
             </div>

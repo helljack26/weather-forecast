@@ -28,7 +28,7 @@ const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
 
 let clickCityFromSendRequest
-
+let time, initial = false;
 // Weather Forecast Class
 // localStorage.clear()
 class WeatherForecast {
@@ -72,7 +72,7 @@ class WeatherForecast {
         return
     }
     // Geocoder by query
-    geocodingFromQuery( city ) {
+    geocodingFromQuery( city, reloadData ) {
         var geocoding = `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&language=ru&key=AIzaSyBOGWIxyJbW7yq0oLxjmJBsycB0INmt0A4`;
         fetch( geocoding )
             .then( ( response1 ) => {
@@ -84,11 +84,11 @@ class WeatherForecast {
                     queryField.setAttribute( 'placeholder', "Такого города не существует" )
                     queryField.classList.add( 'placeholderred' );
                     return
-                }else{
+                } else {
                     let latitude = response2.results[ 0 ].geometry.location.lat;
                     let longitude = response2.results[ 0 ].geometry.location.lng;
                     query = response2.results[ 0 ].address_components[ 0 ].long_name;
-                    weather.sendRequest( false, latitude, longitude, false );
+                    weather.sendRequest( false, latitude, longitude, false, reloadData );
                 }
             } );
         return
@@ -108,13 +108,12 @@ class WeatherForecast {
         let month = new Intl.DateTimeFormat( 'ru-RU', optionsMonth ).format( now );
         // Split date to arr
         let dateArr = now.toString().split( ' ' );
+        if ( initial == true ) {
+            time = dateArr[ 4 ].slice( 0, 5 )
+        }
         // Parse to correct string
-        let dateString = `${dateArr[4].slice(0, 5)} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`
-        return document.getElementById( 'main-date' ).innerHTML = dateString;
-    }
-    // Query city current date
-    queryDate(){
-
+        let dateString = `${time} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`;
+        return mainDate.innerHTML = dateString;
     }
 
     // For convert UTC millisecond
@@ -258,31 +257,118 @@ class WeatherForecast {
     }
     // Radio button forecast handler 
     forecastTiming() {
+        const st = {};
+
+        st.flap = document.querySelector( '#flap' );
+        st.toggle = document.querySelector( '.toggle' );
+
+        st.choice1 = document.querySelector( '#choice1' );
+        st.choice2 = document.querySelector( '#choice2' );
+
+        st.flap.addEventListener( 'transitionend', () => {
+            if ( st.choice1.checked ) {
+                st.toggle.style.transform = 'rotateY(-15deg)';
+                setTimeout( () => st.toggle.style.transform = '', 400 );
+            } else {
+                st.toggle.style.transform = 'rotateY(15deg)';
+                setTimeout( () => st.toggle.style.transform = '', 400 );
+            }
+        } )
+        st.clickHandler = ( e ) => {
+            if ( e.target.tagName == 'LABEL' ) {
+                setTimeout( () => {
+                    st.flap.children[ 0 ].textContent = e.target.textContent;
+                }, 250 );
+            }
+        }
+
+        document.addEventListener( 'DOMContentLoaded', () => {
+            st.flap.children[ 0 ].textContent = st.choice2.nextElementSibling.textContent;
+        } );
+        document.addEventListener( 'click', ( e ) => st.clickHandler( e ) );
 
     }
-    // Radio button forecast handler 
-    currentForecast() {
 
+    // Radio button forecast handler 
+    currentForecast( initialLoad, response2, clickCity, reloadData ) {
+        // Query city time
+        this.currentDate( '', 10 );
+        if ( initialLoad == false ) {
+            // Render location   
+            userLocation.innerText = weather.upperFirstLetter( query );
+            queryField.setAttribute( 'placeholder', `${weather.upperFirstLetter( userLocation.innerText)}` );
+            // Set query date
+            let queryDate = new Date().toLocaleString( 'ru-RU', {
+                timeZone: `${response2.timezone}`
+            } );
+            time = queryDate.slice( -8, -3 )
+            weather.currentDate()
+            // this.queryDate(response2.timezone_offset)
+            // Create object for localStorage
+            let localStorageCity = {
+                temp: response2.current.temp,
+                city: weather.upperFirstLetter( query ),
+                icon: animationIcon( response2.current.weather[ 0 ].icon ),
+                condition: weather.upperFirstLetter( response2.current.weather[ 0 ].description )
+            }
+            weather.localStorageRender( localStorageCity );
+            // Request to Pixabay for setting background    
+            if ( clickCity != undefined && reloadData == undefined ) {
+                weather.pixabayRequest( query );
+            } else if ( reloadData == undefined ) {
+                console.log( query );
+                weather.pixabayRequest( query );
+                weather.localStorageRender( localStorageCity );
+            }
+            weather.localStorageRender( localStorageCity );
+        }
+        // console.log( response2 );
+        // Main 
+        mainTemp.innerHTML = Math.trunc( response2.current.temp ) + '&#176;';
+        mainCondition.innerText = weather.upperFirstLetter( response2.current.weather[ 0 ].description );
+        mainIcon.innerHTML = animationIcon( response2.current.weather[ 0 ].icon );
+        // sunrise, sunset 
+        mainDawn.innerHTML = this.msToTime( response2.current.sunrise );
+        mainSunset.innerHTML = this.msToTime( response2.current.sunset );
+
+        // Render hourly forecast
+     
+        let hourlyArray = response2.hourly
+        if ( initialLoad == true ) {
+            hourlyArray.forEach( e => {
+                const item = document.createElement( 'div' )
+                item.classList.add( 'card1-item' )
+                item.innerHTML = `
+                <p>${weather.msToTime(e.dt)}</p>
+                <h1 class=" item-temp">${Math.trunc(e.temp)}&#176;</h1>
+                <div class="animation-icon item-icon">${animationIcon( e.weather[ 0 ].icon) }</div>
+                <p>${e.weather[ 0 ].description}</p>
+            `
+                // console.log( e );
+                document.getElementById( 'card1' ).appendChild( item )
+            } )
+        }
     }
     // Radio button forecast handler 
     sevenDayForecast() {
 
     }
     // Request to openweathermap.org
-    sendRequest( initialLoad, lat, lon, clickCity ) {
-        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua';
+    sendRequest( initialLoad, lat, lon, clickCity, reloadData ) {
+        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=eb40569be873eddca9a3ad817c1a07fb&units=metric&lang=ua';
         clickCityFromSendRequest = clickCity;
+        initial = initialLoad;
         // Set placeholder for input
         queryField.classList.remove( 'placeholderred' );
         let urlQuery = '';
         // If have latitude and longtitude
         if ( lat != undefined && lon != undefined ) {
             urlQuery = url + `&lat=${lat}&lon=${lon}`;
-        } else if ( clickCity != false && clickCity != userLocation.textContent) {
-                return  weather.geocodingFromQuery( clickCity )
+        } else if ( clickCity != false && clickCity != userLocation.textContent ) {
+
+            weather.geocodingFromQuery( clickCity )
+            return
         } else {
-            this.spinner( true )
-            queryField.value = "Ничего не найдено";
             return
         }
         // Query to openweathermap api
@@ -291,52 +377,31 @@ class WeatherForecast {
                 return response1.json()
             } ).then( response2 => {
                 if ( response2.cod == '404' ) {
-                    this.spinner( true )
+                    weather.spinner( true )
                     queryField.setAttribute( 'placeholder', "Такого города не существует" )
                     queryField.classList.add( 'placeholderred' );
                     return
                 } else {
-                    console.log( response2 );
-                    if ( initialLoad == false ) {
-                        // Spinner while query loading
-                        this.spinner()
-                        // Render location   
-                        userLocation.innerText = weather.upperFirstLetter( query );
-                        queryField.setAttribute( 'placeholder', `${weather.upperFirstLetter( userLocation.innerText)}` );
-                        // Query city time
-                        this.currentDate( '', 10 );
-                        // Create object for localStorage
-                        let localStorageCity = {
-                            temp: response2.current.temp,
-                            city: weather.upperFirstLetter( query ),
-                            icon: animationIcon( response2.current.weather[ 0 ].icon ),
-                            condition: weather.upperFirstLetter( response2.current.weather[ 0 ].description )
-                        }
-                        this.localStorageRender( localStorageCity );
-                        // Request to Pixabay for setting background    
-                        if ( clickCity != undefined ) {
-                            this.pixabayRequest( query );
-                        } else {
-                            this.pixabayRequest( query );
-                            this.localStorageRender( localStorageCity );
-                        }
-                    }
                     // Render last query city from localStorage
-                    this.renderFavoriteOnLoad()
-                    // Main 
-                    mainTemp.innerHTML = Math.trunc( response2.current.temp ) + '&#176;';
-                    mainCondition.innerText = weather.upperFirstLetter( response2.current.weather[ 0 ].description );
-                    mainIcon.innerHTML = animationIcon( response2.current.weather[ 0 ].icon );
-                    // sunrise, sunset 
-                    mainDawn.innerHTML = this.msToTime( response2.current.sunrise );
-                    mainSunset.innerHTML = this.msToTime( response2.current.sunset );
-                    // Detail   
-                    // detailTemp.innerHTML = Math.trunc( response2.main.temp ) + '&#176;';
-                    // detailFeel.innerHTML = Math.round( response2.main.feels_like ) + '&#176;';
-                    // detailCloud.innerHTML = Math.round( response2.clouds.all ) + '%';
-                    // detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
-                    // detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
-                    // detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
+                    if ( reloadData == undefined ) {
+                        weather.spinner()
+                        this.renderFavoriteOnLoad()
+                    }
+                    // Spinner while query loading
+                    if ( initialLoad == true ) {
+                        weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                    }
+                    weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                    document.addEventListener( 'click', ( e ) => {
+                        if ( e.target.tagName == 'LABEL' ) {
+                            if ( e.target.textContent != 'Сегодня' ) {
+                                return weather.sevenDayForecast()
+                            } else {
+                                return weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                            }
+                        }
+                    } )
+
                 }
             } )
     }
@@ -344,12 +409,18 @@ class WeatherForecast {
     init() {
         // Spinner
         this.spinner()
+        // Control
+        weather.forecastTiming()
         // Get user geolocation
         window.onload = this.getMyLocation();
         // Clear latest query block
         this.clearLatestQuery()
         // Interval for time
         setInterval( this.currentDate, 5000 );
+        setInterval( () => {
+            weather.geocodingFromQuery( userLocation.innerText, true )
+        }, 5000 );
+
     }
 }
 // Create new class
@@ -368,9 +439,15 @@ form.addEventListener( 'submit', e => {
     e.preventDefault()
     queryField.value = '';
     if ( query != null ) {
+
+        weather.spinner()
         weather.geocodingFromQuery( query )
     }
 } )
+
+
+
+
 // Animation query icon
 function animationIcon( iconId ) {
     let animatedIcon

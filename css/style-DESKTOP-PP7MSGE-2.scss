@@ -7,14 +7,13 @@ $headerBg: rgb(70, 70, 70);
     --font-size: 30px;
 }
 body {
-    // user-select: none;
+    user-select: none;
     color: #fff;
     overflow-x: hidden;
     overflow-y: hidden;
     position: relative;
     font-family: sans-serif;
     height: 100vh;
-    width: 100%;
     background: #c2e59c;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c);
@@ -261,15 +260,9 @@ header {
     margin-bottom: 0 !important;
 }
 #card-block {
-    width: 100%;
-}
-#card1 {
-    width: 100vw;
-    height: fit-content;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    // overflow: hidden;
-
+    width: fit-content;
+    height: 100%;
+    z-index: 100;
     // Scroll
     &::-webkit-scrollbar {
         width: 10px;
@@ -284,30 +277,38 @@ header {
         border-radius: 10px;
         background: linear-gradient(180deg, #929292, #272727);
     }
+}
+#card1 {
     padding: 0px !important;
+    height: 100%;
+    width: 100vw;
     position: relative;
     background-color: rgba(240, 230, 140, 0.575);
-
+    overflow-y: hidden;
+    overflow-x: scroll;
     display: flex;
     padding: 20px 0px;
+    justify-content: start;
     // pointer-events: visible;
     .card1-item {
         text-align: center;
         background-color: rgba(128, 128, 128, 0.801);
-        width: 40%;
-        height: 180px;
+        width: 30%;
+        height: 150px;
         margin: 0px 5px;
         padding: 10px;
         justify-content: center;
         align-items: center;
-        // z-index: 99;
+        z-index{
+            
+        }
         p {
             padding: 0;
         }
         .item-icon {
-            margin-top: -10px;
+            margin-top: -30px;
         }
-        .item-temp {
+        .item-temp{
             margin-top: -20px;
             margin-bottom: 0;
         }
