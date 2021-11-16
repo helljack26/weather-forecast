@@ -281,7 +281,7 @@ header {
         align-items: center;
         height: fit-content;
         width: 100%;
-        margin: 5px 0px;
+        margin: 2px 0px;
         background-color: $blockBg;
         color: rgb(255, 255, 255);
         box-sizing: border-box;
@@ -348,11 +348,15 @@ header {
         -moz-box-shadow: none !important;
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
+        background-color: rgba(255, 255, 255, 0.131);
         outline-width: 0;
         font-weight: 400;
-        // color: white;
+        color: white;
     }
-
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.131);
+        color: white;
+    }
     &:focus-visible {
         -moz-box-shadow: none !important;
         -webkit-box-shadow: none !important;
@@ -462,7 +466,63 @@ header {
     flex-direction: column;
     justify-content: center;
 }
-
+// Spinner
+#content_wrapper {
+    pointer-events: none;
+    position: relative;
+}
+.loader-block {
+    z-index: 900;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    user-select: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #c2e59c;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #64b3f4, #c2e59c);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.loader-item {
+    margin-left: 20px;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+.loader-item_bg {
+    width: 600px;
+    height: 200px;
+}
+.loader {
+    z-index: 1000;
+    color: transparent;
+    background-image: url("../img/logo_v2_shine.svg");
+    background-position: center;
+    background-size: cover;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 87px;
+    height: 87px;
+    border-radius: 50%;
+    position: absolute;
+    top: 55px;
+    left: -25px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+    animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+}
 //// Media query
 @media screen and (max-width: 1100px) {
     body {
@@ -473,7 +533,7 @@ header {
     }
 
     #favorite-city-block {
-        grid-template-columns: repeat(3, 1fr) !important;
+        // grid-template-columns: repeat(3, 1fr) !important;
         height: 100% !important;
         grid-template-rows: 2fr !important;
     }
@@ -559,62 +619,6 @@ header {
     }
 }
 
-#content_wrapper {
-    pointer-events: none;
-    position: relative;
-}
-.loader-block {
-    z-index: 900;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    user-select: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: #c2e59c;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #64b3f4, #c2e59c);
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.loader-item {
-    margin-left: 20px;
-    width: fit-content;
-    height: fit-content;
-    position: relative;
-}
-.loader-item_bg {
-    width: 600px;
-    height: 200px;
-}
-.loader {
-    z-index: 1000;
-    color: transparent;
-    background-image: url("../img/logo_v2_shine.svg");
-    background-position: center;
-    background-size: cover;
-    text-indent: -9999em;
-    overflow: hidden;
-    width: 87px;
-    height: 87px;
-    border-radius: 50%;
-    position: absolute;
-    top: 55px;
-    left: -25px;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
-    animation: load6 1.7s infinite ease, round 1.7s infinite ease;
-}
 @-webkit-keyframes load6 {
     0% {
         box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em,
