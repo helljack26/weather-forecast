@@ -39,6 +39,13 @@ const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
 
 let clickCityFromSendRequest
+
+clearFavorite.addEventListener( 'click', () => {
+    localStorage.clear()
+    star.innerHTML = '&#9734;'
+    favoriteCityContainer.style.display = 'none';
+    favoriteCityContainer.innerHTML = '';
+} )
 // localStorage.clear()
 // Weather Forecast Class
 class WeatherForecast {
@@ -72,9 +79,11 @@ class WeatherForecast {
                 return response1.json();
             } )
             .then( ( response2 ) => {
-                let compoundCode = response2.plus_code.compound_code.split( ' ' );
+                let compoundCode = response2.results[ 1 ].formatted_address.split( ' ' );
+                let compoundCodePixabay = response2.plus_code.compound_code.split( ' ' );
                 userLocation.innerText = compoundCode[ 1 ].slice( 0, -1 );
-                weather.pixabayRequest( compoundCode[ 1 ].slice( 0, -1 ) );
+                queryField.setAttribute( 'placeholder', `${compoundCode[ 1 ].slice( 0, -1 )+', '+compoundCode[ 2 ].slice( 0, -1 )}` );
+                weather.pixabayRequest( compoundCodePixabay[ 1 ].slice( 0, -1 ) );
                 weather.sendRequest( true, latitude, longitude, false );
             } );
         return
@@ -105,37 +114,31 @@ class WeatherForecast {
         if ( localStorage[ 0 ] == null ) {
             return
         } else {
-            
+
         }
         if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
             favoriteQueryBlock.innerHTML = '';
             favoriteCityContainer.style.display = 'block'
             let array = Array.from( localStorage )
-            
-            function uniq(a) {
-                return a.sort().filter(function(item, pos, ary) {
-                    return !pos || item != ary[pos - 1];
-                });
+
+            function uniq( a ) {
+                return a.sort().filter( function ( item, pos, ary ) {
+                    return !pos || item != ary[ pos - 1 ];
+                } );
             }
-            let cleanArray = uniq(array);
+            let cleanArray = uniq( array );
             cleanArray.forEach( element => {
                 favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
             } );
         }
     }
     // Clear favorite
-    clearFavoriteBlock() {
-        clearFavorite.addEventListener( 'click', () => {
-            let length = localStorage.length;
-            favoriteCityContainer.style.display = 'none';
-            for ( let i = 0; i <= length; i++ ) {
-                localStorage.removeItem( `${i}` );
-            }
-        } )
-        // document.getElementById( 'favorite-star' ).addEventListener( 'mouseenter', ( e ) => {
-        //     console.log( e );
-        // } )
-    }
+    // clearFavoriteBlock() {
+
+    //     // document.getElementById( 'favorite-star' ).addEventListener( 'mouseenter', ( e ) => {
+    //     //     console.log( e );
+    //     // } )
+    // }
     // Constructor for localStorage
     localStorageConstructor( string ) {
         let obj = JSON.parse( string );
@@ -160,82 +163,60 @@ class WeatherForecast {
     }
     //LocalStorage 
     localStorageRender( cityObj ) {
+       
+        console.log( cityObj );
         const addToFavorite = document.getElementById( 'star' );
-        
-        function check(){
-            // document.querySelector( '.main-info_temp-location' ).removeChild( star )
-            for (let i = 0; i < localStorage.length; i++) {
-                let city = JSON.parse(localStorage[i]);
-                if(city.city!= userLocation.textContent){
-                    return false
-                }else if (city.city== userLocation.textContent){
-                    return true
-                }else{
-                    console.log('wrong');
+        function check() {
+            if ( localStorage.length > 0 ) {
+                for ( let i = 0; i < localStorage.length; i++ ) {
+                    let city = JSON.parse( localStorage[ i ] );
+                    if ( city.city != userLocation.textContent ) {
+                        return false
+                    } else if ( city.city == userLocation.textContent ) {
+                        return true
+                    } else {
+                        console.log( 'wrong' );
+                    }
                 }
-            }
-            
-            // document.querySelector( '.main-info_temp-location' ).appendChild( star )
-                        // Append star near Query location
-                        
+            }       
         }
-        check()
-        console.log(check());
         let localStorageItem = JSON.stringify( cityObj );
         // Push to localStorage with unique index
         let length = localStorage.length;
-        // Set 5 object to localStorage
-        // If localStorage length biger than 4, first item remove
-        if ( length < 5 ) {
-            if ( document.getElementById( 'star' ) != undefined ) {
-                if(check()==true){
+        if ( document.getElementById( 'star' ) != undefined ) {
+            if ( check() == true ) {
+                addToFavorite.innerHTML = '&#9733;'
+                console.log( '33' );
+            } else if ( check() == false ) {
+                addToFavorite.innerHTML = '&#9734;'
+               
+                console.log( '34' );
+            } else {
+
+            }
+            addToFavorite.addEventListener( 'click', function () {
+                if ( clickCityFromSendRequest != userLocation.textContent ) {
+                    favoriteCityContainer.style.display = 'block';
                     addToFavorite.innerHTML = '&#9733;'
-                    console.log('33');
-                }else if(check()==false){
-                    addToFavorite.innerHTML = '&#9734;'
-                    console.log('34');
-                }else{
-                    
+                    console.log(localStorage);
+                    localStorage.setItem( `${length}`, localStorageItem );
+                    favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
+                    console.log('kiya');  
+                    weather.renderFavoriteOnLoad()
+                } else {
+                    return
                 }
-                addToFavorite.addEventListener( 'click', function () {
-                    if (clickCityFromSendRequest != userLocation.textContent){
-
-                        localStorage.setItem( `${length}`, localStorageItem );
-                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) )
-                        weather.renderFavoriteOnLoad()
-                    }else{
-                        return
-                    }              
-                } )
-            }
-        } else if ( length == 5 ) {
-            favoriteQueryBlock.innerHTML = '';
-            localStorage.removeItem( '0' )
-
-            function rewriteBlock() {
-                for ( let i = 0; i <= length; i++ ) {
-                    if ( i < 4 ) {
-                        localStorage.setItem( `${i}`, `${localStorage.getItem(i+1)}` )
-                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( `${i}` ) ) );
-                    } else if ( i == 4 ) {
-                        localStorage.setItem( `4`, localStorageItem );
-                        favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorage.getItem( '4' ) ) );
-                    } else {
-                        return
-                    }
-                }
-            }
-            rewriteBlock()
-        } else {
-            return
+                weather.renderFavoriteOnLoad()
+            } )
         }
 
-        return 
-    }
-    // Waiting page
-    waitingPage(){
 
+        return
     }
+    // // Waiting page
+    // waitingPage(){
+
+    // }
     // Request to Pixabay
     pixabayRequest( queryCity ) {
         fetch( urlPixabay + `&q=${queryCity}` )
@@ -256,9 +237,8 @@ class WeatherForecast {
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity ) {
-        clickCityFromSendRequest = clickCity
+        clickCityFromSendRequest = clickCity;
         // Set placeholder for input
-        queryField.setAttribute( 'placeholder', "Введите город" );
         queryField.classList.remove( 'placeholderred' );
         let urlQuery = '';
         // If have query city
@@ -268,6 +248,7 @@ class WeatherForecast {
                     return
                 } else {
                     query = clickCity;
+                    star.innerHTML = '&#9733;'
                 }
             }
             urlQuery = url + `&q=${query}`;
@@ -290,16 +271,13 @@ class WeatherForecast {
                 if ( response2.cod == '404' ) {
                     queryField.setAttribute( 'placeholder', "Такого города не существует" )
                     queryField.classList.add( 'placeholderred' );
-                    // queryField.att('placeholder').style.color = 'red'
                     return
                 } else {
                     if ( initialLoad == false ) {
-                        // const addToFavorite = document.getElementById( 'star' );
-                        // addToFavorite.innerHTML = '&#9734;'
                         // Render location   
                         userLocation.innerText = response2.name;
                         document.querySelector( '.main-info_temp-location' ).appendChild( star )
-
+                        queryField.setAttribute( 'placeholder', `${weather.upperFirstLetter( userLocation.innerText)}` );
                         // Create object for localStorage
                         let localStorageCity = {
                             temp: response2.main.temp,
@@ -339,8 +317,6 @@ class WeatherForecast {
     init() {
         // Get user geolocation
         window.onload = this.getMyLocation();
-        // Clear favorite
-        this.clearFavoriteBlock()
         // Date render
         this.dateConstructor();
         // Interval for time
@@ -366,7 +342,6 @@ form.addEventListener( 'submit', e => {
         weather.sendRequest( '', undefined, undefined, undefined );
     }
 } )
-
 // Animation query icon
 function animationIcon( iconId ) {
     let animatedIcon
