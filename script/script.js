@@ -40,38 +40,6 @@ const detailPressure = document.getElementById( 'detail-pressure' )
 
 let clickCityFromSendRequest
 
-// function clear() {
-//     clearFavorite.addEventListener( 'click', () => {
-//         localStorage.clear();
-//         document.cookie = 'COOKIE_NAME=; Max-Age=0; path=/; domain=' + location.host;
-//         star.innerHTML = '&#9734;'
-//         favoriteCityContainer.style.display = 'none';
-//         favoriteCityContainer.innerHTML = '';
-//         const addToFavorite = document.getElementById( 'star' );
-//         weather.sendRequest( undefined, '', '', '', true);
-//         if(document.getElementById('star')!= null){
-//             addToFavorite.addEventListener( 'click', function () {
-//                 console.log(localStorage);
-//                 // if ( clickCityFromSendRequest != userLocation.textContent ) {
-        
-//                 //     favoriteCityContainer.style.display = 'block';
-//                 //     addToFavorite.innerHTML = '&#9733;'
-//                 //     console.log( localStorage );
-//                 //     localStorage.setItem( `${length}`, localStorageItem );
-//                 //     favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
-//                 //     console.log( 'kiya' );
-//                 //     weather.renderFavoriteOnLoad()
-//                 // } else {
-//                 //     return
-//                 // }
-//                 // weather.renderFavoriteOnLoad()
-//             } )
-//         }
-    
-//     } )
-// }
-
-
 // Weather Forecast Class
 // localStorage.clear()
 class WeatherForecast {
@@ -86,7 +54,6 @@ class WeatherForecast {
     }
     // Get location
     getMyLocation() {
-        this.renderFavoriteOnLoad()
         if ( navigator.geolocation ) {
             navigator.geolocation.getCurrentPosition( this.displayUserLocation );
         } else {
@@ -135,112 +102,7 @@ class WeatherForecast {
         let splitItem = split[ 4 ];
         return splitItem.slice( 0, 5 );
     }
-    // Render city from localStorage
-    renderFavoriteOnLoad() {
-        if ( localStorage[ 0 ] == null ) {
-            return
-        } else 
-        if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
-            favoriteQueryBlock.innerHTML = '';
-            favoriteCityContainer.style.display = 'block'
 
-            let array = Array.from( localStorage )
-            function uniq( a ) {
-                return a.sort().filter( function ( item, pos, ary ) {
-
-                    return !pos || item != ary[ pos - 1 ];
-                } );
-            }
-            let cleanArray = uniq( array );
-            cleanArray.forEach( element => {
-                favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
-            } );
-        }
-    }
-    // Clear favorite
-    // clearFavoriteBlock() {
-
-    //     // document.getElementById( 'favorite-star' ).addEventListener( 'mouseenter', ( e ) => {
-    //     //     console.log( e );
-    //     // } )
-    // }
-    // Constructor for localStorage
-    localStorageConstructor( string ) {
-        let obj = JSON.parse( string );
-        let htmlItem = `
-        <div class="favorite-city_item" onclick="weather.sendRequest('', undefined, undefined, '${obj.city}')">
-            <div class="favorite-city_row">
-                <!-- LocalStorage Item -->
-                <div class="d-flex justify-content-center align-items-center ">
-                    <span class="star" id="favorite-star">&#9733;</span>
-                    <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
-                    <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
-                </div>
-                <!-- Animation icon -->
-                <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
-                    <div class="animation-icon">${obj.icon}</div>
-                    <p>${obj.condition}</p>
-                </div>
-            </div>
-        </div>
-        `;
-        return htmlItem;
-    }
-    //LocalStorage 
-    localStorageRender( cityObj ) {
-        let localStorageItem = JSON.stringify( cityObj );
-       if (cityObj == null || cityObj == undefined) {
-           return
-       } else {
-
-        console.log( cityObj );
-        const addToFavorite = document.getElementById( 'star' );
-
-        function check() {
-            if ( localStorage.length > 0 ) {
-                for ( let i = 0; i < localStorage.length; i++ ) {
-                    let city = JSON.parse( localStorage[ i ] );
-                    if ( city.city != userLocation.textContent ) {
-                        return false
-                    } else if ( city.city == userLocation.textContent ) {
-                        return true
-                    } else {
-                        console.log( 'wrong' );
-                    }
-                }
-            }
-        }
-
-        // Push to localStorage with unique index
-        let length = localStorage.length;
-        if ( document.getElementById( 'star' ) != undefined ) {
-            if ( check() == true ) {
-                addToFavorite.innerHTML = '&#9733;'
-            } else if ( check() == false ) {
-                addToFavorite.innerHTML = '&#9734;'
-            } else {
-
-            }
-            addToFavorite.addEventListener( 'click', function () {
-                
-                if ( clickCityFromSendRequest != userLocation.textContent ) {
-
-                    favoriteCityContainer.style.display = 'block';
-                    addToFavorite.innerHTML = '&#9733;'
-                    localStorage.setItem( `${length}`, localStorageItem );
-                    favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
-                    weather.renderFavoriteOnLoad()
-                } else {
-                    return
-                }
-                // weather.renderFavoriteOnLoad()
-            } )
-        }
-
-
-        return
-       }
-    }
     // // Waiting page
     // waitingPage(){
 
@@ -264,7 +126,7 @@ class WeatherForecast {
             } );
     }
     // Request to openweathermap.org
-    sendRequest( initialLoad, lat, lon, clickCity, clear ) {
+    sendRequest( initialLoad, lat, lon, clickCity ) {
 
         clickCityFromSendRequest = clickCity;
         // Set placeholder for input
