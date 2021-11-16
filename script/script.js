@@ -1,8 +1,3 @@
-// pixabay.com query
-const urlPixabay = 'https://pixabay.com/api/?key=23641816-dcf4d4f9c34852472448f65fc&page=1&orientation=horizontal&category=places&image_type=photo';
-// openweathermap.com query
-const url = 'https://api.openweathermap.org/data/2.5/weather?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua';
-
 // Block for query city image 
 const mainBlock = document.getElementById( 'main-block' );
 // Get field from page
@@ -106,6 +101,7 @@ class WeatherForecast {
             favoriteCityContainer.style.display = 'block'
 
             let array = Array.from( localStorage )
+
             function uniq( a ) {
                 return a.sort().filter( function ( item, pos, ary ) {
                     return !pos || item != ary[ pos - 1 ];
@@ -118,7 +114,7 @@ class WeatherForecast {
         }
     }
     // Clear button
-    clearLatestQuery(){
+    clearLatestQuery() {
         clearFavorite.addEventListener( 'click', () => {
             localStorage.clear()
             favoriteCityContainer.style.display = 'none';
@@ -128,9 +124,8 @@ class WeatherForecast {
     //LocalStorage 
     localStorageRender( cityObj ) {
         let localStorageItem = JSON.stringify( cityObj );
-        // Push to localStorage with unique index
+        // Push to localStorage
         let length = localStorage.length;
-
         if ( clickCityFromSendRequest != userLocation.textContent ) {
             favoriteCityContainer.style.display = 'block';
             localStorage.setItem( `${length}`, localStorageItem );
@@ -162,13 +157,46 @@ class WeatherForecast {
     `;
         return htmlItem;
     }
-    // Waiting page
-    waitingPage(){
-
+    // Spinner
+    spinner( stop = false ) {
+        // Spinner
+        const contentWrapper = document.getElementById( 'content_wrapper' );
+        const spinner = document.createElement( 'div' );
+        const logoBg = new Image();
+        const spinnerItem = document.createElement( 'div' );
+        const spinnerBlock = document.createElement( 'div' );
+        // Spinner stoper 
+        if ( stop == true ) {
+            contentWrapper.classList.remove( 'content_wrapper' )
+            contentWrapper.innerHTML = ''
+            spinnerBlock.remove();
+            return
+        } else {
+            spinner.classList.add( 'loader' );
+            spinnerItem.classList.add( 'loader-item' );
+            // Logo
+            logoBg.src = './img/logo_v2_1.svg'
+            logoBg.classList.add( 'loader-item_bg' )
+            spinnerBlock.classList.add( 'loader-block' );
+            // Append spinner
+            spinnerItem.appendChild( spinner );
+            spinnerItem.appendChild( logoBg );
+            spinnerBlock.appendChild( spinnerItem );
+            contentWrapper.appendChild( spinnerBlock );
+            return
+        }
     }
-    // Request to Pixabay
-    pixabayRequest( queryCity ) {
-        fetch( urlPixabay + `&q=${queryCity}` )
+    // Double request to Pixabay
+    pixabayRequest( queryCity, count = 0 ) {
+        let url
+        const urlPixabay = 'https://pixabay.com/api/?key=23641816-dcf4d4f9c34852472448f65fc&page=1&orientation=horizontal&category=places&image_type=photo';
+        const urlPixabaySecondChance = 'https://pixabay.com/api/?key=23641816-dcf4d4f9c34852472448f65fc&page=1&orientation=horizontal&image_type=photo';
+        if ( count == 0 ) {
+            url = urlPixabay + `&q=${queryCity}`;
+        } else if ( count == 1 ) {
+            url = urlPixabaySecondChance + `&q=${queryCity}`
+        }
+        fetch( url )
             .then( ( response1 ) => {
                 return response1.json();
             } )
@@ -176,16 +204,30 @@ class WeatherForecast {
                 let backgroundsArray
                 backgroundsArray = response2.hits;
                 if ( backgroundsArray[ 0 ] == undefined ) {
-                    document.body.style.backgroundImage = `url()`;
-                    return
+                    if ( count == 0 ) {
+                        return this.pixabayRequest( queryCity, 1 )
+                    } else if ( count == 1 ) {
+                        count = 0;
+                        document.body.style.backgroundImage = `url()`;
+                        return this.spinner( true );
+                    }
                 } else {
                     let outUrl = backgroundsArray[ 0 ].largeImageURL;
                     document.body.style.backgroundImage = `url(${outUrl})`;
+                    let img = new Image()
+                    img.src = outUrl
+                    // Spinner stop when load background image
+                    img.addEventListener( 'load', () => {
+                        this.spinner( true )
+                    } )
                 }
             } );
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity ) {
+        let queryUrl
+        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua';
+
         clickCityFromSendRequest = clickCity;
         // Set placeholder for input
         queryField.classList.remove( 'placeholderred' );
@@ -207,6 +249,7 @@ class WeatherForecast {
         }
         // If nothing
         else {
+            this.spinner( true )
             queryField.value = "Ничего не найдено";
             mainBlock.style.backgroundColor = 'black';
             return
@@ -217,11 +260,15 @@ class WeatherForecast {
                 return response1.json()
             } ).then( response2 => {
                 if ( response2.cod == '404' ) {
+                    this.spinner( true )
                     queryField.setAttribute( 'placeholder', "Такого города не существует" )
                     queryField.classList.add( 'placeholderred' );
                     return
                 } else {
+                    console.log( response2 );
                     if ( initialLoad == false ) {
+                        // Spinner while query loading
+                        this.spinner()
                         // Render location   
                         userLocation.innerText = response2.name;
                         queryField.setAttribute( 'placeholder', `${weather.upperFirstLetter( userLocation.innerText)}` );
@@ -237,7 +284,6 @@ class WeatherForecast {
                             this.pixabayRequest( query );
                         } else {
                             this.pixabayRequest( query );
-
                             this.localStorageRender( localStorageCity );
                         }
                     }
@@ -257,13 +303,13 @@ class WeatherForecast {
                     // detailHumidity.innerHTML = Math.round( response2.main.humidity ) + '%';
                     // detailWind.innerHTML = Math.round( response2.wind.speed ) + ' m/s';
                     // detailPressure.innerHTML = Math.round( response2.main.pressure ) + ' mm';
-
                 }
             } )
-
     }
     // Init chain
     init() {
+        // Spinner
+        this.spinner()
         // Get user geolocation
         window.onload = this.getMyLocation();
         // Date render
@@ -279,21 +325,17 @@ const weather = new WeatherForecast()
 weather.init()
 
 // Query 
-let query 
+let query
 let queryArr = [];
 // Listen event in input
 queryField.oninput = ( e ) => {
     query = e.target.value;
 }
+// On submit
 form.addEventListener( 'submit', e => {
     e.preventDefault()
-    console.dir(queryField);
     queryField.value = '';
-    console.log(userLocation.innerText,queryField.attributes[3].nodeValue);
-   if(query == queryField.attributes[3].nodeValue){
-    return
-   }
-   else if ( query != null) {
+    if ( query != null ) {
         weather.sendRequest( '', undefined, undefined, undefined );
     }
 } )
