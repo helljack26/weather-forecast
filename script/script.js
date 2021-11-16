@@ -40,14 +40,40 @@ const detailPressure = document.getElementById( 'detail-pressure' )
 
 let clickCityFromSendRequest
 
-clearFavorite.addEventListener( 'click', () => {
-    localStorage.clear()
-    star.innerHTML = '&#9734;'
-    favoriteCityContainer.style.display = 'none';
-    favoriteCityContainer.innerHTML = '';
-} )
-// localStorage.clear()
+// function clear() {
+//     clearFavorite.addEventListener( 'click', () => {
+//         localStorage.clear();
+//         document.cookie = 'COOKIE_NAME=; Max-Age=0; path=/; domain=' + location.host;
+//         star.innerHTML = '&#9734;'
+//         favoriteCityContainer.style.display = 'none';
+//         favoriteCityContainer.innerHTML = '';
+//         const addToFavorite = document.getElementById( 'star' );
+//         weather.sendRequest( undefined, '', '', '', true);
+//         if(document.getElementById('star')!= null){
+//             addToFavorite.addEventListener( 'click', function () {
+//                 console.log(localStorage);
+//                 // if ( clickCityFromSendRequest != userLocation.textContent ) {
+        
+//                 //     favoriteCityContainer.style.display = 'block';
+//                 //     addToFavorite.innerHTML = '&#9733;'
+//                 //     console.log( localStorage );
+//                 //     localStorage.setItem( `${length}`, localStorageItem );
+//                 //     favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
+//                 //     console.log( 'kiya' );
+//                 //     weather.renderFavoriteOnLoad()
+//                 // } else {
+//                 //     return
+//                 // }
+//                 // weather.renderFavoriteOnLoad()
+//             } )
+//         }
+    
+//     } )
+// }
+
+
 // Weather Forecast Class
+// localStorage.clear()
 class WeatherForecast {
     // Capitalize first letter
     upperFirstLetter( word ) {
@@ -113,16 +139,15 @@ class WeatherForecast {
     renderFavoriteOnLoad() {
         if ( localStorage[ 0 ] == null ) {
             return
-        } else {
-
-        }
+        } else 
         if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
             favoriteQueryBlock.innerHTML = '';
             favoriteCityContainer.style.display = 'block'
-            let array = Array.from( localStorage )
 
+            let array = Array.from( localStorage )
             function uniq( a ) {
                 return a.sort().filter( function ( item, pos, ary ) {
+
                     return !pos || item != ary[ pos - 1 ];
                 } );
             }
@@ -163,9 +188,14 @@ class WeatherForecast {
     }
     //LocalStorage 
     localStorageRender( cityObj ) {
-       
+        let localStorageItem = JSON.stringify( cityObj );
+       if (cityObj == null || cityObj == undefined) {
+           return
+       } else {
+
         console.log( cityObj );
         const addToFavorite = document.getElementById( 'star' );
+
         function check() {
             if ( localStorage.length > 0 ) {
                 for ( let i = 0; i < localStorage.length; i++ ) {
@@ -178,40 +208,38 @@ class WeatherForecast {
                         console.log( 'wrong' );
                     }
                 }
-            }       
+            }
         }
-        let localStorageItem = JSON.stringify( cityObj );
+
         // Push to localStorage with unique index
         let length = localStorage.length;
         if ( document.getElementById( 'star' ) != undefined ) {
             if ( check() == true ) {
                 addToFavorite.innerHTML = '&#9733;'
-                console.log( '33' );
             } else if ( check() == false ) {
                 addToFavorite.innerHTML = '&#9734;'
-               
-                console.log( '34' );
             } else {
 
             }
             addToFavorite.addEventListener( 'click', function () {
+                
                 if ( clickCityFromSendRequest != userLocation.textContent ) {
+
                     favoriteCityContainer.style.display = 'block';
                     addToFavorite.innerHTML = '&#9733;'
-                    console.log(localStorage);
                     localStorage.setItem( `${length}`, localStorageItem );
                     favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
-                    console.log('kiya');  
                     weather.renderFavoriteOnLoad()
                 } else {
                     return
                 }
-                weather.renderFavoriteOnLoad()
+                // weather.renderFavoriteOnLoad()
             } )
         }
 
 
         return
+       }
     }
     // // Waiting page
     // waitingPage(){
@@ -236,7 +264,8 @@ class WeatherForecast {
             } );
     }
     // Request to openweathermap.org
-    sendRequest( initialLoad, lat, lon, clickCity ) {
+    sendRequest( initialLoad, lat, lon, clickCity, clear ) {
+
         clickCityFromSendRequest = clickCity;
         // Set placeholder for input
         queryField.classList.remove( 'placeholderred' );
@@ -290,6 +319,7 @@ class WeatherForecast {
                             this.pixabayRequest( query );
                         } else {
                             this.pixabayRequest( query );
+                            
                             this.localStorageRender( localStorageCity );
                         }
                     }
@@ -312,6 +342,7 @@ class WeatherForecast {
 
                 }
             } )
+        
     }
     // Init chain
     init() {

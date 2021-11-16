@@ -196,10 +196,23 @@ header {
     top: 0;
     right: 0;
     max-width: fit-content;
-    overflow: hidden;
+    overflow-y: scroll;
     height: 100%;
-    // background-color: rgba(111, 111, 111, 0.527);
 
+    // Scroll
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        // background-color: #f9f9fd;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: linear-gradient(180deg, #929292, #272727);
+    }
     .favorite-city-header {
         background-color: rgba(95, 95, 95, 0.733);
         background-color: $blockBg;
@@ -250,7 +263,7 @@ header {
     }
     &-block {
         box-sizing: border-box;
-        overflow-y: scroll;
+
         overflow-x: hidden;
         margin-top: 48px;
         position: relative;
@@ -261,20 +274,6 @@ header {
         align-items: flex-start;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(5, 1fr);
-    }
-    // Scroll
-    &-block::-webkit-scrollbar {
-        width: 0px;
-    }
-
-    &-block::-webkit-scrollbar-track {
-        // background-color: #f9f9fd;
-        border-radius: 0px;
-    }
-
-    &-block::-webkit-scrollbar-thumb {
-        border-radius: 0px;
-        background: linear-gradient(180deg, #929292, #272727);
     }
     .favorite-city_item {
         justify-self: end;
