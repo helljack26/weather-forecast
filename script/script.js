@@ -11,12 +11,6 @@ const form = document.forms.namedItem( 'search-form' );
 // Main field
 const mainTemp = document.getElementById( 'main-temp' )
 const userLocation = document.getElementById( 'user-location' );
-// Star
-const star = document.createElement( 'span' );
-star.classList.add( 'star' )
-star.setAttribute( 'id', 'star' )
-star.setAttribute( 'value', 'false' )
-star.innerHTML = '&#9734;'
 
 const mainDate = document.getElementById( 'main-date' )
 const mainIcon = document.getElementById( 'main-icon' )
@@ -139,7 +133,6 @@ class WeatherForecast {
                     return
                 } else {
                     query = clickCity;
-                    star.innerHTML = '&#9733;'
                 }
             }
             urlQuery = url + `&q=${query}`;
@@ -167,7 +160,6 @@ class WeatherForecast {
                     if ( initialLoad == false ) {
                         // Render location   
                         userLocation.innerText = response2.name;
-                        document.querySelector( '.main-info_temp-location' ).appendChild( star )
                         queryField.setAttribute( 'placeholder', `${weather.upperFirstLetter( userLocation.innerText)}` );
                         // Create object for localStorage
                         let localStorageCity = {
