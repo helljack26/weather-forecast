@@ -106,10 +106,8 @@ class WeatherForecast {
             favoriteCityContainer.style.display = 'block'
 
             let array = Array.from( localStorage )
-
             function uniq( a ) {
                 return a.sort().filter( function ( item, pos, ary ) {
-
                     return !pos || item != ary[ pos - 1 ];
                 } );
             }
@@ -143,7 +141,6 @@ class WeatherForecast {
         }
         return
     }
-
     // Constructor for localStorage
     localStorageConstructor( string ) {
         let obj = JSON.parse( string );
@@ -165,11 +162,10 @@ class WeatherForecast {
     `;
         return htmlItem;
     }
+    // Waiting page
+    waitingPage(){
 
-    // // Waiting page
-    // waitingPage(){
-
-    // }
+    }
     // Request to Pixabay
     pixabayRequest( queryCity ) {
         fetch( urlPixabay + `&q=${queryCity}` )
@@ -283,17 +279,21 @@ const weather = new WeatherForecast()
 weather.init()
 
 // Query 
-let query = ''
+let query 
 let queryArr = [];
-let extQuery1 = ''
 // Listen event in input
 queryField.oninput = ( e ) => {
     query = e.target.value;
 }
 form.addEventListener( 'submit', e => {
     e.preventDefault()
+    console.dir(queryField);
     queryField.value = '';
-    if ( query != null ) {
+    console.log(userLocation.innerText,queryField.attributes[3].nodeValue);
+   if(query == queryField.attributes[3].nodeValue){
+    return
+   }
+   else if ( query != null) {
         weather.sendRequest( '', undefined, undefined, undefined );
     }
 } )
