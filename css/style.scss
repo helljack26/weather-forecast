@@ -74,7 +74,7 @@ header {
         transform: scale(0.8);
         user-select: none;
 
-        .toggle {
+        #toggle {
             position: relative;
             border: solid var(--border-width) var(--accent);
             border-radius: var(--border-radius);
@@ -83,23 +83,23 @@ header {
             perspective: 800px;
         }
 
-        .toggle > input[type="radio"] {
+        #toggle > input[type="radio"] {
             display: none;
         }
 
-        .toggle > #choice1:checked ~ #flap {
+        #toggle > #choice1:checked ~ #flap {
             transform: rotateY(-180deg);
         }
 
-        .toggle > #choice1:checked ~ #flap > .content {
+        #toggle > #choice1:checked ~ #flap > .content {
             transform: rotateY(-180deg);
         }
 
-        .toggle > #choice2:checked ~ #flap {
+        #toggle > #choice2:checked ~ #flap {
             transform: rotateY(0deg);
         }
 
-        .toggle > label {
+        #toggle > label {
             display: inline-block;
             min-width: 170px;
             padding: 5px 30px;
@@ -110,13 +110,13 @@ header {
             margin-right: 20px;
         }
 
-        .toggle > label,
-        .toggle > #flap {
+        #toggle > label,
+        #toggle > #flap {
             font-weight: bold;
             text-transform: capitalize;
         }
 
-        .toggle > #flap {
+        #toggle > #flap {
             position: absolute;
             top: calc(0px - var(--border-width));
             left: 50%;
@@ -134,7 +134,7 @@ header {
             transition: transform cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
         }
 
-        .toggle > #flap > .content {
+        #toggle > #flap > .content {
             color: #333;
             transition: transform 0s linear 0.25s;
             transform-style: preserve-3d;
@@ -174,9 +174,9 @@ header {
     height: 92vh;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 60vh 40vh;
+    grid-template-rows: 55vh 45vh;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     overflow-y: hidden;
     overflow-x: hidden;
 }
@@ -198,29 +198,34 @@ header {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: flex-end;
     position: relative;
 }
 .animation-container {
-    margin-bottom: -50px;
+    margin-bottom: -40px;
+    transform: scale(0.8);
+    display: flex;
+    justify-content: center;
 }
 #main-temp {
     padding: 0;
     margin: 0;
-    margin-bottom: -50px;
+    margin-bottom: -40px;
     height: auto;
     width: auto;
-    font-size: 10rem;
+    font-size: 8rem;
     font-family: Arial;
 }
 #user-location {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 0;
+    margin-top: 25px;
     max-width: 260px;
 }
 #main-condition {
     font-size: 1.8rem;
     word-wrap: break-word;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 .star {
     font-size: 2rem;
@@ -230,25 +235,15 @@ header {
     cursor: pointer;
     color: white;
 }
-#favorite-star {
-    font-size: 1.8rem !important;
-    margin-right: 5px;
-    z-index: 5;
-
-    &:hover {
-        color: rgb(0, 0, 0);
-    }
-}
 .main-info {
     width: fit-content;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     flex-direction: column;
     font-size: 1.3rem;
     background-color: $blockBg;
     padding: 0px 30px;
-    padding-bottom: 20px;
     box-sizing: border-box;
 
     &_temp-location {
@@ -273,18 +268,17 @@ header {
     width: 100%;
 }
 .card2 {
-    width: 100%;
+    width: 100vw;
     height: fit-content;
-    overflow-x: auto;
-    overflow-y: hidden;
     position: relative;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: repeat(7, 1fr);
-    -webkit-overflow-scrolling: touch;
     padding: 0px;
     z-index: 500;
     white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     // Scroll
     &::-webkit-scrollbar {
@@ -305,26 +299,55 @@ header {
         text-align: center;
         background-color: rgba(128, 128, 128, 0.801);
         box-sizing: border-box;
-        height: 175px;
+        height: 220px;
+        min-width: 170px;
         margin: 0px 5px;
-        padding: 20px;
+        padding: 5px 10px;
         display: flex;
         flex-direction: column;
         justify-content: start;
         user-select: none;
         align-items: center;
-
-        p {
-            padding: 0;
+        .item-day {
             font-weight: bold;
             font-size: 1.5rem;
+            padding: 0;
+            margin: 0;
+            p {
+                padding: 0;
+                margin: 0;
+            }
+            .item-day_date {
+                font-size: 1.2rem;
+                font-weight: normal;
+                display: flex;
+                justify-content: center;
+                &:first-child {
+                    margin-right: 10px;
+                }
+            }
+        }
+        p {
+            padding: 0;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
         }
         .item-icon {
             margin-top: -5px;
+            transform: scale(0.7);
+            display: inline-block;
         }
         .item-temp {
             margin-top: -20px;
             margin-bottom: 0;
+            font-size: 2rem;
+        }
+        .item-condition {
+            margin-top: -30px;
+            margin-bottom: 6px;
         }
     }
 }
@@ -360,22 +383,27 @@ header {
         text-align: center;
         background-color: rgba(128, 128, 128, 0.801);
         box-sizing: border-box;
-        height: 175px;
+        height: 25vh;
+        min-height: 170px;
         width: 200px;
         margin: 0px 5px;
-        padding: 20px;
+        padding: 5px 20px;
         display: flex;
         flex-direction: column;
-        justify-content: start;
+        justify-content: center;
         user-select: none;
         align-items: center;
         // z-index: 99;
-
+        .item-day {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
         p {
             padding: 0;
         }
         .item-icon {
             margin-top: -5px;
+            transform: scale(0.7);
         }
         .item-temp {
             margin-top: -20px;

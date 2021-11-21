@@ -114,12 +114,11 @@ class WeatherForecast {
             time = dateArr[ 4 ].slice( 0, 5 )
         }
         // Parse to correct string
-        let dateString = `${time} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`;
+        let dateString = `${time} ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`;
         return mainDate.innerHTML = dateString;
     }
     // For convert UTC millisecond
     msToTime( millisecond ) {
-        console.log(new Date( millisecond * 1000 ));
         let time = new Date( millisecond * 1000 ).toString( 'h-mm' );
         let split = time.split( ' ' );
         let splitItem = split[ 4 ];
@@ -261,7 +260,7 @@ class WeatherForecast {
     forecastHandler() {
         const st = {};
         st.flap = document.querySelector( '#flap' );
-        st.toggle = document.querySelector( '.toggle' );
+        st.toggle = document.getElementById( 'toggle' );
         st.choice1 = document.querySelector( '#choice1' );
         st.choice2 = document.querySelector( '#choice2' );
 
@@ -291,6 +290,7 @@ class WeatherForecast {
     // Current and Hourly
     currentForecast( initialLoad, response2, clickCity, reloadData ) {
         card1.addEventListener( 'wheel', ( e ) => {
+            e.preventDefault()
             card1.scrollLeft += e.deltaY;
         } )
         // Query city time
@@ -305,7 +305,6 @@ class WeatherForecast {
             } );
             time = queryDate.slice( -8, -3 )
             weather.currentDate()
-            // this.queryDate(response2.timezone_offset)
             // Create object for localStorage
             let localStorageCity = {
                 temp: response2.current.temp,
@@ -335,6 +334,8 @@ class WeatherForecast {
             mainDawn.innerHTML = `Рассвет ${this.msToTime( response2.current.sunrise )}`;
             mainSunset.innerHTML = `Закат ${this.msToTime( response2.current.sunset )}`;
         }
+        // Detail info
+        console.log(response2);
 
         // Render hourly forecast
         let hourlyArray = response2.hourly
@@ -343,7 +344,7 @@ class WeatherForecast {
             const item = document.createElement( 'div' )
             item.classList.add( 'card1-item' )
             item.innerHTML = `
-                <p>${weather.msToTime(hourlyArray[i].dt)}</p>
+                <p class='item-day'>${weather.msToTime(hourlyArray[i].dt)}</p>
                 <h1 class=" item-temp">${Math.trunc(hourlyArray[i].temp)}&#176;</h1>
                 <div class="animation-icon item-icon">${animationIcon( hourlyArray[i].weather[ 0 ].icon) }</div>
                 <p>${hourlyArray[i].weather[ 0 ].description}</p>
@@ -354,15 +355,25 @@ class WeatherForecast {
     }
     // Radio button forecast handler 
     sevenDayForecast( response2 ) {
-        console.log(response2);
+        card2.addEventListener( 'wheel', ( e ) => {
+            e.preventDefault()
+            card2.scrollLeft += e.deltaY;
+        } )
+        // For correct render day of week 
         function weekDay(millisecond){
-            let now = new Date(millisecond * 1000)
-            // For correct showing day of week 
+            let now = new Date(millisecond * 1000);
             let options = {
                 weekday: 'long'
             };
+            let optionsMonth = {
+                month: 'long'
+            };
             let dayOfWeek = new Intl.DateTimeFormat( 'ru-RU', options ).format( now );
-            return weather.upperFirstLetter(dayOfWeek); 
+            let month = new Intl.DateTimeFormat( 'ru-RU', optionsMonth ).format( now );
+            // Split date to arr
+            let dateArr = now.toString().split( ' ' );
+            let out = `<p>${weather.upperFirstLetter(dayOfWeek)}</p> <div class='item-day_date'><p class='mr-1'>${dateArr[2]}</p> <p>${weather.upperFirstLetter(month)}</p></div>`
+            return out; 
         }
         // Render hourly forecast
         card2.innerHTML=''
@@ -371,11 +382,22 @@ class WeatherForecast {
             const item = document.createElement( 'div' )
             item.classList.add( 'card2-item' )
             item.innerHTML = `
-                <p>${weekDay(dailyArray[i].dt)}</p>
-                <h1 class=" item-temp">${Math.trunc(dailyArray[i].temp.day)}&#176;</h1>
-                <div class="animation-icon item-icon">${animationIcon( dailyArray[i].weather[ 0 ].icon) }</div>
-                <p>${dailyArray[i].weather[ 0 ].description}</p>
-            `
+                <div class='item-day'>${weekDay(dailyArray[i].dt)}</div>
+                    <div>
+                        <div class="animation-icon item-icon">${animationIcon( dailyArray[i].weather[ 0 ].icon) }</div>
+                        <p class='item-condition'>${dailyArray[i].weather[ 0 ].description}</p>
+                    </div>
+                <div class='item-row'>
+                    <div class='mr-5'>
+                        <p>мин.</p>
+                        <p class="item-temp">${Math.trunc(dailyArray[i].temp.min)}&#176;</p>
+                    </div>
+                    <div>
+                        <p>макс.</p>
+                        <p class="item-temp">${Math.trunc(dailyArray[i].temp.max)}&#176;</p>
+                    </div>
+                    </div>
+                `
             card2.appendChild( item );
         }
     }
@@ -386,6 +408,21 @@ class WeatherForecast {
         // const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=37344949b6ea7dd2ab2e55c1b6dee80d&units=metric&lang=ua';
         clickCityFromSendRequest = clickCity;
         initial = initialLoad;
+        let toogle = document.getElementById('toggle');
+        let content = document.querySelector('.content');
+        // To default state radio button
+        if(content.textContent == 'На неделю'){
+            card2.style.display = 'none'
+            card1.style.display = 'flex'
+            toogle.innerHTML = ''
+            let defaultStr = `<input type="radio" class="radio active" id="choice1" name="choice" value="На неделю">
+            <label for="choice1">На неделю</label>
+            <input type="radio" class='radio' id="choice2" name="choice" value="Сегодня">
+            <label for="choice2">Сегодня</label>
+            <div id="flap"><span class="content">Сегодня</span></div>`
+            toogle.innerHTML = defaultStr;
+            weather.forecastHandler()
+        }
         // Set placeholder for input
         queryField.classList.remove( 'placeholderred' );
         let urlQuery = '';
@@ -393,8 +430,7 @@ class WeatherForecast {
         if ( lat != undefined && lon != undefined ) {
             urlQuery = url + `&lat=${lat}&lon=${lon}`;
         } else if ( clickCity != false && clickCity != userLocation.textContent ) {
-            weather.geocodingFromQuery( clickCity )
-            return
+            return weather.geocodingFromQuery( clickCity )
         } else {
             return
         }
@@ -422,11 +458,11 @@ class WeatherForecast {
                             if ( e.target.textContent == 'На неделю' ) {
                                 card2.style.display = 'grid'
                                 card1.style.display = 'none'
-                                return weather.sevenDayForecast(response2.daily)
+                                return 
                             } else {
                                 card2.style.display = 'none'
                                 card1.style.display = 'flex'
-                                return weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                                return 
                             }
                         }
                     } )

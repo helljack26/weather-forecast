@@ -99,7 +99,7 @@ header .container {
           user-select: none;
 }
 
-header .container .toggle {
+header .container #toggle {
   position: relative;
   border: solid var(--border-width) var(--accent);
   border-radius: var(--border-radius);
@@ -113,26 +113,26 @@ header .container .toggle {
           perspective: 800px;
 }
 
-header .container .toggle > input[type="radio"] {
+header .container #toggle > input[type="radio"] {
   display: none;
 }
 
-header .container .toggle > #choice1:checked ~ #flap {
+header .container #toggle > #choice1:checked ~ #flap {
   -webkit-transform: rotateY(-180deg);
           transform: rotateY(-180deg);
 }
 
-header .container .toggle > #choice1:checked ~ #flap > .content {
+header .container #toggle > #choice1:checked ~ #flap > .content {
   -webkit-transform: rotateY(-180deg);
           transform: rotateY(-180deg);
 }
 
-header .container .toggle > #choice2:checked ~ #flap {
+header .container #toggle > #choice2:checked ~ #flap {
   -webkit-transform: rotateY(0deg);
           transform: rotateY(0deg);
 }
 
-header .container .toggle > label {
+header .container #toggle > label {
   display: inline-block;
   min-width: 170px;
   padding: 5px 30px;
@@ -143,13 +143,13 @@ header .container .toggle > label {
   margin-right: 20px;
 }
 
-header .container .toggle > label,
-header .container .toggle > #flap {
+header .container #toggle > label,
+header .container #toggle > #flap {
   font-weight: bold;
   text-transform: capitalize;
 }
 
-header .container .toggle > #flap {
+header .container #toggle > #flap {
   position: absolute;
   top: calc(0px - var(--border-width));
   left: 50%;
@@ -178,7 +178,7 @@ header .container .toggle > #flap {
   transition: transform cubic-bezier(0.4, 0, 0.2, 1) 0.5s, -webkit-transform cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
 }
 
-header .container .toggle > #flap > .content {
+header .container #toggle > #flap > .content {
   color: #333;
   -webkit-transition: -webkit-transform 0s linear 0.25s;
   transition: -webkit-transform 0s linear 0.25s;
@@ -226,14 +226,14 @@ header .container .toggle > #flap > .content {
   display: grid;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-  -ms-grid-rows: 60vh 40vh;
-      grid-template-rows: 60vh 40vh;
+  -ms-grid-rows: 55vh 45vh;
+      grid-template-rows: 55vh 45vh;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -259,35 +259,43 @@ header .container .toggle > #flap > .content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
   position: relative;
 }
 
 .animation-container {
-  margin-bottom: -50px;
+  margin-bottom: -40px;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 #main-temp {
   padding: 0;
   margin: 0;
-  margin-bottom: -50px;
+  margin-bottom: -40px;
   height: auto;
   width: auto;
-  font-size: 10rem;
+  font-size: 8rem;
   font-family: Arial;
 }
 
 #user-location {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 0;
+  margin-top: 25px;
   max-width: 260px;
 }
 
 #main-condition {
   font-size: 1.8rem;
   word-wrap: break-word;
+  margin-top: 15px;
+  margin-left: 15px;
 }
 
 .star {
@@ -303,16 +311,6 @@ header .container .toggle > #flap > .content {
   color: white;
 }
 
-#favorite-star {
-  font-size: 1.8rem !important;
-  margin-right: 5px;
-  z-index: 5;
-}
-
-#favorite-star:hover {
-  color: black;
-}
-
 .main-info {
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -320,9 +318,6 @@ header .container .toggle > #flap > .content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -333,7 +328,6 @@ header .container .toggle > #flap > .content {
   font-size: 1.3rem;
   background-color: rgba(131, 131, 131, 0.74);
   padding: 0px 30px;
-  padding-bottom: 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -366,12 +360,10 @@ header .container .toggle > #flap > .content {
 }
 
 .card2 {
-  width: 100%;
+  width: 100vw;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  overflow-x: auto;
-  overflow-y: hidden;
   position: relative;
   display: -ms-grid;
   display: grid;
@@ -379,10 +371,11 @@ header .container .toggle > #flap > .content {
       grid-template-rows: 1fr;
   -ms-grid-columns: (1fr)[7];
       grid-template-columns: repeat(7, 1fr);
-  -webkit-overflow-scrolling: touch;
   padding: 0px;
   z-index: 500;
   white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .card2::-webkit-scrollbar {
@@ -405,9 +398,10 @@ header .container .toggle > #flap > .content {
   background-color: rgba(128, 128, 128, 0.801);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  height: 175px;
+  height: 220px;
+  min-width: 170px;
   margin: 0px 5px;
-  padding: 20px;
+  padding: 5px 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -427,19 +421,64 @@ header .container .toggle > #flap > .content {
           align-items: center;
 }
 
-.card2 .card2-item p {
-  padding: 0;
+.card2 .card2-item .item-day {
   font-weight: bold;
   font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.card2 .card2-item .item-day p {
+  padding: 0;
+  margin: 0;
+}
+
+.card2 .card2-item .item-day .item-day_date {
+  font-size: 1.2rem;
+  font-weight: normal;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.card2 .card2-item .item-day .item-day_date:first-child {
+  margin-right: 10px;
+}
+
+.card2 .card2-item p {
+  padding: 0;
+}
+
+.card2 .card2-item .item-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .card2 .card2-item .item-icon {
   margin-top: -5px;
+  -webkit-transform: scale(0.7);
+          transform: scale(0.7);
+  display: inline-block;
 }
 
 .card2 .card2-item .item-temp {
   margin-top: -20px;
   margin-bottom: 0;
+  font-size: 2rem;
+}
+
+.card2 .card2-item .item-condition {
+  margin-top: -30px;
+  margin-bottom: 6px;
 }
 
 .card1 {
@@ -481,10 +520,11 @@ header .container .toggle > #flap > .content {
   background-color: rgba(128, 128, 128, 0.801);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  height: 175px;
+  height: 25vh;
+  min-height: 170px;
   width: 200px;
   margin: 0px 5px;
-  padding: 20px;
+  padding: 5px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -492,9 +532,9 @@ header .container .toggle > #flap > .content {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -504,12 +544,19 @@ header .container .toggle > #flap > .content {
           align-items: center;
 }
 
+.card1 .card1-item .item-day {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
 .card1 .card1-item p {
   padding: 0;
 }
 
 .card1 .card1-item .item-icon {
   margin-top: -5px;
+  -webkit-transform: scale(0.7);
+          transform: scale(0.7);
 }
 
 .card1 .card1-item .item-temp {
@@ -1353,71 +1400,71 @@ header .container .toggle > #flap > .content {
 }
 
 .snow-svg .snowflake:nth-child(1) {
-  -webkit-animation: fall-counterclockwise 2531ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2531ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2193ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2193ms ease-in forwards infinite;
   -webkit-animation-delay: 0.1s;
           animation-delay: 0.1s;
 }
 
 .snow-svg .snowflake:nth-child(2) {
-  -webkit-animation: fall-clockwise 3292ms ease-in forwards infinite;
-          animation: fall-clockwise 3292ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 3810ms ease-in forwards infinite;
+          animation: fall-clockwise 3810ms ease-in forwards infinite;
   -webkit-animation-delay: 0.2s;
           animation-delay: 0.2s;
 }
 
 .snow-svg .snowflake:nth-child(3) {
-  -webkit-animation: fall-counterclockwise 2355ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2355ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.9s;
-          animation-delay: 0.9s;
+  -webkit-animation: fall-counterclockwise 2758ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2758ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 
 .snow-svg .snowflake:nth-child(4) {
-  -webkit-animation: fall-clockwise 2911ms ease-in forwards infinite;
-          animation: fall-clockwise 2911ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 2675ms ease-in forwards infinite;
+          animation: fall-clockwise 2675ms ease-in forwards infinite;
   -webkit-animation-delay: 1.2s;
           animation-delay: 1.2s;
 }
 
 .snow-svg .snowflake:nth-child(5) {
-  -webkit-animation: fall-counterclockwise 2709ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2709ms ease-in forwards infinite;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation: fall-counterclockwise 2182ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2182ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
 }
 
 .snow-svg .snowflake:nth-child(6) {
-  -webkit-animation: fall-clockwise 3938ms ease-in forwards infinite;
-          animation: fall-clockwise 3938ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.2s;
-          animation-delay: 1.2s;
+  -webkit-animation: fall-clockwise 2860ms ease-in forwards infinite;
+          animation: fall-clockwise 2860ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 
 .snow-svg .snowflake:nth-child(7) {
-  -webkit-animation: fall-counterclockwise 2605ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2605ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.4s;
-          animation-delay: 1.4s;
+  -webkit-animation: fall-counterclockwise 2586ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2586ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.7s;
+          animation-delay: 0.7s;
 }
 
 .snow-svg .snowflake:nth-child(8) {
-  -webkit-animation: fall-clockwise 2391ms ease-in forwards infinite;
-          animation: fall-clockwise 2391ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.6s;
-          animation-delay: 1.6s;
+  -webkit-animation: fall-clockwise 2659ms ease-in forwards infinite;
+          animation: fall-clockwise 2659ms ease-in forwards infinite;
+  -webkit-animation-delay: 2.4s;
+          animation-delay: 2.4s;
 }
 
 .snow-svg .snowflake:nth-child(9) {
-  -webkit-animation: fall-counterclockwise 3181ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3181ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2537ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2537ms ease-in forwards infinite;
   -webkit-animation-delay: 0.9s;
           animation-delay: 0.9s;
 }
 
 .snow-svg .snowflake:nth-child(10) {
-  -webkit-animation: fall-clockwise 2305ms ease-in forwards infinite;
-          animation: fall-clockwise 2305ms ease-in forwards infinite;
+  -webkit-animation: fall-clockwise 2223ms ease-in forwards infinite;
+          animation: fall-clockwise 2223ms ease-in forwards infinite;
   -webkit-animation-delay: 3s;
           animation-delay: 3s;
 }

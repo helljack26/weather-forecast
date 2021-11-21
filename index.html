@@ -28,9 +28,8 @@
             <img src="./img/logo_v2_shine.svg" class="logo-shine" alt="logo shine">
         </div>
         <div class="radio-btn_block">
-
             <div class="container">
-                <form class="toggle">
+                <form id="toggle">
                     <input type="radio" class="radio active" id="choice1" name="choice" value="На неделю">
                     <label for="choice1">На неделю</label>
                     <input type="radio" class='radio' id="choice2" name="choice" value="Сегодня">
@@ -47,7 +46,7 @@
     </header>
     <main class="main-block px-sm-3 " id="main-block">
         <div id="content_wrapper"></div>
-        <div class="row d-flex justify-content-center  h100">
+        <div class="row d-flex justify-content-center h100">
             <div class="card-container">
                 <!-- main -->
                 <div class="card2-block">
@@ -55,14 +54,14 @@
                     <div class="main-info">
                         <div class="d-flex w-100 flex-column justify-content-center align-items-center">
                             <!-- Animation icon -->
-                            <div class="animation-container d-flex  justify-content-center">
+                            <div class="animation-container">
                                 <div id="main-icon" class="animation-icon"></div>
-                                <p class="mt-3 ml-2" id="main-condition"></p>
+                                <p id="main-condition"></p>
                             </div>
                             <!-- Main temp and location -->
                             <div class="main-info_temp-location">
                                 <p id="main-temp"></p>
-                                <p class="mt-4 mb-0 mr-2" id="user-location"></p>
+                                <p id="user-location"></p>
                             </div>
                         </div>
                         <!-- Sunrise and Sunset time -->
