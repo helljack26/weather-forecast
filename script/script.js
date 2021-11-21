@@ -19,20 +19,17 @@ const favoriteCityContainer = document.getElementById( 'favorite-city' );
 const favoriteQueryBlock = document.getElementById( 'favorite-city-block' );
 const clearFavorite = document.getElementById( 'clear-localstorage' );
 // Detail field
-const detailTemp = document.getElementById( 'detail-temp' )
-const detailFeel = document.getElementById( 'detail-feel' )
-const detailCloud = document.getElementById( 'detail-cloud' )
-const detailHumidity = document.getElementById( 'detail-humidity' )
+const detailFeel = document.getElementById( 'detail-feels' )
 const detailWind = document.getElementById( 'detail-wind' )
-const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
+const detailHumidity = document.getElementById( 'detail-humidity' )
+// Hourly/weekly block
 const card1 = document.getElementById( 'card1' );
 const card2 = document.getElementById( 'card2' );
 
 let clickCityFromSendRequest
 let time, initial = false;
 // Weather Forecast Class
-// localStorage.clear()
 class WeatherForecast {
     // Capitalize first letter
     upperFirstLetter( word ) {
@@ -174,7 +171,7 @@ class WeatherForecast {
         let obj = JSON.parse( string );
         let htmlItem = `
     <div class="favorite-city_item" onclick='weather.sendRequest("", undefined, undefined, "${obj.city}")'>
-        <h2 class="local-city">${obj.city}</h2>
+         <h2 class="local-city">${obj.city}</h2>
     </div>
     `;
         return htmlItem;
@@ -325,7 +322,10 @@ class WeatherForecast {
         }
         // Detail info
         console.log(response2);
-
+        detailFeel.innerHTML = `Чувствуется как: ${Math.trunc( response2.current.feels_like ) + '&#176;'}` 
+        detailWind.innerHTML = `Ветер: ${response2.current.wind_speed.toFixed(1)} м/с` 
+        detailPressure.innerHTML = `Давление: ${response2.current.pressure}` 
+        detailHumidity.innerHTML = `Влажность: ${Math.trunc( response2.current.humidity)}%` 
         // Render hourly forecast
         let hourlyArray = response2.hourly
         card1.innerHTML = ''
@@ -392,7 +392,7 @@ class WeatherForecast {
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity, reloadData ) {
-        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua';
+        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=0554a071c97908f86d2e5f5767a196d5&units=metric&lang=ua';
         // new
         // const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=37344949b6ea7dd2ab2e55c1b6dee80d&units=metric&lang=ua';
         clickCityFromSendRequest = clickCity;
@@ -426,6 +426,7 @@ class WeatherForecast {
         // Query to openweathermap api
         fetch( urlQuery )
             .then( response1 => {
+
                 return response1.json()
             } ).then( response2 => {
                 if ( response2.cod == '404' ) {
@@ -437,7 +438,8 @@ class WeatherForecast {
                     // Render last query city from localStorage
                     if ( reloadData == undefined ) {
                         // weather.spinner()
-                        this.renderFavoriteOnLoad()
+                        this
+                        .renderFavoriteOnLoad()
                     }
                     // Spinner while query loading
                         weather.currentForecast( initialLoad, response2, clickCity, reloadData )

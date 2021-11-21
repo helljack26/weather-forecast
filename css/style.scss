@@ -237,6 +237,7 @@ header {
 }
 .main-info {
     width: fit-content;
+    height: fit-content;
     display: flex;
     // justify-content: center;
     align-items: center;
@@ -244,6 +245,7 @@ header {
     font-size: 1.3rem;
     background-color: $blockBg;
     padding: 0px 30px;
+    padding-bottom: 30px;
     box-sizing: border-box;
 
     &_temp-location {
