@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/spinner.css" />
+    <!-- <link rel="stylesheet" href="./css/spinner.css" /> -->
     <link rel="shortcut icon" href="img/favicon-01.png" type="image/png">
     <title>Прогноз от Димона</title>
 </head>
@@ -29,15 +29,15 @@
         </div>
         <div class="radio-btn_block">
 
-<div class="container">
-    <form class="toggle">
-        <input type="radio" class="radio active" id="choice1" name="choice" value="Сегодня">
-        <label for="choice1">Сегодня</label>
-        <input type="radio" class='radio' id="choice2" name="choice" value="На неделю">
-        <label for="choice2">На неделю</label>
-        <div id="flap"><span class="content">На неделю</span></div>
-    </form>
-</div>
+            <div class="container">
+                <form class="toggle">
+                    <input type="radio" class="radio active" id="choice1" name="choice" value="На неделю">
+                    <label for="choice1">На неделю</label>
+                    <input type="radio" class='radio' id="choice2" name="choice" value="Сегодня">
+                    <label for="choice2">Сегодня</label>
+                    <div id="flap"><span class="content">Сегодня</span></div>
+                </form>
+            </div>
         </div>
         <form id="search-form" class="row " autocomplete="off">
             <input type="text" name="location" id="search-forecast" />
@@ -70,11 +70,9 @@
                             <p id="main-date"></p>
                             <div class="d-flex flex-column ml-4">
                                 <div class="row px-3">
-                                    <p class="light-text mr-3 mb-0">Рассвет</p>
                                     <p class="ml-auto mb-0" id="main-dawn"></p>
                                 </div>
                                 <div class="row px-3">
-                                    <p class="light-text mr-3 mb-0">Закат</p>
                                     <p class="ml-auto mb-0" id="main-sunset"></p>
                                 </div>
                             </div>
@@ -90,34 +88,6 @@
                         <div id="favorite-city-block">
                         </div>
                     </div>
-                    <!-- Detail forecast -->
-                    <!-- <div id="detail-block">
-                                                <h5 class="mt-2 font-weight-bold">Подробный прогноз</h5>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Температура</p>
-                                                    <p class="ml-auto mr-5" id="detail-temp"></p>
-                                                </div>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Чувствуется как</p>
-                                                    <p class="ml-auto mr-5" id="detail-feel"></p>
-                                                </div>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Облачность</p>
-                                                    <p class="ml-auto mr-5" id="detail-cloud"></p>
-                                                </div>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Влажность</p>
-                                                    <p class="ml-auto mr-5" id="detail-humidity"></p>
-                                                </div>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Ветер</p>
-                                                    <p class="ml-auto mr-5" id="detail-wind"></p>
-                                                </div>
-                                                <div class="row w-80">
-                                                    <p class="light-text ml-3">Давление</p>
-                                                    <p class="ml-auto mr-5" id="detail-pressure"></p>
-                                                </div>
-                                            </div> -->
                 </div>
                 <!-- Detail forecast -->
                 <div id="card-block">

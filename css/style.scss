@@ -37,6 +37,10 @@ header {
     display: flex;
     justify-content: space-between;
     background-color: $headerBg;
+    z-index: 990;
+    -webkit-box-shadow: 0px 8px 12px 5px rgba(37, 75, 104, 0.28);
+    -moz-box-shadow: 0px 8px 12px 5px rgba(37, 75, 104, 0.28);
+    box-shadow: 0px 8px 12px 5px rgba(37, 75, 104, 0.28);
 
     .logo-block {
         height: 40px;
@@ -67,7 +71,8 @@ header {
     .container {
         width: fit-content;
         perspective: 800px;
-        transform: scale(0.48);
+        transform: scale(0.8);
+        user-select: none;
 
         .toggle {
             position: relative;
@@ -97,11 +102,12 @@ header {
         .toggle > label {
             display: inline-block;
             min-width: 170px;
-            padding: 30px;
+            padding: 5px 30px;
             font-size: var(--font-size);
             text-align: center;
             color: var(--accent);
             cursor: pointer;
+            margin-right: 20px;
         }
 
         .toggle > label,
@@ -165,13 +171,13 @@ header {
 
 .card-container {
     width: 100%;
-    height: 100%;
+    height: 92vh;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 400px auto;
+    grid-template-rows: 60vh 40vh;
     justify-content: center;
     align-items: center;
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 // Scroll
@@ -261,51 +267,62 @@ header {
     margin-bottom: 0 !important;
 }
 #card-block {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
 }
 #card1 {
-    width: 100vw;
+    width: 100%;
     height: fit-content;
-    overflow-x: scroll;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     overflow-y: hidden;
+    padding: 0px !important;
+    position: relative;
+    display: flex;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0px;
+    z-index: 500;
+    white-space: nowrap;
     // overflow: hidden;
 
     // Scroll
     &::-webkit-scrollbar {
-        width: 10px;
+        width: 6px;
     }
 
     &::-webkit-scrollbar-track {
-        background-color: #f9f9fd;
-        border-radius: 10px;
+        background-color: #f9f9fd80;
+        border-radius: 6px;
     }
 
     &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
+        border-radius: 6px;
         background: linear-gradient(180deg, #929292, #272727);
     }
-    padding: 0px !important;
-    position: relative;
-    background-color: rgba(240, 230, 140, 0.575);
 
-    display: flex;
-    padding: 20px 0px;
     // pointer-events: visible;
     .card1-item {
         text-align: center;
         background-color: rgba(128, 128, 128, 0.801);
-        width: 40%;
-        height: 180px;
+        box-sizing: border-box;
+        height: 175px;
+        width: 200px;
         margin: 0px 5px;
-        padding: 10px;
-        justify-content: center;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        user-select: none;
         align-items: center;
         // z-index: 99;
+
         p {
             padding: 0;
         }
         .item-icon {
-            margin-top: -10px;
+            margin-top: -5px;
         }
         .item-temp {
             margin-top: -20px;
@@ -324,26 +341,12 @@ header {
 #favorite-city {
     box-sizing: border-box;
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 0;
     max-width: fit-content;
-    overflow-y: scroll;
+    overflow: hidden;
     height: 100%;
 
-    // Scroll
-    &::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    &::-webkit-scrollbar-track {
-        // background-color: #f9f9fd;
-        border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background: linear-gradient(180deg, #929292, #272727);
-    }
     .favorite-city-header {
         background-color: rgba(95, 95, 95, 0.733);
         background-color: $blockBg;
@@ -398,13 +401,28 @@ header {
         overflow-x: hidden;
         margin-top: 48px;
         position: relative;
-        height: fit-content;
+        height: 85%;
         width: fit-content;
         display: grid;
         justify-content: flex-end;
         align-items: flex-start;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(5, 1fr);
+        overflow-y: scroll;
+        // Scroll
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-track {
+            // background-color: #f9f9fd;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: linear-gradient(180deg, #929292, #272727);
+        }
     }
     .favorite-city_item {
         justify-self: end;
@@ -602,7 +620,7 @@ header {
     position: relative;
 }
 .loader-block {
-    z-index: 900;
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 0;

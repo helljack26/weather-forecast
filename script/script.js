@@ -26,6 +26,7 @@ const detailHumidity = document.getElementById( 'detail-humidity' )
 const detailWind = document.getElementById( 'detail-wind' )
 const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
+const card1 = document.getElementById( 'card1' );
 
 let clickCityFromSendRequest
 let time, initial = false;
@@ -256,12 +257,10 @@ class WeatherForecast {
             } );
     }
     // Radio button forecast handler 
-    forecastTiming() {
+    forecastHandler() {
         const st = {};
-
         st.flap = document.querySelector( '#flap' );
         st.toggle = document.querySelector( '.toggle' );
-
         st.choice1 = document.querySelector( '#choice1' );
         st.choice2 = document.querySelector( '#choice2' );
 
@@ -288,9 +287,11 @@ class WeatherForecast {
         document.addEventListener( 'click', ( e ) => st.clickHandler( e ) );
 
     }
-
-    // Radio button forecast handler 
+    // Current and Hourly
     currentForecast( initialLoad, response2, clickCity, reloadData ) {
+        document.getElementById( 'card1' ).addEventListener( 'wheel', ( e ) => {
+            document.getElementById( 'card1' ).scrollLeft += e.deltaY;
+        } )
         // Query city time
         this.currentDate( '', 10 );
         if ( initialLoad == false ) {
@@ -322,40 +323,43 @@ class WeatherForecast {
             }
             weather.localStorageRender( localStorageCity );
         }
-        // console.log( response2 );
         // Main 
         mainTemp.innerHTML = Math.trunc( response2.current.temp ) + '&#176;';
         mainCondition.innerText = weather.upperFirstLetter( response2.current.weather[ 0 ].description );
         mainIcon.innerHTML = animationIcon( response2.current.weather[ 0 ].icon );
         // sunrise, sunset 
-        mainDawn.innerHTML = this.msToTime( response2.current.sunrise );
-        mainSunset.innerHTML = this.msToTime( response2.current.sunset );
+        mainDawn.innerHTML = '';
+        mainSunset.innerHTML = '';
+        if ( response2.current.sunrise != undefined ) {
+            mainDawn.innerHTML = `Рассвет ${this.msToTime( response2.current.sunrise )}`;
+            mainSunset.innerHTML = `Закат ${this.msToTime( response2.current.sunset )}`;
+        }
 
         // Render hourly forecast
-     
         let hourlyArray = response2.hourly
-        if ( initialLoad == true ) {
-            hourlyArray.forEach( e => {
-                const item = document.createElement( 'div' )
-                item.classList.add( 'card1-item' )
-                item.innerHTML = `
-                <p>${weather.msToTime(e.dt)}</p>
-                <h1 class=" item-temp">${Math.trunc(e.temp)}&#176;</h1>
-                <div class="animation-icon item-icon">${animationIcon( e.weather[ 0 ].icon) }</div>
-                <p>${e.weather[ 0 ].description}</p>
+        document.getElementById( 'card1' ).innerHTML = ''
+        for ( let i = 0; i <= 23; i++ ) {
+            const item = document.createElement( 'div' )
+            item.classList.add( 'card1-item' )
+            item.innerHTML = `
+                <p>${weather.msToTime(hourlyArray[i].dt)}</p>
+                <h1 class=" item-temp">${Math.trunc(hourlyArray[i].temp)}&#176;</h1>
+                <div class="animation-icon item-icon">${animationIcon( hourlyArray[i].weather[ 0 ].icon) }</div>
+                <p>${hourlyArray[i].weather[ 0 ].description}</p>
             `
-                // console.log( e );
-                document.getElementById( 'card1' ).appendChild( item )
-            } )
+            document.getElementById( 'card1' ).appendChild( item );
         }
+        return weather.sevenDayForecast(response2.daily)
     }
     // Radio button forecast handler 
-    sevenDayForecast() {
-
+    sevenDayForecast( response2 ) {
+        console.log(response2);
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity, reloadData ) {
-        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=eb40569be873eddca9a3ad817c1a07fb&units=metric&lang=ua';
+        const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=fdfa77a9b309bc404762508bba17ecc7&units=metric&lang=ua';
+        // new
+        // const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=37344949b6ea7dd2ab2e55c1b6dee80d&units=metric&lang=ua';
         clickCityFromSendRequest = clickCity;
         initial = initialLoad;
         // Set placeholder for input
@@ -365,7 +369,6 @@ class WeatherForecast {
         if ( lat != undefined && lon != undefined ) {
             urlQuery = url + `&lat=${lat}&lon=${lon}`;
         } else if ( clickCity != false && clickCity != userLocation.textContent ) {
-
             weather.geocodingFromQuery( clickCity )
             return
         } else {
@@ -384,18 +387,17 @@ class WeatherForecast {
                 } else {
                     // Render last query city from localStorage
                     if ( reloadData == undefined ) {
-                        weather.spinner()
+                        // weather.spinner()
                         this.renderFavoriteOnLoad()
                     }
                     // Spinner while query loading
-                    if ( initialLoad == true ) {
                         weather.currentForecast( initialLoad, response2, clickCity, reloadData )
-                    }
-                    weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                    // Forecast handler
                     document.addEventListener( 'click', ( e ) => {
                         if ( e.target.tagName == 'LABEL' ) {
-                            if ( e.target.textContent != 'Сегодня' ) {
-                                return weather.sevenDayForecast()
+                            if ( e.target.textContent == 'На неделю' ) {
+                                console.log('yfksljfs');
+                                return weather.sevenDayForecast(response2.daily)
                             } else {
                                 return weather.currentForecast( initialLoad, response2, clickCity, reloadData )
                             }
@@ -408,18 +410,18 @@ class WeatherForecast {
     // Init chain
     init() {
         // Spinner
-        this.spinner()
+        // this.spinner()
         // Control
-        weather.forecastTiming()
+        weather.forecastHandler()
         // Get user geolocation
         window.onload = this.getMyLocation();
         // Clear latest query block
         this.clearLatestQuery()
         // Interval for time
         setInterval( this.currentDate, 5000 );
-        setInterval( () => {
-            weather.geocodingFromQuery( userLocation.innerText, true )
-        }, 5000 );
+        // setInterval( () => {
+        //     weather.geocodingFromQuery( userLocation.innerText, true )
+        // }, 5000 );
 
     }
 }
@@ -440,7 +442,7 @@ form.addEventListener( 'submit', e => {
     queryField.value = '';
     if ( query != null ) {
 
-        weather.spinner()
+        // weather.spinner()
         weather.geocodingFromQuery( query )
     }
 } )
