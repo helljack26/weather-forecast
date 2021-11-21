@@ -110,6 +110,7 @@ class WeatherForecast {
         if ( initial == true ) {
             time = dateArr[ 4 ].slice( 0, 5 )
         }
+        console.log( time );
         // Parse to correct string
         let dateString = `${time} ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`;
         return mainDate.innerHTML = dateString;
@@ -129,16 +130,8 @@ class WeatherForecast {
         if ( localStorage[ 0 ] != undefined && localStorage[ 0 ] != null ) {
             favoriteQueryBlock.innerHTML = '';
             favoriteCityContainer.style.display = 'block'
-
             let array = Array.from( localStorage )
-
-            function uniq( a ) {
-                return a.sort().filter( function ( item, pos, ary ) {
-                    return !pos || item != ary[ pos - 1 ];
-                } );
-            }
-            let cleanArray = uniq( array );
-            cleanArray.forEach( element => {
+            array.forEach( element => {
                 favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
             } );
         }
@@ -154,15 +147,29 @@ class WeatherForecast {
     //LocalStorage 
     localStorageRender( cityObj ) {
         let localStorageItem = JSON.stringify( cityObj );
-        // Push to localStorage
+   
         let length = localStorage.length;
-        if ( clickCityFromSendRequest != userLocation.textContent ) {
-            favoriteCityContainer.style.display = 'block';
-            localStorage.setItem( `${length}`, localStorageItem );
-            favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( localStorageItem ) );
-            weather.renderFavoriteOnLoad()
-        } else {
-            return
+        let tempArr = [];
+        function checkAvailability( arr, val ) {
+            return arr.some( function ( arrVal ) {
+                return val === arrVal;
+            } );
+        }
+        let array = Array.from( localStorage )
+        for ( let i = 0; i < array.length; i++ ) {
+            let item = JSON.parse( array[ i ] );
+            tempArr.push( item.city );
+        }
+        // Сheck if includes
+        if ( checkAvailability( tempArr, cityObj.city ) != true ) {
+            if ( clickCityFromSendRequest != userLocation.textContent ) {
+                favoriteCityContainer.style.display = 'block';
+                // Push to localStorage
+                localStorage.setItem( `${length}`, localStorageItem );
+                weather.renderFavoriteOnLoad()
+            } else {
+                return
+            }
         }
         return
     }
@@ -280,7 +287,6 @@ class WeatherForecast {
             card1.scrollLeft += e.deltaY;
         } )
         // Query city time
-        this.currentDate( '', 10 );
         if ( initialLoad == false ) {
             // Render location   
             userLocation.innerText = weather.upperFirstLetter( query );
@@ -290,7 +296,6 @@ class WeatherForecast {
                 timeZone: `${response2.timezone}`
             } );
             time = queryDate.slice( -8, -3 )
-            weather.currentDate()
             // Create object for localStorage
             let localStorageCity = {
                 temp: response2.current.temp,
@@ -298,22 +303,20 @@ class WeatherForecast {
                 icon: animationIcon( response2.current.weather[ 0 ].icon ),
                 condition: weather.upperFirstLetter( response2.current.weather[ 0 ].description )
             }
-            weather.localStorageRender( localStorageCity );
             // Request to Pixabay for setting background    
             if ( clickCity != undefined && reloadData == undefined ) {
                 weather.pixabayRequest( query );
-            } else if ( reloadData == undefined ) {
-                console.log( query );
+            }
+            if ( reloadData == undefined ) {
                 weather.pixabayRequest( query );
                 weather.localStorageRender( localStorageCity );
             }
-            weather.localStorageRender( localStorageCity );
         }
         // Main 
         mainTemp.innerHTML = Math.trunc( response2.current.temp ) + '&#176;';
         mainCondition.innerText = weather.upperFirstLetter( response2.current.weather[ 0 ].description );
         mainIcon.innerHTML = animationIcon( response2.current.weather[ 0 ].icon );
-        // sunrise, sunset 
+        // Sunrise, Sunset 
         mainDawn.innerHTML = '';
         mainSunset.innerHTML = '';
         if ( response2.current.sunrise != undefined ) {
@@ -321,11 +324,10 @@ class WeatherForecast {
             mainSunset.innerHTML = `Закат ${this.msToTime( response2.current.sunset )}`;
         }
         // Detail info
-        console.log(response2);
-        detailFeel.innerHTML = `Чувствуется как: ${Math.trunc( response2.current.feels_like ) + '&#176;'}` 
-        detailWind.innerHTML = `Ветер: ${response2.current.wind_speed.toFixed(1)} м/с` 
-        detailPressure.innerHTML = `Давление: ${response2.current.pressure}` 
-        detailHumidity.innerHTML = `Влажность: ${Math.trunc( response2.current.humidity)}%` 
+        detailFeel.innerHTML = `Чувствуется как: ${Math.trunc( response2.current.feels_like ) + '&#176;'}`
+        detailWind.innerHTML = `Ветер: ${response2.current.wind_speed.toFixed(1)} м/с`
+        detailPressure.innerHTML = `Давление: ${response2.current.pressure}`
+        detailHumidity.innerHTML = `Влажность: ${Math.trunc( response2.current.humidity)}%`
         // Render hourly forecast
         let hourlyArray = response2.hourly
         card1.innerHTML = ''
@@ -340,7 +342,7 @@ class WeatherForecast {
             `
             card1.appendChild( item );
         }
-        return weather.sevenDayForecast(response2.daily)
+        return weather.sevenDayForecast( response2.daily )
     }
     // Radio button forecast handler 
     sevenDayForecast( response2 ) {
@@ -349,8 +351,8 @@ class WeatherForecast {
             card2.scrollLeft += e.deltaY;
         } )
         // For correct render day of week 
-        function weekDay(millisecond){
-            let now = new Date(millisecond * 1000);
+        function weekDay( millisecond ) {
+            let now = new Date( millisecond * 1000 );
             let options = {
                 weekday: 'long'
             };
@@ -362,10 +364,10 @@ class WeatherForecast {
             // Split date to arr
             let dateArr = now.toString().split( ' ' );
             let out = `<p>${weather.upperFirstLetter(dayOfWeek)}</p> <div class='item-day_date'><p class='mr-1'>${dateArr[2]}</p> <p>${weather.upperFirstLetter(month)}</p></div>`
-            return out; 
+            return out;
         }
         // Render hourly forecast
-        card2.innerHTML=''
+        card2.innerHTML = ''
         let dailyArray = response2;
         for ( let i = 1; i <= 7; i++ ) {
             const item = document.createElement( 'div' )
@@ -397,10 +399,10 @@ class WeatherForecast {
         // const url = 'https://api.openweathermap.org/data/2.5/onecall?APPID=37344949b6ea7dd2ab2e55c1b6dee80d&units=metric&lang=ua';
         clickCityFromSendRequest = clickCity;
         initial = initialLoad;
-        let toogle = document.getElementById('toggle');
-        let content = document.querySelector('.content');
+        let toogle = document.getElementById( 'toggle' );
+        let content = document.querySelector( '.content' );
         // To default state radio button
-        if(content.textContent == 'На неделю'){
+        if ( content.textContent == 'На неделю' ) {
             card2.style.display = 'none'
             card1.style.display = 'flex'
             toogle.innerHTML = ''
@@ -426,7 +428,6 @@ class WeatherForecast {
         // Query to openweathermap api
         fetch( urlQuery )
             .then( response1 => {
-
                 return response1.json()
             } ).then( response2 => {
                 if ( response2.cod == '404' ) {
@@ -438,22 +439,21 @@ class WeatherForecast {
                     // Render last query city from localStorage
                     if ( reloadData == undefined ) {
                         // weather.spinner()
-                        this
-                        .renderFavoriteOnLoad()
+                        this.renderFavoriteOnLoad()
                     }
                     // Spinner while query loading
-                        weather.currentForecast( initialLoad, response2, clickCity, reloadData )
+                    weather.currentForecast( initialLoad, response2, clickCity, reloadData )
                     // Forecast handler
                     document.addEventListener( 'click', ( e ) => {
                         if ( e.target.tagName == 'LABEL' ) {
                             if ( e.target.textContent == 'На неделю' ) {
                                 card2.style.display = 'grid'
                                 card1.style.display = 'none'
-                                return 
+                                return
                             } else {
                                 card2.style.display = 'none'
                                 card1.style.display = 'flex'
-                                return 
+                                return
                             }
                         }
                     } )
@@ -499,9 +499,6 @@ form.addEventListener( 'submit', e => {
         weather.geocodingFromQuery( query )
     }
 } )
-
-
-
 
 // Animation query icon
 function animationIcon( iconId ) {
