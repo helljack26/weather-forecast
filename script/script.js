@@ -27,6 +27,7 @@ const detailWind = document.getElementById( 'detail-wind' )
 const detailRain = document.getElementById( 'detail-rain' )
 const detailPressure = document.getElementById( 'detail-pressure' )
 const card1 = document.getElementById( 'card1' );
+const card2 = document.getElementById( 'card2' );
 
 let clickCityFromSendRequest
 let time, initial = false;
@@ -116,9 +117,9 @@ class WeatherForecast {
         let dateString = `${time} - ${weather.upperFirstLetter(dayOfWeek)}<br> ${dateArr[2]} ${weather.upperFirstLetter(month)} ${dateArr[3]}`;
         return mainDate.innerHTML = dateString;
     }
-
     // For convert UTC millisecond
     msToTime( millisecond ) {
+        console.log(new Date( millisecond * 1000 ));
         let time = new Date( millisecond * 1000 ).toString( 'h-mm' );
         let split = time.split( ' ' );
         let splitItem = split[ 4 ];
@@ -289,8 +290,8 @@ class WeatherForecast {
     }
     // Current and Hourly
     currentForecast( initialLoad, response2, clickCity, reloadData ) {
-        document.getElementById( 'card1' ).addEventListener( 'wheel', ( e ) => {
-            document.getElementById( 'card1' ).scrollLeft += e.deltaY;
+        card1.addEventListener( 'wheel', ( e ) => {
+            card1.scrollLeft += e.deltaY;
         } )
         // Query city time
         this.currentDate( '', 10 );
@@ -337,7 +338,7 @@ class WeatherForecast {
 
         // Render hourly forecast
         let hourlyArray = response2.hourly
-        document.getElementById( 'card1' ).innerHTML = ''
+        card1.innerHTML = ''
         for ( let i = 0; i <= 23; i++ ) {
             const item = document.createElement( 'div' )
             item.classList.add( 'card1-item' )
@@ -347,13 +348,36 @@ class WeatherForecast {
                 <div class="animation-icon item-icon">${animationIcon( hourlyArray[i].weather[ 0 ].icon) }</div>
                 <p>${hourlyArray[i].weather[ 0 ].description}</p>
             `
-            document.getElementById( 'card1' ).appendChild( item );
+            card1.appendChild( item );
         }
         return weather.sevenDayForecast(response2.daily)
     }
     // Radio button forecast handler 
     sevenDayForecast( response2 ) {
         console.log(response2);
+        function weekDay(millisecond){
+            let now = new Date(millisecond * 1000)
+            // For correct showing day of week 
+            let options = {
+                weekday: 'long'
+            };
+            let dayOfWeek = new Intl.DateTimeFormat( 'ru-RU', options ).format( now );
+            return weather.upperFirstLetter(dayOfWeek); 
+        }
+        // Render hourly forecast
+        card2.innerHTML=''
+        let dailyArray = response2;
+        for ( let i = 1; i <= 7; i++ ) {
+            const item = document.createElement( 'div' )
+            item.classList.add( 'card2-item' )
+            item.innerHTML = `
+                <p>${weekDay(dailyArray[i].dt)}</p>
+                <h1 class=" item-temp">${Math.trunc(dailyArray[i].temp.day)}&#176;</h1>
+                <div class="animation-icon item-icon">${animationIcon( dailyArray[i].weather[ 0 ].icon) }</div>
+                <p>${dailyArray[i].weather[ 0 ].description}</p>
+            `
+            card2.appendChild( item );
+        }
     }
     // Request to openweathermap.org
     sendRequest( initialLoad, lat, lon, clickCity, reloadData ) {
@@ -396,14 +420,16 @@ class WeatherForecast {
                     document.addEventListener( 'click', ( e ) => {
                         if ( e.target.tagName == 'LABEL' ) {
                             if ( e.target.textContent == 'На неделю' ) {
-                                console.log('yfksljfs');
+                                card2.style.display = 'grid'
+                                card1.style.display = 'none'
                                 return weather.sevenDayForecast(response2.daily)
                             } else {
+                                card2.style.display = 'none'
+                                card1.style.display = 'flex'
                                 return weather.currentForecast( initialLoad, response2, clickCity, reloadData )
                             }
                         }
                     } )
-
                 }
             } )
     }

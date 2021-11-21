@@ -272,20 +272,19 @@ header {
     left: 0;
     width: 100%;
 }
-#card1 {
+.card2 {
     width: 100%;
     height: fit-content;
-    flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 0px !important;
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(7, 1fr);
     -webkit-overflow-scrolling: touch;
-    padding: 20px 0px;
+    padding: 0px;
     z-index: 500;
     white-space: nowrap;
-    // overflow: hidden;
 
     // Scroll
     &::-webkit-scrollbar {
@@ -302,7 +301,61 @@ header {
         background: linear-gradient(180deg, #929292, #272727);
     }
 
-    // pointer-events: visible;
+    .card2-item {
+        text-align: center;
+        background-color: rgba(128, 128, 128, 0.801);
+        box-sizing: border-box;
+        height: 175px;
+        margin: 0px 5px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        user-select: none;
+        align-items: center;
+
+        p {
+            padding: 0;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .item-icon {
+            margin-top: -5px;
+        }
+        .item-temp {
+            margin-top: -20px;
+            margin-bottom: 0;
+        }
+    }
+}
+.card1 {
+    width: 100%;
+    height: fit-content;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    display: flex;
+    padding: 0px;
+    z-index: 500;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+
+    // Scroll
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #f9f9fd80;
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background: linear-gradient(180deg, #929292, #272727);
+    }
+
     .card1-item {
         text-align: center;
         background-color: rgba(128, 128, 128, 0.801);
