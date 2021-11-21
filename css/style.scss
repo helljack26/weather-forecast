@@ -424,9 +424,12 @@ header {
     position: absolute;
     top: 5px;
     right: 0;
-    max-width: fit-content;
+    width: fit-content;
+    max-width: 40%;
+    width: 30%;
     overflow: hidden;
     height: 100%;
+    white-space: nowrap;
 
     .favorite-city-header {
         background-color: rgba(95, 95, 95, 0.733);
@@ -436,6 +439,7 @@ header {
         font-size: 1rem;
         font-weight: bold;
         top: 10px;
+        word-break: keep-all;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -478,25 +482,21 @@ header {
     }
     &-block {
         box-sizing: border-box;
-
         overflow-x: hidden;
         margin-top: 48px;
         position: relative;
         height: 85%;
-        width: fit-content;
-        display: grid;
-        justify-content: flex-end;
-        align-items: flex-start;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(5, 1fr);
         overflow-y: scroll;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: start;
+        align-items: baseline;
         // Scroll
         &::-webkit-scrollbar {
             width: 10px;
         }
 
         &::-webkit-scrollbar-track {
-            // background-color: #f9f9fd;
             border-radius: 10px;
         }
 
@@ -506,16 +506,16 @@ header {
         }
     }
     .favorite-city_item {
-        justify-self: end;
         display: flex;
-        align-items: center;
+        width: fit-content;
         height: fit-content;
-        width: 100%;
-        margin: 2px 0px;
+        align-items: center;
+        justify-content: center;
+        margin: 2px 2px;
         background-color: $blockBg;
         color: rgb(255, 255, 255);
         box-sizing: border-box;
-        padding: 0px 5px;
+        padding: 5px 10px;
         transition: all 0.3s ease-in-out;
         cursor: pointer;
 
@@ -523,35 +523,18 @@ header {
             background-color: rgba(41, 41, 41, 0.946);
             color: rgb(216, 216, 216);
         }
-
-        .local-temp {
-            font-size: 2.5rem;
-            margin-bottom: 0 !important;
-        }
-
         .local-city {
-            font-size: 1.2rem !important;
+            font-size: 0.9rem !important;
+            // width: fit-content;
+            word-wrap: normal;
+            padding: 0;
+            margin: 0;
         }
         .favorite-city_row {
             padding: 0 10px;
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            align-items: center;
-            &-icon {
-                p {
-                    margin: 0;
-                    margin-left: 5px;
-                }
-            }
-            .local-city {
-                max-width: 150px;
-                word-wrap: normal;
-            }
-            .animation-icon {
-                height: 30px !important;
-                max-width: 50px !important;
-            }
+            // display: flex;
+            // justify-content: space-between;
+            // align-items: center;
         }
     }
 }

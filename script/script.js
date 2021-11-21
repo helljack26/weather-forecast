@@ -174,18 +174,7 @@ class WeatherForecast {
         let obj = JSON.parse( string );
         let htmlItem = `
     <div class="favorite-city_item" onclick='weather.sendRequest("", undefined, undefined, "${obj.city}")'>
-        <div class="favorite-city_row">
-            <!-- LocalStorage Item -->
-            <div class="d-flex justify-content-center align-items-center ">
-                <h1 class="local-temp mr-1">${Math.trunc(obj.temp)}&#176;</h1>
-                <h2 class="local-city mt-2 mb-0 mr-4">${obj.city}</h2>
-            </div>
-            <!-- Animation icon -->
-            <div class="favorite-city_row-icon d-flex align-items-center text-center mt-1">
-                <div class="animation-icon">${obj.icon}</div>
-                <p>${obj.condition}</p>
-            </div>
-        </div>
+        <h2 class="local-city">${obj.city}</h2>
     </div>
     `;
         return htmlItem;
