@@ -132,7 +132,7 @@ class WeatherForecast {
             favoriteCityContainer.style.display = 'block'
             let array = Array.from( localStorage )
             array.forEach( element => {
-                favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', this.localStorageConstructor( element ) )
+                favoriteQueryBlock.insertAdjacentHTML( 'afterbegin', weather.localStorageConstructor( element ) )
             } );
         }
     }
