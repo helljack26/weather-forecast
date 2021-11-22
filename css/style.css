@@ -6,6 +6,10 @@
 }
 
 body {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   color: #fff;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -111,6 +115,9 @@ header .container #toggle {
           transform-style: preserve-3d;
   -webkit-perspective: 800px;
           perspective: 800px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 header .container #toggle > input[type="radio"] {
@@ -133,7 +140,6 @@ header .container #toggle > #choice2:checked ~ #flap {
 }
 
 header .container #toggle > label {
-  display: inline-block;
   min-width: 170px;
   padding: 5px 30px;
   font-size: var(--font-size);
@@ -187,6 +193,110 @@ header .container #toggle > #flap > .content {
   transition: transform 0s linear 0.25s, -webkit-transform 0s linear 0.25s;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
+}
+
+#search-form {
+  margin-right: 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 30%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 60px;
+      grid-template-columns: 1fr 60px;
+}
+
+#search-forecast {
+  background-color: rgba(255, 255, 255, 0.493);
+  padding: 8px 10px 8px 10px !important;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none !important;
+  font-size: 22px !important;
+  color: #fff;
+}
+
+#search-forecast:focus {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: rgba(255, 255, 255, 0.131);
+  outline-width: 0;
+  font-weight: 400;
+  color: white;
+}
+
+#search-forecast:hover {
+  background-color: rgba(255, 255, 255, 0.131);
+  color: white;
+}
+
+#search-forecast:focus-visible {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  outline: none;
+  color: white;
+}
+
+.placeholderred::-webkit-input-placeholder {
+  color: red !important;
+  font-size: 1.2rem;
+}
+
+::-webkit-input-placeholder {
+  color: red !important;
+  font-size: 1.2rem;
+}
+
+:-ms-input-placeholder {
+  color: red;
+  font-size: 1.2rem;
+}
+
+::-ms-input-placeholder {
+  color: #e6e6e6 !important;
+  opacity: 1;
+}
+
+::placeholder {
+  color: #e6e6e6 !important;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #b0bec5 !important;
+}
+
+::-ms-input-placeholder {
+  color: #b0bec5 !important;
+}
+
+.fa-search {
+  padding: 0px;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+  border-left: 1px solid #464646;
+}
+
+.fa-search:focus {
+  border: none;
+  outline: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.616);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
+}
+
+.fa-search:hover {
+  background-color: rgba(255, 255, 255, 0.616);
+  -webkit-filter: contrast(10);
+          filter: contrast(10);
+}
+
+.search {
+  width: 25px;
 }
 
 @-webkit-keyframes rotate {
@@ -299,19 +409,6 @@ header .container #toggle > #flap > .content {
   margin-left: 15px;
 }
 
-.star {
-  font-size: 2rem;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  font-size: 50px !important;
-  cursor: pointer;
-  color: white;
-}
-
 .main-info {
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -345,11 +442,6 @@ header .container #toggle > #flap > .content {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
-}
-
-.main-info_temp-location .star {
-  -ms-grid-column-align: end;
-      justify-self: end;
 }
 
 #main-date {
@@ -739,180 +831,6 @@ header .container #toggle > #flap > .content {
   padding: 0 10px;
 }
 
-#search-form {
-  margin-right: 0px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 30%;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr 60px;
-      grid-template-columns: 1fr 60px;
-}
-
-#search-forecast {
-  background-color: rgba(255, 255, 255, 0.493);
-  padding: 8px 10px 8px 10px !important;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border: none !important;
-  font-size: 22px !important;
-  color: #fff;
-}
-
-#search-forecast:focus {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  background-color: rgba(255, 255, 255, 0.131);
-  outline-width: 0;
-  font-weight: 400;
-  color: white;
-}
-
-#search-forecast:hover {
-  background-color: rgba(255, 255, 255, 0.131);
-  color: white;
-}
-
-#search-forecast:focus-visible {
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  outline: none;
-  color: white;
-}
-
-.placeholderred::-webkit-input-placeholder {
-  color: red !important;
-  font-size: 1.2rem;
-}
-
-::-webkit-input-placeholder {
-  color: red !important;
-  font-size: 1.2rem;
-}
-
-:-moz-placeholder {
-  /* Firefox 18- */
-  color: red;
-  font-size: 1.2rem;
-}
-
-::-moz-placeholder {
-  /* Firefox 19+ */
-  color: red;
-  font-size: 1.2rem;
-}
-
-:-ms-input-placeholder {
-  color: red;
-  font-size: 1.2rem;
-}
-
-.light-text {
-  color: white !important;
-}
-
-::-webkit-input-placeholder {
-  color: #e6e6e6 !important;
-  opacity: 1;
-}
-
-:-ms-input-placeholder {
-  color: #e6e6e6 !important;
-  opacity: 1;
-}
-
-::-ms-input-placeholder {
-  color: #e6e6e6 !important;
-  opacity: 1;
-}
-
-::placeholder {
-  color: #e6e6e6 !important;
-  opacity: 1;
-}
-
-:-ms-input-placeholder {
-  color: #b0bec5 !important;
-}
-
-::-ms-input-placeholder {
-  color: #b0bec5 !important;
-}
-
-.fa-search {
-  padding: 0px;
-  cursor: pointer;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border: none;
-  border-left: 1px solid #464646;
-}
-
-.fa-search:focus {
-  border: none;
-  outline: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.616);
-  -webkit-filter: contrast(10);
-          filter: contrast(10);
-}
-
-.fa-search:hover {
-  background-color: rgba(255, 255, 255, 0.616);
-  -webkit-filter: contrast(10);
-          filter: contrast(10);
-}
-
-.search {
-  width: 25px;
-}
-
-#error-field {
-  color: #ff2600;
-  margin-bottom: 0 !important;
-  position: relative;
-}
-
-.error-text {
-  position: absolute;
-  left: 20%;
-}
-
-.light-text {
-  color: #b0bec5;
-}
-
-.line {
-  height: 1px;
-  background-color: #b0bec5;
-}
-
-.header-text_main {
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 2rem;
-  line-height: 2rem;
-}
-
-.header-text {
-  font-size: 1.2rem;
-}
-
-#detail-block {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
 #content_wrapper {
   position: relative;
 }
@@ -988,31 +906,87 @@ header .container #toggle > #flap > .content {
   animation: load6 1.7s infinite ease, round 1.7s infinite ease;
 }
 
-@media screen and (max-width: 1100px) {
-  body {
-    overflow: visible;
-    overflow-x: hidden;
-    background-size: cover;
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
+@media screen and (min-width: 1336px) {
+  .main-info {
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+    margin-left: 50px;
+    margin-top: 70px;
   }
-  #favorite-city-block {
-    height: 100% !important;
-    -ms-grid-rows: 2fr !important;
-        grid-template-rows: 2fr !important;
+  .card-container {
+    width: 100%;
+    height: 92vh;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+    -ms-grid-rows: 50vh 50vh;
+        grid-template-rows: 50vh 50vh;
+  }
+}
+
+@media screen and (max-width: 1336px) {
+  .main-info {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    margin-left: 50px;
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 1160px) {
+  header .logo-block {
+    margin-left: 4vw;
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+  }
+  header .container {
+    -webkit-transform: scale(0.7);
+            transform: scale(0.7);
+    white-space: nowrap;
+  }
+  header #search-form {
+    width: 25%;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
+    -ms-grid-columns: 200px 60px;
+        grid-template-columns: 200px 60px;
+  }
+  .main-info {
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+    margin-left: 50px;
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 1040px) {
+  header .logo-block {
+    margin-left: 2vw;
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+  }
+  header .container {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    white-space: nowrap;
+  }
+  header #search-form {
+    width: 20%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .main-info {
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+    margin-left: 50px;
+    margin-top: 70px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  body {
-    overflow: visible;
-    overflow-x: hidden;
-    background-size: cover;
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-  }
   .main-block {
     height: 100%;
   }
@@ -1038,15 +1012,6 @@ header .container #toggle > #flap > .content {
 }
 
 @media screen and (max-width: 500px) {
-  body {
-    overflow: visible;
-    overflow-x: hidden;
-    background-size: cover;
-    height: auto;
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-  }
   .card2-block {
     overflow: visible;
   }
@@ -1382,73 +1347,73 @@ header .container #toggle > #flap > .content {
 }
 
 .snow-svg .snowflake:nth-child(1) {
-  -webkit-animation: fall-counterclockwise 3067ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3067ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s;
-}
-
-.snow-svg .snowflake:nth-child(2) {
-  -webkit-animation: fall-clockwise 2192ms ease-in forwards infinite;
-          animation: fall-clockwise 2192ms ease-in forwards infinite;
-  -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s;
-}
-
-.snow-svg .snowflake:nth-child(3) {
-  -webkit-animation: fall-counterclockwise 3594ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3594ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 2118ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2118ms ease-in forwards infinite;
   -webkit-animation-delay: 0.3s;
           animation-delay: 0.3s;
 }
 
+.snow-svg .snowflake:nth-child(2) {
+  -webkit-animation: fall-clockwise 2525ms ease-in forwards infinite;
+          animation: fall-clockwise 2525ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
+}
+
+.snow-svg .snowflake:nth-child(3) {
+  -webkit-animation: fall-counterclockwise 3259ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3259ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.9s;
+          animation-delay: 0.9s;
+}
+
 .snow-svg .snowflake:nth-child(4) {
-  -webkit-animation: fall-clockwise 3102ms ease-in forwards infinite;
-          animation: fall-clockwise 3102ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.2s;
-          animation-delay: 1.2s;
+  -webkit-animation: fall-clockwise 3733ms ease-in forwards infinite;
+          animation: fall-clockwise 3733ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
 }
 
 .snow-svg .snowflake:nth-child(5) {
-  -webkit-animation: fall-counterclockwise 3003ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3003ms ease-in forwards infinite;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation: fall-counterclockwise 3718ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3718ms ease-in forwards infinite;
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
 }
 
 .snow-svg .snowflake:nth-child(6) {
-  -webkit-animation: fall-clockwise 3955ms ease-in forwards infinite;
-          animation: fall-clockwise 3955ms ease-in forwards infinite;
-  -webkit-animation-delay: 1.8s;
-          animation-delay: 1.8s;
+  -webkit-animation: fall-clockwise 2242ms ease-in forwards infinite;
+          animation: fall-clockwise 2242ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 
 .snow-svg .snowflake:nth-child(7) {
-  -webkit-animation: fall-counterclockwise 3064ms ease-in forwards infinite;
-          animation: fall-counterclockwise 3064ms ease-in forwards infinite;
+  -webkit-animation: fall-counterclockwise 3139ms ease-in forwards infinite;
+          animation: fall-counterclockwise 3139ms ease-in forwards infinite;
   -webkit-animation-delay: 2.1s;
           animation-delay: 2.1s;
 }
 
 .snow-svg .snowflake:nth-child(8) {
-  -webkit-animation: fall-clockwise 2944ms ease-in forwards infinite;
-          animation: fall-clockwise 2944ms ease-in forwards infinite;
-  -webkit-animation-delay: 2.4s;
-          animation-delay: 2.4s;
+  -webkit-animation: fall-clockwise 2694ms ease-in forwards infinite;
+          animation: fall-clockwise 2694ms ease-in forwards infinite;
+  -webkit-animation-delay: 1.6s;
+          animation-delay: 1.6s;
 }
 
 .snow-svg .snowflake:nth-child(9) {
-  -webkit-animation: fall-counterclockwise 2333ms ease-in forwards infinite;
-          animation: fall-counterclockwise 2333ms ease-in forwards infinite;
-  -webkit-animation-delay: 2.7s;
-          animation-delay: 2.7s;
+  -webkit-animation: fall-counterclockwise 2644ms ease-in forwards infinite;
+          animation: fall-counterclockwise 2644ms ease-in forwards infinite;
+  -webkit-animation-delay: 0.9s;
+          animation-delay: 0.9s;
 }
 
 .snow-svg .snowflake:nth-child(10) {
-  -webkit-animation: fall-clockwise 2068ms ease-in forwards infinite;
-          animation: fall-clockwise 2068ms ease-in forwards infinite;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation: fall-clockwise 2330ms ease-in forwards infinite;
+          animation: fall-clockwise 2330ms ease-in forwards infinite;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
 }
 
 .snow-svg .snowflake-path {
