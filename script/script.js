@@ -438,7 +438,7 @@ class WeatherForecast {
                 } else {
                     // Render last query city from localStorage
                     if ( reloadData == undefined ) {
-                        // weather.spinner()
+                        weather.spinner()
                         this.renderFavoriteOnLoad()
                     }
                     // Spinner while query loading
@@ -463,7 +463,7 @@ class WeatherForecast {
     // Init chain
     init() {
         // Spinner
-        // this.spinner()
+        this.spinner()
         // Control
         weather.forecastHandler()
         // Get user geolocation
@@ -472,9 +472,9 @@ class WeatherForecast {
         this.clearLatestQuery()
         // Interval for time
         setInterval( this.currentDate, 5000 );
-        // setInterval( () => {
-        //     weather.geocodingFromQuery( userLocation.innerText, true )
-        // }, 5000 );
+        setInterval( () => {
+            weather.geocodingFromQuery( userLocation.innerText, true )
+        }, 5000 );
 
     }
 }
@@ -495,7 +495,7 @@ form.addEventListener( 'submit', e => {
     queryField.value = '';
     if ( query != null ) {
 
-        // weather.spinner()
+        weather.spinner()
         weather.geocodingFromQuery( query )
     }
 } )
